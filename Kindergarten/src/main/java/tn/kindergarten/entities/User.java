@@ -28,7 +28,7 @@ public class User implements Serializable {
 	private String FirstName;
 	
 	private String LastName;
-	//@NotNull
+	@NotNull
 	private String Email;
 	
 	private boolean isActif;
