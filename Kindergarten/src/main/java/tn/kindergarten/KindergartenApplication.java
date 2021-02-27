@@ -10,5 +10,5 @@ public class KindergartenApplication {
 		SpringApplication.run(KindergartenApplication.class, args);
 	}
 	//rihab
-
+//bbbbbbbb
 }
