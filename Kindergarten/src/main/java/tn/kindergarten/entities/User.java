@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.sun.istack.NotNull;
+
 @Entity
 public class User implements Serializable {
 
@@ -26,7 +28,7 @@ public class User implements Serializable {
 	private String FirstName;
 	
 	private String LastName;
-	
+	//@NotNull
 	private String Email;
 	
 	private boolean isActif;
