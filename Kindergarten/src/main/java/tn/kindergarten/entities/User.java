@@ -2,11 +2,16 @@ package tn.kindergarten.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -31,29 +36,76 @@ public class User implements Serializable {
 	@NotNull
 	private String Email;
 	
+	private String Password;
+	
+	private String Phone;
+	
 	private boolean isActif;
 	
 	@Temporal(TemporalType.DATE)
 	private Date DateOfBirth;
 	
-	private String picture;
+	private String Photo;
+	
+	private String Adress;
+	
+	@OneToMany(mappedBy="user")
+	private List<ListParticipants> list_participants;
+	
+	@OneToMany(mappedBy="user")
+	private List<LikesSub> likes_subs;
+	
+	@OneToMany(mappedBy="user")
+	private List<LikesPub> likes_pubs;
+	
+	@OneToMany(mappedBy="user")
+	private List<Subject> list_subject;
+	
+	@OneToMany(mappedBy="user")
+	private List<Reclamation> list_reclams;
+	
+	@OneToMany(mappedBy="user")
+	private List<Publication> list_pub;
+	
+	@OneToMany(mappedBy="user")
+	private List<Message> list_messages;
+	
+	@OneToMany(mappedBy="user")
+	private List<Kindergarten> list_kindergartens;
+	
+	@OneToOne(mappedBy="userkinder")
+	private Kindergarten kindergarten;
+	
+	@OneToMany(mappedBy="user")
+	private List<Event> list_events;
+	
+	@OneToMany(mappedBy="user")
+	private List<Comment> comments;
+	
+	@OneToMany(mappedBy="user")
+	private List<Child> list_child;
+	
+	@OneToMany(mappedBy="user")
+	private List<Bill> list_fact;
+	
+	@OneToMany(mappedBy="user")
+	private List<Appointment> list_appoint;
+	
+	@OneToMany(mappedBy="user")
+	private List<Activity> list_act;
+	
+	@OneToMany(mappedBy="user")
+	private List<Planning> list_plan;
+	
+	@Enumerated(EnumType.STRING)
+	private Role role;
 	
 	public User () 
 	{
 		
 	}
 
-	public User(int id, String firstName, String lastName, String email, boolean isActif, Date dateOfBirth,
-			String picture) {
-		super();
-		this.id = id;
-		FirstName = firstName;
-		LastName = lastName;
-		Email = email;
-		this.isActif = isActif;
-		DateOfBirth = dateOfBirth;
-		this.picture = picture;
-	}
+
 
 	public int getId() {
 		return id;
@@ -103,74 +155,270 @@ public class User implements Serializable {
 		DateOfBirth = dateOfBirth;
 	}
 
-	public String getPicture() {
-		return picture;
+
+
+	public String getPassword() {
+		return Password;
 	}
 
-	public void setPicture(String picture) {
-		this.picture = picture;
+
+
+	public void setPassword(String password) {
+		Password = password;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((DateOfBirth == null) ? 0 : DateOfBirth.hashCode());
-		result = prime * result + ((Email == null) ? 0 : Email.hashCode());
-		result = prime * result + ((FirstName == null) ? 0 : FirstName.hashCode());
-		result = prime * result + ((LastName == null) ? 0 : LastName.hashCode());
-		result = prime * result + id;
-		result = prime * result + (isActif ? 1231 : 1237);
-		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
-		return result;
+
+
+	public String getPhone() {
+		return Phone;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (DateOfBirth == null) {
-			if (other.DateOfBirth != null)
-				return false;
-		} else if (!DateOfBirth.equals(other.DateOfBirth))
-			return false;
-		if (Email == null) {
-			if (other.Email != null)
-				return false;
-		} else if (!Email.equals(other.Email))
-			return false;
-		if (FirstName == null) {
-			if (other.FirstName != null)
-				return false;
-		} else if (!FirstName.equals(other.FirstName))
-			return false;
-		if (LastName == null) {
-			if (other.LastName != null)
-				return false;
-		} else if (!LastName.equals(other.LastName))
-			return false;
-		if (id != other.id)
-			return false;
-		if (isActif != other.isActif)
-			return false;
-		if (picture == null) {
-			if (other.picture != null)
-				return false;
-		} else if (!picture.equals(other.picture))
-			return false;
-		return true;
+
+
+	public void setPhone(String phone) {
+		Phone = phone;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", FirstName=" + FirstName + ", LastName=" + LastName + ", Email=" + Email
-				+ ", isActif=" + isActif + ", DateOfBirth=" + DateOfBirth + ", picture=" + picture + "]";
+
+
+	public String getPhoto() {
+		return Photo;
 	}
+
+
+
+	public void setPhoto(String photo) {
+		Photo = photo;
+	}
+
+
+
+	public String getAdress() {
+		return Adress;
+	}
+
+
+
+	public void setAdress(String adress) {
+		Adress = adress;
+	}
+
+
+
+	public Role getRole() {
+		return role;
+	}
+
+
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+
+
+	public List<ListParticipants> getList_participants() {
+		return list_participants;
+	}
+
+
+
+	public void setList_participants(List<ListParticipants> list_participants) {
+		this.list_participants = list_participants;
+	}
+
+
+
+	public List<LikesSub> getLikes_subs() {
+		return likes_subs;
+	}
+
+
+
+	public void setLikes_subs(List<LikesSub> likes_subs) {
+		this.likes_subs = likes_subs;
+	}
+
+
+
+	public List<LikesPub> getLikes_pubs() {
+		return likes_pubs;
+	}
+
+
+
+	public void setLikes_pubs(List<LikesPub> likes_pubs) {
+		this.likes_pubs = likes_pubs;
+	}
+
+
+
+	public List<Subject> getList_subject() {
+		return list_subject;
+	}
+
+
+
+	public void setList_subject(List<Subject> list_subject) {
+		this.list_subject = list_subject;
+	}
+
+
+
+	public List<Reclamation> getList_reclams() {
+		return list_reclams;
+	}
+
+
+
+	public void setList_reclams(List<Reclamation> list_reclams) {
+		this.list_reclams = list_reclams;
+	}
+
+
+
+	public List<Publication> getList_pub() {
+		return list_pub;
+	}
+
+
+
+	public void setList_pub(List<Publication> list_pub) {
+		this.list_pub = list_pub;
+	}
+
+
+
+	public List<Message> getList_messages() {
+		return list_messages;
+	}
+
+
+
+	public void setList_messages(List<Message> list_messages) {
+		this.list_messages = list_messages;
+	}
+
+
+
+	public List<Kindergarten> getList_kindergartens() {
+		return list_kindergartens;
+	}
+
+
+
+	public void setList_kindergartens(List<Kindergarten> list_kindergartens) {
+		this.list_kindergartens = list_kindergartens;
+	}
+
+
+
+	public Kindergarten getKindergarten() {
+		return kindergarten;
+	}
+
+
+
+	public void setKindergarten(Kindergarten kindergarten) {
+		this.kindergarten = kindergarten;
+	}
+
+
+
+	public List<Event> getList_events() {
+		return list_events;
+	}
+
+
+
+	public void setList_events(List<Event> list_events) {
+		this.list_events = list_events;
+	}
+
+
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+
+
+	public List<Child> getList_child() {
+		return list_child;
+	}
+
+
+
+	public void setList_child(List<Child> list_child) {
+		this.list_child = list_child;
+	}
+
+
+
+	public List<Bill> getList_fact() {
+		return list_fact;
+	}
+
+
+
+	public void setList_fact(List<Bill> list_fact) {
+		this.list_fact = list_fact;
+	}
+
+
+
+	public List<Appointment> getList_appoint() {
+		return list_appoint;
+	}
+
+
+
+	public void setList_appoint(List<Appointment> list_appoint) {
+		this.list_appoint = list_appoint;
+	}
+
+
+
+	public List<Activity> getList_act() {
+		return list_act;
+	}
+
+
+
+	public void setList_act(List<Activity> list_act) {
+		this.list_act = list_act;
+	}
+
+
+
+	public List<Planning> getList_plan() {
+		return list_plan;
+	}
+
+
+
+	public void setList_plan(List<Planning> list_plan) {
+		this.list_plan = list_plan;
+	}
+
+
+
+	
+
+	
+
+	
+
+
+
+	
+	
 	
 	
 	
