@@ -67,8 +67,6 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<Publication> list_pub;
 	
-	@OneToMany(mappedBy="user")
-	private List<Message> list_messages;
 	
 	@OneToMany(mappedBy="user")
 	private List<Kindergarten> list_kindergartens;
@@ -289,15 +287,7 @@ public class User implements Serializable {
 
 
 
-	public List<Message> getList_messages() {
-		return list_messages;
-	}
-
-
-
-	public void setList_messages(List<Message> list_messages) {
-		this.list_messages = list_messages;
-	}
+	
 
 
 
