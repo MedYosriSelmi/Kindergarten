@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Bill implements Serializable {
 
@@ -25,7 +27,7 @@ public class Bill implements Serializable {
 	private int id;
 	
 	private String Description;
-	
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date DateOfBill;
 	
@@ -86,6 +88,35 @@ public class Bill implements Serializable {
 	public void setKindergarten(Kindergarten kindergarten) {
 		this.kindergarten = kindergarten;
 	}
+
+	public Bill(String description, Date dateOfBill, float totalPrice) {
+		super();
+		Description = description;
+		DateOfBill = dateOfBill;
+		TotalPrice = totalPrice;
+	}
+
+	public Bill(String description, Date dateOfBill, float totalPrice, User user, Kindergarten kindergarten) {
+		super();
+		Description = description;
+		DateOfBill = dateOfBill;
+		TotalPrice = totalPrice;
+		this.user = user;
+		this.kindergarten = kindergarten;
+	}
+
+	public Bill(int id, String description, Date dateOfBill, float totalPrice, User user, Kindergarten kindergarten) {
+		super();
+		this.id = id;
+		Description = description;
+		DateOfBill = dateOfBill;
+		TotalPrice = totalPrice;
+		this.user = user;
+		this.kindergarten = kindergarten;
+	}
+
+
+	
 
 
 

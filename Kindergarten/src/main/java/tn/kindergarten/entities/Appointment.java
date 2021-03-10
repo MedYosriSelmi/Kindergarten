@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Appointment implements Serializable {
 
@@ -24,7 +26,7 @@ public class Appointment implements Serializable {
 	private int id;
 	
 	private String Description;
-	
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date DateOfAppoint;
 	

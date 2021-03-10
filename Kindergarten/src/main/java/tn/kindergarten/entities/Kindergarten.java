@@ -37,6 +37,8 @@ public class Kindergarten implements Serializable {
 	
 	private float PricePerChild;
 	
+	private int NemberOfMonth ;
+	
 	@ManyToOne
 	private User user;
 	
@@ -196,6 +198,16 @@ public class Kindergarten implements Serializable {
 
 	public void setList_reclam(List<Reclamation> list_reclam) {
 		this.list_reclam = list_reclam;
+	}
+
+
+	public int getNemberOfMonth() {
+		return NemberOfMonth;
+	}
+
+
+	public void setNemberOfMonth(int nemberOfMonth) {
+		NemberOfMonth = nemberOfMonth;
 	}
 
 
