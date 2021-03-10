@@ -101,6 +101,15 @@ public class Comment implements Serializable {
 		this.comment = comment;
 	}
 
+	public Comment(String description, Date dateDelivered, Subject sub, User user, Comment comment) {
+		super();
+		Description = description;
+		DateDelivered = dateDelivered;
+		this.sub = sub;
+		this.user = user;
+		this.comment = comment;
+	}
+
 	
 	
 	

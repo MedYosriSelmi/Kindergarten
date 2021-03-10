@@ -32,6 +32,7 @@ public class Subject implements Serializable {
 	private String Photo;
 	
 	@Temporal(TemporalType.DATE)
+	//@JsonFormat(pattern="yyyy-MM-dd")
 	private Date DateSubject;
 	
 	@OneToMany(mappedBy="sub")
@@ -110,6 +111,30 @@ public class Subject implements Serializable {
 		this.comments = comments;
 	}
 
+	public Subject(int id, String name, String description, String photo, Date dateSubject, List<LikesSub> likes_sub,
+			User user, List<Comment> comments) {
+		super();
+		this.id = id;
+		Name = name;
+		Description = description;
+		Photo = photo;
+		DateSubject = dateSubject;
+		this.likes_sub = likes_sub;
+		this.user = user;
+		this.comments = comments;
+	}
+
+	public Subject(Date dateSubject, String name, String description, String photo) {
+		super();
+		
+		DateSubject = dateSubject;
+		Name = name;
+		Description = description;
+		Photo = photo;
+		
+	}
+
+	
 	
 
 	
