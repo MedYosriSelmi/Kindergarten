@@ -2,7 +2,6 @@ package tn.kindergarten.entities;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Kindergarten implements Serializable {
@@ -55,6 +56,7 @@ public class Kindergarten implements Serializable {
 	@OneToMany(mappedBy="kindergarten")
 	private List<Activity> list_act;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="kindergarten")
 	private List<Reclamation> list_reclam;
 	
@@ -62,7 +64,6 @@ public class Kindergarten implements Serializable {
 	private List<Publication> list_pub;
 	
 	public Kindergarten () {}
-
 	
 	public int getId() {
 		return id;

@@ -3,7 +3,6 @@ package tn.kindergarten.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,13 +13,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 @Entity
 public class User implements Serializable {
 
-	
 	/**
 	 * 
 	 */
@@ -43,6 +42,7 @@ public class User implements Serializable {
 	private boolean isActif;
 	
 	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date DateOfBirth;
 	
 	private String Photo;
@@ -61,14 +61,12 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<Subject> list_subject;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Reclamation> list_reclams;
 	
 	@OneToMany(mappedBy="user")
 	private List<Publication> list_pub;
-	
-	@OneToMany(mappedBy="user")
-	private List<Message> list_messages;
 	
 	@OneToMany(mappedBy="user")
 	private List<Kindergarten> list_kindergartens;
@@ -104,8 +102,6 @@ public class User implements Serializable {
 	{
 		
 	}
-
-
 
 	public int getId() {
 		return id;
@@ -287,20 +283,6 @@ public class User implements Serializable {
 		this.list_pub = list_pub;
 	}
 
-
-
-	public List<Message> getList_messages() {
-		return list_messages;
-	}
-
-
-
-	public void setList_messages(List<Message> list_messages) {
-		this.list_messages = list_messages;
-	}
-
-
-
 	public List<Kindergarten> getList_kindergartens() {
 		return list_kindergartens;
 	}
@@ -407,20 +389,4 @@ public class User implements Serializable {
 		this.list_plan = list_plan;
 	}
 
-
-
-	
-
-	
-
-	
-
-
-
-	
-	
-	
-	
-	
-	
 }

@@ -2,14 +2,18 @@ package tn.kindergarten.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Reclamation implements Serializable{
@@ -26,24 +30,29 @@ public class Reclamation implements Serializable{
 	private String Description;
 	
 	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date DateOfReclam;
 	
 	private String Type;
 	
-	private String Status;
+	@Enumerated(EnumType.STRING)
+	private Status Status;
 	
 	private String Photo;
 	
+	@JsonIgnore
 	@ManyToOne
 	private User user;
 	
+	@JsonIgnore
 	@ManyToOne
 	private Kindergarten kindergarten;
 	
-	
 	public Reclamation () {}
 	
-	public Reclamation(String description, Date dateOfReclam, String type, String status, String photo) {
+	public Reclamation(String description, Date dateOfReclam, String type, tn.kindergarten.entities.Status status,
+			String photo) {
 		super();
 		Description = description;
 		DateOfReclam = dateOfReclam;
@@ -84,14 +93,7 @@ public class Reclamation implements Serializable{
 		Type = type;
 	}
 
-	public String getStatus() {
-		return Status;
-	}
-
-	public void setStatus(String status) {
-		Status = status;
-	}
-
+	
 	public String getPhoto() {
 		return Photo;
 	}
@@ -106,6 +108,22 @@ public class Reclamation implements Serializable{
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Status getStatus() {
+		return Status;
+	}
+
+	public void setStatus(Status status) {
+		Status = status;
+	}
+
+	public Kindergarten getKindergarten() {
+		return kindergarten;
+	}
+
+	public void setKindergarten(Kindergarten kindergarten) {
+		this.kindergarten = kindergarten;
 	}
 
 }

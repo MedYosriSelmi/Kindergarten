@@ -29,7 +29,10 @@ public class Message implements Serializable {
 	private Date DateDelivered;
 	
 	@ManyToOne
-	private User user;
+	private User Sender;
+	
+	@ManyToOne
+	private User Reciever;
 	
 	public Message () {}
 
@@ -59,17 +62,23 @@ public class Message implements Serializable {
 	}
 
 
-	public User getUser() {
-		return user;
+	public User getSender() {
+		return Sender;
 	}
 
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setSender(User sender) {
+		Sender = sender;
 	}
 
-	
-	
-	
-	
+
+	public User getReciever() {
+		return Reciever;
+	}
+
+
+	public void setReciever(User reciever) {
+		Reciever = reciever;
+	}
+
 }

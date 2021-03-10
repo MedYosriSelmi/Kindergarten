@@ -2,7 +2,6 @@ package tn.kindergarten.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Comment implements Serializable {
@@ -33,6 +33,9 @@ public class Comment implements Serializable {
 	
 	@ManyToOne
 	private User user;
+	
+	@OneToOne
+	private Comment comment;
 	
 	public Comment () {}
 
@@ -89,9 +92,12 @@ public class Comment implements Serializable {
 		this.user = user;
 	}
 
-	
-	
-	
-	
+	public Comment getComment() {
+		return comment;
+	}
 
+	public void setComment(Comment comment) {
+		this.comment = comment;
+	}
+	
 }
