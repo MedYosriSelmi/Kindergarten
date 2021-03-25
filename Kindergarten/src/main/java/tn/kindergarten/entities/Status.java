@@ -1,5 +1,3 @@
 package tn.kindergarten.entities;
 
-public enum Status {
-	New, Pending, treated
-}
+public enum Status {New, Pending, Treated}

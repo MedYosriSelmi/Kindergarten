@@ -20,8 +20,7 @@ public class LikesPub  implements Serializable {
 	
 	@EmbeddedId
     private LikesPubPK likespubPK;
-	
-	
+
 	@ManyToOne
     @JoinColumn(name = "idPub", referencedColumnName = "id", insertable=false, updatable=false)
 	private Publication pub;
@@ -76,13 +75,5 @@ public class LikesPub  implements Serializable {
 	public void setDateLikePub(Date dateLikePub) {
 		DateLikePub = dateLikePub;
 	}
-
-	
-
-	
-	
-	
-	
-
 
 }

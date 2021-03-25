@@ -71,8 +71,5 @@ public class LikesSubPK implements Serializable {
 	public String toString() {
 		return "LikesSubPK [idUser=" + idUser + ", idLikesSub=" + idLikesSub + "]";
 	}
-     
-     
- 
-	
+    
 }

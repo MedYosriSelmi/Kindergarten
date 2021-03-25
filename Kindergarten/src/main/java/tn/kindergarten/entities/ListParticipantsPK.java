@@ -72,7 +72,4 @@ public class ListParticipantsPK   implements Serializable {
 		return "ListParticipantsPK [idUser=" + idUser + ", idEvent=" + idEvent + "]";
 	}
 	
-	
-
-	
 }

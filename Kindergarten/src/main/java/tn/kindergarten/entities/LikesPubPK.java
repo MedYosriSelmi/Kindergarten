@@ -72,6 +72,4 @@ public class LikesPubPK implements Serializable {
 		return "LikesPubPK [idUser=" + idUser + ", idLikesPub=" + idLikesPub + "]";
 	}
 	
-	
-
 }

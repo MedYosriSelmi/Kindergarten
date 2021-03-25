@@ -18,9 +18,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Reclamation implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -51,8 +48,7 @@ public class Reclamation implements Serializable{
 	
 	public Reclamation () {}
 	
-	public Reclamation(String description, Date dateOfReclam, String type, tn.kindergarten.entities.Status status,
-			String photo) {
+	public Reclamation(String description, Date dateOfReclam, String type, tn.kindergarten.entities.Status status,String photo) {
 		super();
 		Description = description;
 		DateOfReclam = dateOfReclam;

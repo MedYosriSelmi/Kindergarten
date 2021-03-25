@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -15,9 +15,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Kindergarten implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -38,8 +35,8 @@ public class Kindergarten implements Serializable {
 	
 	private float PricePerChild;
 	
-	@ManyToOne
-	private User user;
+	@ManyToMany
+	private List<User> users;
 	
 	@OneToOne
 	private User userkinder;
@@ -129,16 +126,21 @@ public class Kindergarten implements Serializable {
 		PricePerChild = pricePerChild;
 	}
 
-
-	public User getUser() {
-		return user;
+	public List<User> getUsers() {
+		return users;
 	}
 
-
-	public void setUser(User user) {
-		this.user = user;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
+	public List<Publication> getList_pub() {
+		return list_pub;
+	}
+
+	public void setList_pub(List<Publication> list_pub) {
+		this.list_pub = list_pub;
+	}
 
 	public User getUserkinder() {
 		return userkinder;
@@ -198,11 +200,5 @@ public class Kindergarten implements Serializable {
 	public void setList_reclam(List<Reclamation> list_reclam) {
 		this.list_reclam = list_reclam;
 	}
-
-
-	
-
-	
-
 	
 }
