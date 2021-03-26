@@ -19,7 +19,7 @@
 	<field name="user" class="java.lang.Integer">
 		
 	</field>
-	<field name="kindergarten" class="java.lang.Integer">
+	<field name="kindergarten" class="java.lang.Object">
 	
 	</field>
 	<background>

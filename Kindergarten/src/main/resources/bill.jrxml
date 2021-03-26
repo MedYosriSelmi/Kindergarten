@@ -17,33 +17,32 @@
 	
 		
 	</field>
-	<field name="user" class="java.lang.Integer">
+	<field name="usnm" class="java.lang.String">
 		
 	</field>
-	<field name="kindergarten" class="java.lang.Integer">
+	<field name="kindername" class="java.lang.String">
 		
 	</field>
-	<background>
+	
+	
+<background>
 		<band/>
 	</background>
 	<title>
 		<band height="72">
 			<frame>
-				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="9f1bb72c-83c2-42e6-8f8c-5eac7dd7d923"/>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="d803e57e-7654-4998-9549-e6600e3d15af"/>
 				<staticText>
-					<reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="6cc8bb85-32b5-4cfb-ab74-9dd06aea9a8d"/>
+					<reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="fe2b6596-af45-4759-9c22-3a4af97b13b9"/>
 					<textElement>
 						<font size="34" isBold="true"/>
 					</textElement>
-					<text><![CDATA[List of Bills]]></text>
+					<text><![CDATA[List of Bill]]></text>
 				</staticText>
-				<staticText>
-					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="46832b95-a384-4caa-87cd-4cdd887106e8"/>
-					<textElement textAlignment="Right">
-						<font size="14" isBold="false"/>
-					</textElement>
-					<text><![CDATA[Add a description here]]></text>
-				</staticText>
+				<image>
+					<reportElement x="480" y="11" width="105" height="70" uuid="35728bf5-0eb1-47ca-886a-cf317c43ef95"/>
+					<imageExpression><![CDATA["C:/Users/souhaib/Downloads/148938789_245133757118281_3508065158693107315_n.png"]]></imageExpression>
+				</image>
 			</frame>
 		</band>
 	</title>
@@ -107,7 +106,7 @@
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Kindergarten]]></text>
+				<text><![CDATA[kindergarten]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -117,7 +116,7 @@
 				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="0b906867-f131-42a8-846f-4e716ff2f8b7"/>
 			</line>
 			<textField >
-				<reportElement x="0" y="0" width="92" height="20" uuid="878fcaf3-4eb3-4bf4-afdf-f2128f33a42d">
+				<reportElement x="45" y="0" width="92" height="20" uuid="878fcaf3-4eb3-4bf4-afdf-f2128f33a42d">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a1490354-72e5-4409-b062-cdd38e84ca75"/>
 				</reportElement>
 				<textElement>
@@ -126,7 +125,7 @@
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 	<textField >
-				<reportElement x="92" y="0" width="92" height="20" uuid="1b55cc80-4a6e-47c2-8916-f0991fb43f07">
+				<reportElement x="102" y="0" width="92" height="20" uuid="1b55cc80-4a6e-47c2-8916-f0991fb43f07">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="62c1add6-3e63-4c07-8940-906370e26a4b"/>
 				</reportElement>
 				<textElement>
@@ -135,7 +134,7 @@
 				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 			</textField>
 			<textField >
-				<reportElement x="184" y="0" width="92" height="20" uuid="3f99da26-2b86-46e5-8673-36490cb17f76">
+				<reportElement x="194" y="0" width="92" height="20" uuid="3f99da26-2b86-46e5-8673-36490cb17f76">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ed8115ff-379d-402d-9ab0-5d943a428c68"/>
 				</reportElement>
 				<textElement>
@@ -144,7 +143,7 @@
 				<textFieldExpression><![CDATA[$F{dateOfBill}]]></textFieldExpression>
 			</textField>
 			<textField >
-				<reportElement x="276" y="0" width="92" height="20" uuid="380bc3bc-758b-4449-af8c-2d469b91ddbe">
+				<reportElement x="296" y="0" width="92" height="20" uuid="380bc3bc-758b-4449-af8c-2d469b91ddbe">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0b143c2b-7704-494a-9a75-09d96481b442"/>
 				</reportElement>
 				<textElement>
@@ -159,17 +158,18 @@
 				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{user}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{usnm}]]></textFieldExpression>
 			</textField>
-				<textField >
-				<reportElement x="368" y="0" width="92" height="20" uuid="a39d2deb-6f38-47cc-98a2-6a83863ed572">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eb11153e-7363-4a4c-a4ce-6bbc9382fe94"/>
+			<textField >
+				<reportElement x="480" y="0" width="92" height="20" uuid="1b55cc80-4a6e-47c2-8916-f0991fb43f07">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="62c1add6-3e63-4c07-8940-906370e26a4b"/>
 				</reportElement>
 				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{kindergarten}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{kindername}]]></textFieldExpression>
 			</textField>
+		
 		</band>
 	</detail>
 	<columnFooter>

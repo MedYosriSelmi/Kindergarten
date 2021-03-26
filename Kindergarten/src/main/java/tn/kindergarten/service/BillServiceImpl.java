@@ -1,5 +1,6 @@
 package tn.kindergarten.service;
 
+
 import java.util.List;
 
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tn.kindergarten.entities.Bill;
+
 import tn.kindergarten.entities.Kindergarten;
 import tn.kindergarten.entities.User;
 import tn.kindergarten.repository.BillRepository;
@@ -24,10 +26,12 @@ public class BillServiceImpl implements IBillService {
 	@Autowired
 	KindergartenRepository kinders ;
 	
+	
+	
 
 	@Override
 	public int ajouterBill(Bill bill) {
-//System.out.println(bill.getTotalPrice());
+
 		bills.save(bill);
 		return bill.getId();
 	}
@@ -44,46 +48,78 @@ public class BillServiceImpl implements IBillService {
 	}
 
 	@Override
-	public void updateBill(Bill b, int idBill) {
+	public void updateBill(Bill b, int idBill ) {
 		Bill bill = bills.findById(idBill).get();
 		bill.setDateOfBill(b.getDateOfBill());
 		bill.setDescription(b.getDescription());
-		bill.setTotalPrice(b.getTotalPrice());
-		bill.setUser(b.getUser());
+		
+		
+	
+	/*//	int c = bills.findById(idBill).get().getKindergarten().getList_child().size();
+		//int ca = bills.findById(idBill).get().getKindergarten().getUser().get(idBill).getList_child().size();
+		
+		
+		int k = bills.findById(idBill).get().getKindergarten().getId();
+		int u = bills.findById(idBill).get().getUser().getId();
+		long  a = bills.getNumberOfChildForUserInKinderJPQL(u,k);
+		float t=bills.findById(idBill).get().getKindergarten().getPricePerChild();
+		
+		bill.setTotalPrice(a*t);
+	*/
+		
 		bills.save(bill);		
 	}
 	@Override
-	public void affecteruserToBill( int userId , int billId) {
+	public void affecteruserAndKinderToBill( int billId , int userId , int kinderId) {
         User u =users.findById(userId).orElse(null);
-		Bill e =bills.findById(billId).orElse(null);
-		e.setUser(u);
-		bills.save(e);
-	}
-	@Override
-	public void affecterKinderToBill( int kinderId , int billId) {
         Kindergarten k =kinders.findById(kinderId).orElse(null);
 		Bill e =bills.findById(billId).orElse(null);
+		e.setUser(u);
 		e.setKindergarten(k);
 		bills.save(e);
 	}
 
 
-	@Override
-	public void EditBill(Bill b, int idBill ,int KinId , Kindergarten k ,int userid ,User x) {
-		Bill bill = bills.findById(idBill).get();
-		bill.setDateOfBill(b.getDateOfBill());
-		bill.setDescription(b.getDescription());
-		bill.setTotalPrice(b.getTotalPrice());
-		Kindergarten kin =kinders.findById(KinId).get();
-		float t ;
-		t= kin.getPricePerChild() * kin.getNemberOfMonth();
-		User user =users.findById(userid).get();
-		int u ;
-		u=user.getList_child().size();
-		
-		bills.save(bill);		
-	}
 	
+	@Override
+	public List<Bill> getAllBillByUser(int usertId) {
+		return bills.getAllBillByUser(usertId);
+	}
+	@Override
+	public List<Bill> getAllBillBykinder(int kinderId) {
+		return bills.getAllBillBykinder(kinderId)	;
+	}
+	@Override
+	public List<Bill> getAllBillForUserInKinder(int kinderId, int userId) {
+		return bills.getAllBillForUserInKinder(kinderId, userId);
+	}
+
+
+	@Override
+	public void calculPrice(Bill b ,int idBill  ) {
+		Bill bill = bills.findById(idBill).get();
+		
+		int k = bills.findById(idBill).get().getKindergarten().getId();
+		int u = bills.findById(idBill).get().getUser().getId();
+		long  a = bills.getNumberOfChildForUserInKinderJPQL(u, k);
+		float t=bills.findById(idBill).get().getKindergarten().getPricePerChild();
+		
+		
+			bill.setTotalPrice(a*t);
+			bills.save(bill);	
+			}
+		
+ 
+	@Override
+	public long getNumberOfChildForUserInKinderJPQL(int iduser , int idkinder) {
+		return bills.getNumberOfChildForUserInKinderJPQL( iduser , idkinder);
+	}
+
+	
+
+
+
+
 	
 
 	

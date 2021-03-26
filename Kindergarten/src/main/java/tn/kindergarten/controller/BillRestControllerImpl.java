@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import net.sf.jasperreports.engine.JRException;
 import tn.kindergarten.entities.Bill;
 import tn.kindergarten.repository.BillRepository;
+
 import tn.kindergarten.service.IBillService;
 import tn.kindergarten.service.RepportBillService;
 
@@ -29,6 +30,8 @@ public class BillRestControllerImpl  {
 	RepportBillService  service ;
 	@Autowired
 	BillRepository repository ;
+	
+	
 	
 	@PostMapping("/addBill")
 	@ResponseBody
@@ -50,28 +53,75 @@ public class BillRestControllerImpl  {
   	@ResponseBody
   	public ResponseEntity<String> updateBill(
 	  		@RequestBody Bill bill,@PathVariable("idBill")int idBill) {
-		bills.updateBill(bill,idBill);
+		bills.updateBill(bill,idBill );
 	  	    return new ResponseEntity<String>("Bill updated successfully",HttpStatus.OK);
 	  		
 	}
-	@PutMapping(value ="/affecteruserToBill/{idapp}/{iduser}")
+
+	@PutMapping(value ="/affecteruserAndKinderToBill/{idbill}/{iduser}/{idkinder}")
 	@ResponseBody
-	public void affecteruserToBill(@PathVariable("idapp")int appId,@PathVariable("iduser") int medId) {
-		bills.affecteruserToBill(appId, medId);
+	public void affecteruserAndKinderToBill(@PathVariable("idbill")int idbill,@PathVariable("iduser") int iduser,@PathVariable("idkinder") int idkinder) {
+		bills.affecteruserAndKinderToBill(idbill, iduser,idkinder);
 	}
-	@PutMapping(value ="/affecterKinderToBill/{idapp}/{iduser}")
-	@ResponseBody
-	public void affecterKinderToBill(@PathVariable("idapp")int appId,@PathVariable("iduser") int medId) {
-		bills.affecterKinderToBill(appId, medId);
+	@PutMapping("/calculp/{idBill}")
+  	@ResponseBody
+  	public ResponseEntity<String> calculPrice(
+	  		@RequestBody Bill bill,@PathVariable("idBill")int idBill) {
+		bills.calculPrice(bill,idBill );
+	  	    return new ResponseEntity<String>("Bill is calculated",HttpStatus.OK);
+	  		
 	}
-	 
-	
-	 @GetMapping("/report/{format}")
-	 @ResponseBody
-	    public String generateReport(@PathVariable String format) throws FileNotFoundException, JRException {
-	        return service.exportReport(format);
-	    }
-	
 	
 
+	    @GetMapping("/getAllBillByUser/{iduser}")
+	    @ResponseBody
+		public List<Bill> getAllBillByUser(@PathVariable("iduser") int usertId) {
+
+			return bills.getAllBillByUser(usertId);
+		}
+	    @GetMapping("/getAllBillBykinder/{idkinder}")
+	    @ResponseBody
+		public List<Bill> getAllBillBykinder(@PathVariable("idkinder") int idkinder) {
+
+			return bills.getAllBillBykinder(idkinder);
+		}
+	    @GetMapping("/getAllBillForUserInKinder/{idkinder}/{iduser}")
+	    @ResponseBody
+		public List<Bill> getAllBillForUserInKinder(@PathVariable("idkinder") int idkinder ,@PathVariable("iduser") int usertId) {
+
+			return bills.getAllBillForUserInKinder(idkinder,usertId );
+		}
+
+	
+	    @GetMapping("/NbreChild/{iduser}/{idkinder}")
+		 @ResponseBody
+		public long getNumberOfChildForUserInKinderJPQL(@PathVariable("iduser")int iduser, @PathVariable("idkinder")int  idkinder) {
+			
+			return bills.getNumberOfChildForUserInKinderJPQL(iduser , idkinder);
+		}
+	    
+	    
+
+		 @GetMapping("/report/{format}")
+		 @ResponseBody
+		    public String generateReport(@PathVariable String format) throws FileNotFoundException, JRException {
+		        return service.exportReport(format);
+		    }
+
+		 @GetMapping("/exportReportForKinder/{format}/{idkinder}")
+		 @ResponseBody
+		    public String exportReportForKinder(@PathVariable String format , @PathVariable("idkinder")int idkinder) throws FileNotFoundException, JRException {
+		        return service.exportReportForKinder(format , idkinder);
+		    }
+
+		 @GetMapping("/reportForUser/{format}/{iduser}")
+		 @ResponseBody
+		    public String exportReportForUser(@PathVariable String format , @PathVariable("iduser")int iduser) throws FileNotFoundException, JRException {
+		        return service.exportReportForUser(format , iduser);
+		    }
+		 @GetMapping("/reportForUserInKindergarten/{format}/{iduser}/{idkinder}")
+		 @ResponseBody
+		    public String exportReportForUserInKinder(@PathVariable String format , @PathVariable("iduser")int iduser , @PathVariable("idkinder")int idkinder) throws FileNotFoundException, JRException {
+		        return service.exportReportForUserInKinder(format , iduser,idkinder);
+		    }
 }

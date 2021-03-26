@@ -3,10 +3,12 @@ package tn.kindergarten.entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -37,13 +39,14 @@ public class Kindergarten implements Serializable {
 	
 	private float PricePerChild;
 	
-	private int NemberOfMonth ;
 	
-	@ManyToOne
-	private User user;
+	
 	
 	@OneToOne
 	private User userkinder;
+
+	@ManyToMany
+	private List<User> user;
 	
 	@OneToMany(mappedBy="kindergarten")
 	private List<Event> list_events;
@@ -131,14 +134,14 @@ public class Kindergarten implements Serializable {
 	}
 
 
-	public User getUser() {
-		return user;
-	}
 
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+	
+
+
+
+
+	
 
 
 	public User getUserkinder() {
@@ -201,14 +204,32 @@ public class Kindergarten implements Serializable {
 	}
 
 
-	public int getNemberOfMonth() {
-		return NemberOfMonth;
+
+
+	public List<User> getUser() {
+		return user;
 	}
 
 
-	public void setNemberOfMonth(int nemberOfMonth) {
-		NemberOfMonth = nemberOfMonth;
+	public void setUser(List<User> user) {
+		this.user = user;
 	}
+
+
+	public List<Publication> getList_pub() {
+		return list_pub;
+	}
+
+
+	public void setList_pub(List<Publication> list_pub) {
+		this.list_pub = list_pub;
+	}
+
+
+
+
+
+	
 
 
 	

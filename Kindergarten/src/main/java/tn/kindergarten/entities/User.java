@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -49,6 +52,10 @@ public class User implements Serializable {
 	
 	private String Adress;
 	
+	
+	@ManyToMany(mappedBy="user")
+	private List<Kindergarten> kinder;
+	
 	@OneToMany(mappedBy="user")
 	private List<ListParticipants> list_participants;
 	
@@ -70,8 +77,7 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<Message> list_messages;
 	
-	@OneToMany(mappedBy="user")
-	private List<Kindergarten> list_kindergartens;
+	
 	
 	@OneToOne(mappedBy="userkinder")
 	private Kindergarten kindergarten;
@@ -90,6 +96,8 @@ public class User implements Serializable {
 	
 	@OneToMany(mappedBy="user")
 	private List<Appointment> list_appoint;
+	@OneToMany(mappedBy="doctor")
+	private List<Appointment> list_doctor;
 	
 	@OneToMany(mappedBy="user")
 	private List<Activity> list_act;
@@ -301,15 +309,8 @@ public class User implements Serializable {
 
 
 
-	public List<Kindergarten> getList_kindergartens() {
-		return list_kindergartens;
-	}
+	
 
-
-
-	public void setList_kindergartens(List<Kindergarten> list_kindergartens) {
-		this.list_kindergartens = list_kindergartens;
-	}
 
 
 
@@ -406,6 +407,37 @@ public class User implements Serializable {
 	public void setList_plan(List<Planning> list_plan) {
 		this.list_plan = list_plan;
 	}
+
+
+
+	public List<Kindergarten> getKinder() {
+		return kinder;
+	}
+
+
+
+	public void setKinder(List<Kindergarten> kinder) {
+		this.kinder = kinder;
+	}
+
+
+
+	public List<Appointment> getList_doctor() {
+		return list_doctor;
+	}
+
+
+
+	public void setList_doctor(List<Appointment> list_doctor) {
+		this.list_doctor = list_doctor;
+	}
+
+
+
+
+
+
+	
 
 
 

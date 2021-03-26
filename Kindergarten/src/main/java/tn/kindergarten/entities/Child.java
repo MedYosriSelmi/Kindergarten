@@ -111,6 +111,22 @@ public class Child implements Serializable {
 	public String toString() {
 		return "Child [id=" + id + ", Name=" + Name + ", DateOfBirth=" + DateOfBirth + "]";
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Kindergarten getKindergarten() {
+		return kindergarten;
+	}
+
+	public void setKindergarten(Kindergarten kindergarten) {
+		this.kindergarten = kindergarten;
+	}
 	
 	
 	

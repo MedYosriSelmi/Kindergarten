@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -32,17 +33,40 @@ public class Bill implements Serializable {
 	private Date DateOfBill;
 	
 	private float TotalPrice;
-	
+@Transient
+   private String  usnm ;
 	@ManyToOne
 	private User user;
+	@Transient
+	   private String  kindername ;
+
 	
 	@ManyToOne
 	private Kindergarten kindergarten;
 	
 	public Bill () {}
+	
+
+	public String getKindername() {
+		return kindername;
+	}
+
+
+	public void setKindername(String kindername) {
+		this.kindername = kindername;
+	}
+
 
 	public int getId() {
 		return id;
+	}
+
+	public String getUsnm() {
+		return usnm;
+	}
+
+	public void setUsnm(String usnm) {
+		this.usnm = usnm;
 	}
 
 	public void setId(int id) {
@@ -114,6 +138,9 @@ public class Bill implements Serializable {
 		this.user = user;
 		this.kindergarten = kindergarten;
 	}
+
+
+
 
 
 	
