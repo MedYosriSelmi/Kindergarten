@@ -47,7 +47,7 @@ public class AppointmentRestControllerImpl {
 	
 	}
 	@PutMapping("/update_appointment_By_User/{user_id}/{appointment_id}")
-	public String update_appointment_By_User(@PathVariable("user_id") int user_id, @PathVariable int appointment_id,@RequestBody Appointment  appointment) {
+	public String update_appointment_By_User(@PathVariable("user_id") int user_id, @PathVariable  ("appointment_id")int appointment_id,@RequestBody Appointment  appointment) {
 
 		
 		return appointmentss.update_appointment_By_User( user_id ,appointment_id, appointment);
@@ -79,6 +79,7 @@ public class AppointmentRestControllerImpl {
 		return appointmentss.refut_appointment(id_doctor,appointment_id);
 	
 	}
+
 	
 	
 }

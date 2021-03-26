@@ -7,12 +7,13 @@ import tn.kindergarten.entities.Bill ;
 
 
 public interface IBillService {
-public int ajouterBill(Bill bill);
-public void deleteBillById(int billId);
+
+public String ajout_Bill_To_User(int id_user , int id_kinder ,Bill bill);
+public String delete_Bill(int id_kinder,int id_bill);
 public List<Bill> getAllBill();
-public void updateBill(Bill b, int iBbill  );
+public String update_Bill(int kinder_id , int bill_id,Bill bill);
+//public void updateBill(Bill b, int iBbill  );
 public long getNumberOfChildForUserInKinderJPQL(int iduser , int idkinder);
-public void affecteruserAndKinderToBill( int userId , int billId, int kinderId);
 public void calculPrice(Bill b ,int  idBill );
 public List<Bill> getAllBillByUser(int usertId);
 public List<Bill> getAllBillBykinder(int kinderId);

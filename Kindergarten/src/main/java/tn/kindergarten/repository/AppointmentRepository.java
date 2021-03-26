@@ -23,7 +23,7 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Integ
 	@Query("SELECT m FROM Appointment m WHERE m.Description LIKE %:search%  OR m.date LIKE %:search% OR m.Beginhour LIKE %:search% ")
 	List<Appointment> searchappointment(@Param("search") String search);
 	
-	@Query("select a  from Appointment a  join a.user  u WHERE  u.id =:parent_id")
+	@Query("select a  from Appointment a  join a.user  u WHERE  u.id =:parent_id and status='1'")
 	List<Appointment> find_appointment_byparent(@Param("parent_id") int parent_id);
 	
 	@Query("select a  from Appointment a  join a.doctor g WHERE  a.date =:date and g.id =:doctor_id and status='1'")

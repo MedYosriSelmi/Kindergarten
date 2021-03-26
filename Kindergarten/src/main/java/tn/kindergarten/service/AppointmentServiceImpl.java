@@ -125,6 +125,7 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	public String update_appointment_By_User(int user_id , int appointment_id,Appointment appointment) {
 		User UserId = users.findById(user_id).orElse(null);
 		
@@ -159,6 +160,7 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 			 
 }
 			 
+	@SuppressWarnings("unused")
 	public String update_appointment_By_Doctor(int doctor_id , int appointment_id,Appointment appointment) {
 		User Doctor = users.findById(doctor_id).orElse(null);
 		
@@ -228,6 +230,10 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 		
 		User Doctor = users.findById(Doctor_id).orElse(null);
 		Appointment appointment = appointments.findById(id_appointment).orElse(null);
+		if  ( appointment == null) {
+			return ("appointment n'existe pas");
+		
+		}
 		 if (Doctor.getId()==appointment.getDoctor().getId()){
 			if(appointment.getStatus() == 0)
 			{
@@ -258,17 +264,22 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 	public String refut_appointment(int Doctor_id,int id_appointment) {
 		User Doctor = users.findById(Doctor_id).orElse(null);
 		
+		
 		Appointment appointment = appointments.findById(id_appointment).orElse(null);
+		if  ( appointment == null) {
+			return ("appointment n'existe pas");
+		
+		}
 		 if (Doctor.getId()==appointment.getDoctor().getId()){
-			if(appointment.getStatus() == 0)
-			{
-				
+			 if(appointment.getStatus() == 0)
+				{
+			
 				SimpleMailMessage mailMessage = new SimpleMailMessage();
 				mailMessage.setTo(appointment.getUser().getEmail());
 				mailMessage.setSubject("!! appointment Information !!");
 				mailMessage.setFrom("kinder.garten0206@gmail.com");
 				mailMessage.setText(" Dear Mr "+appointment.getUser().getFirstName()+"  "+appointment.getUser().getLastName()+
-									"    your appointment is  not  accepted ,  in  "+appointment.getDate());
+									"    your appointment is  not  accepted ,  in  "+appointment.getDate()+ "  at  "+appointment.getBeginhour());
 
 				emailSenderService.sendEmail(mailMessage);
 				
@@ -277,15 +288,16 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 				return ("appointment est réfusé");
 
 			}
-			else{
-				return ("appointment est accepté deja");
+			 else{
+					return ("appointment est accepté deja");
 
-			}
+				}
+		 }
 
-		 } else {return (" tu n' as pas le droit  de refuser des rendez-vous pour d'autres personnes  ");}
+		  else {return (" tu n' as pas le droit  de refuser des rendez-vous pour d'autres personnes  ");}
 	}
 	
-
+	
 		
 
 
@@ -296,12 +308,7 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 		return null;
 	}
 
-	@Override
-	public List<Appointment> find_appointment_byparent(int parent_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 
 
 	@Override

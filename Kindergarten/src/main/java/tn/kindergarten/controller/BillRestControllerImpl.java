@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sun.el.parser.ParseException;
+
 import net.sf.jasperreports.engine.JRException;
+
 import tn.kindergarten.entities.Bill;
 import tn.kindergarten.repository.BillRepository;
 
@@ -33,22 +36,25 @@ public class BillRestControllerImpl  {
 	
 	
 	
-	@PostMapping("/addBill")
-	@ResponseBody
-	public int ajouterBill(@RequestBody Bill bill) {
-		bills.ajouterBill (bill);
-		return bill.getId();
+	
+	@PostMapping("/ajout_Bill_To_User/{id_user}/{id_kinder}")
+	public String ajout_Bill_To_User(@PathVariable("id_user") int id_user,@PathVariable("id_kinder") int id_kinder,@RequestBody Bill bill) throws ParseException {
+		
+		return bills.ajout_Bill_To_User(id_user,id_kinder,bill);
 	}
-	@DeleteMapping("/deleteBillById/{ent-id}")
-	public void deleteBillById(@PathVariable("ent-id") int ide) {
-		bills.deleteBillById(ide);		
+	@DeleteMapping("/delete_Bill/{id_kinder}/{id_bill}")
+	public String delete_Bill(@PathVariable("id_kinder") int id_kinder,@PathVariable("id_bill") int id_bill)  {
+		
+		return bills.delete_Bill(id_kinder,id_bill);
+	
 	}
+
 	@GetMapping(value="/listofbill")
 	@ResponseBody
 	public List<Bill> getAllBill() {
 		return bills.getAllBill();
 	}
-	
+	/*
 	@PutMapping("/updateBill/{idBill}")
   	@ResponseBody
   	public ResponseEntity<String> updateBill(
@@ -56,13 +62,15 @@ public class BillRestControllerImpl  {
 		bills.updateBill(bill,idBill );
 	  	    return new ResponseEntity<String>("Bill updated successfully",HttpStatus.OK);
 	  		
+	}*/
+	@PutMapping("/update_Bill/{kinder_id}/{bill_id}")
+	public String update_Bill(@PathVariable("kinder_id") int kinder_id, @PathVariable ("bill_id") int bill_id,@RequestBody Bill  bill) {
+
+		
+		return bills.update_Bill( kinder_id  ,bill_id, bill);
 	}
 
-	@PutMapping(value ="/affecteruserAndKinderToBill/{idbill}/{iduser}/{idkinder}")
-	@ResponseBody
-	public void affecteruserAndKinderToBill(@PathVariable("idbill")int idbill,@PathVariable("iduser") int iduser,@PathVariable("idkinder") int idkinder) {
-		bills.affecteruserAndKinderToBill(idbill, iduser,idkinder);
-	}
+	
 	@PutMapping("/calculp/{idBill}")
   	@ResponseBody
   	public ResponseEntity<String> calculPrice(

@@ -1,6 +1,7 @@
 package tn.kindergarten.service;
 
 
+
 import java.util.List;
 
 
@@ -29,25 +30,84 @@ public class BillServiceImpl implements IBillService {
 	
 	
 
-	@Override
-	public int ajouterBill(Bill bill) {
 
-		bills.save(bill);
-		return bill.getId();
-	}
-
-	@Override
-	public void deleteBillById(int billId) {
-		 Bill b  =bills.findById(billId).orElse(null);
-		 bills.delete(b);
+	public String ajout_Bill_To_User(int id_user , int id_kinder ,Bill bill) {
+		Kindergarten kinder = kinders.findById(id_kinder).orElse(null);
+		User UserId = users.findById(id_user).orElse(null);
+		if (kinder.getUserkinder().getRole().toString()!="Director") { return (" Que led directeurs peuvent ajouter des factures");	}
+		if (UserId.getRole().toString()=="Parent") {
+	        	bill.setKindergarten(kinder);
+				bill.setUser(UserId);
+			    bill.setTotalPrice(0);
+	           
+					 bills.save(bill);
+			      return ("   " +bill);
+				
+				}
+     	else
+				{
+					return ("user n'est pas parent");
+					}
+		}
+	public String delete_Bill(int id_kinder,int id_bill) {
+		Kindergarten kinder = kinders.findById(id_kinder).orElse(null);
+	Bill bill = bills.findById(id_bill).orElse(null);
+	if(bill == null) {return ("bill n'existe pas");}
+		if (kinder.getUserkinder().getRole().toString()=="Director" ) {
+	        if (kinder.getId()==bill.getKindergarten().getId()){
+		
+			bills.deleteById(bill.getId());
+			return ("bill est supprimé");	
+		}
+		
+	else
+		{
+			return  ("Supprision non autorisée");
+		}}
+		
+	else
+		{
+			return  ("user n'est pas un directeur");
+        }
 		
 	}
+	
 	@Override
 	public List<Bill> getAllBill() {
 	return (List<Bill>) bills.findAll();
 	}
 
-	@Override
+	@SuppressWarnings("unused")
+	public String update_Bill(int kinder_id , int bill_id,Bill bill) {
+		Kindergarten kinder = kinders.findById(kinder_id).orElse(null);
+		
+			 Bill bill_To_Update =bills.findById(bill_id).orElse(null);
+			if  ( bill_To_Update == null) {
+					return ("bill n'existe pas");
+				
+				}
+			
+			 if (kinder.getId()==bill_To_Update.getKindergarten().getId()){
+			 if ( bill_To_Update != null) {
+				
+				 bill_To_Update.setDateOfBill(bill.getDateOfBill());
+				 bill_To_Update.setDescription(bill.getDescription());
+	             bills.save(bill_To_Update);
+				return ("bill est bien modifiée ");
+			 }
+			
+			}
+			 
+			else
+			{
+				return  ("Modification non autorisée");
+			}
+			return null;
+			 
+			 
+}
+			 
+	/*@Override
 	public void updateBill(Bill b, int idBill ) {
 		Bill bill = bills.findById(idBill).get();
 		bill.setDateOfBill(b.getDateOfBill());
@@ -55,7 +115,7 @@ public class BillServiceImpl implements IBillService {
 		
 		
 	
-	/*//	int c = bills.findById(idBill).get().getKindergarten().getList_child().size();
+	//	int c = bills.findById(idBill).get().getKindergarten().getList_child().size();
 		//int ca = bills.findById(idBill).get().getKindergarten().getUser().get(idBill).getList_child().size();
 		
 		
@@ -65,20 +125,11 @@ public class BillServiceImpl implements IBillService {
 		float t=bills.findById(idBill).get().getKindergarten().getPricePerChild();
 		
 		bill.setTotalPrice(a*t);
-	*/
+	
 		
 		bills.save(bill);		
 	}
-	@Override
-	public void affecteruserAndKinderToBill( int billId , int userId , int kinderId) {
-        User u =users.findById(userId).orElse(null);
-        Kindergarten k =kinders.findById(kinderId).orElse(null);
-		Bill e =bills.findById(billId).orElse(null);
-		e.setUser(u);
-		e.setKindergarten(k);
-		bills.save(e);
-	}
-
+*/
 
 	
 	@Override
