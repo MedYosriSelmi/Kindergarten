@@ -7,6 +7,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Embeddable
@@ -23,7 +25,10 @@ public class ListParticipantsPK   implements Serializable {
 	
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date DateParticipation;
+	
+	
 
 	public ListParticipantsPK() {
 		super();
@@ -76,11 +81,9 @@ public class ListParticipantsPK   implements Serializable {
 		this.idEvent = idEvent;
 	}
 
-	@Override
-	public String toString() {
-		return "ListParticipantsPK [idUser=" + idUser + ", idEvent=" + idEvent + "]";
-	}
+	
 
+	
 	public Date getDateParticipation() {
 		return DateParticipation;
 	}
@@ -88,6 +91,13 @@ public class ListParticipantsPK   implements Serializable {
 	public void setDateParticipation(Date dateParticipation) {
 		DateParticipation = dateParticipation;
 	}
+
+	@Override
+	public String toString() {
+		return "ListParticipantsPK [idUser=" + idUser + ", idEvent=" + idEvent + ", DateParticipation="
+				+ DateParticipation + "]";
+	}
+
 	
 	
 

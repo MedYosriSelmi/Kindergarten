@@ -31,11 +31,33 @@ public class ListParticipants implements Serializable {
 		private User user;
 		
 
+		private String Etat;
+
+		public String getEtat() {
+			return Etat;
+		}
+
+
+		public void setEtat(String etat) {
+			Etat = etat;
+		}
+
+
+		
+
+
 		public ListParticipants() {
 			super();
 		}
 
 		
+		@Override
+		public String toString() {
+			return "ListParticipants [listparticipantsPK=" + listparticipantsPK + ", event=" + event + ", user=" + user
+					+ ", Etat=" + Etat + "]";
+		}
+
+
 		public ListParticipantsPK getListparticipantsPK() {
 			return listparticipantsPK;
 		}

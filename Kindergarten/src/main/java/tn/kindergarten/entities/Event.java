@@ -4,16 +4,21 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Event implements Serializable {
@@ -36,16 +41,37 @@ public class Event implements Serializable {
 
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date DateOfEvent;
-	
+	@Lob
+	@Column (columnDefinition="MEDIUMBLOB")
 	private String Photo;
 	
+	public Event(String name, String description, Date dateOfEvent, String photo) {
+		super();
+		Name = name;
+		Description = description;
+		DateOfEvent = dateOfEvent;
+		Photo = photo;
+	}
+
+
+	public String getPhoto() {
+		return Photo;
+	}
+
+
+	public void setPhoto(String photo) {
+		Photo = photo;
+	}
+
+	@JsonIgnore
 	@OneToMany(mappedBy="event")
 	private  List<ListParticipants> list_participants;
-	
+	@JsonIgnore
 	@ManyToOne
 	private User user;
-	
+	@JsonIgnore
 	@ManyToOne
 	private Kindergarten kindergarten;
 	
@@ -84,13 +110,7 @@ public class Event implements Serializable {
 		Name = name;
 	}
 
-	public String getPhoto() {
-		return Photo;
-	}
-
-	public void setPhoto(String photo) {
-		Photo = photo;
-	}
+	
 
 	public List<ListParticipants> getList_participants() {
 		return list_participants;
@@ -129,6 +149,14 @@ public class Event implements Serializable {
 		DateOfEvent = dateOfEvent;
 	}
 
+
+
+
+
+
+
+
+	
 	
 
 	

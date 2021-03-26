@@ -16,13 +16,14 @@ public class Rating {
 		@GeneratedValue(strategy = GenerationType.AUTO)
 		int ratId;
 		
-		int ratingValue;
+		float ratingValue;
 		
 		@ManyToOne(cascade=CascadeType.PERSIST)
 		User userRat;
 		
 		@ManyToOne
 		Event eventRat;
+		
 
 		public int getRatId() {
 			return ratId;
@@ -32,11 +33,11 @@ public class Rating {
 			this.ratId = ratId;
 		}
 
-		public int getRatingValue() {
+		public float getRatingValue() {
 			return ratingValue;
 		}
 
-		public void setRatingValue(int ratingValue) {
+		public void setRatingValue(float ratingValue) {
 			this.ratingValue = ratingValue;
 		}
 

@@ -3,13 +3,16 @@ package tn.kindergarten.sevices;
 
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tn.kindergarten.entities.Child;
 import tn.kindergarten.entities.Event;
+
 import tn.kindergarten.entities.ListParticipants;
 import tn.kindergarten.entities.ListParticipantsPK;
 import tn.kindergarten.entities.User;
@@ -31,17 +34,27 @@ public class ListParticipantsService  implements IListParticipantsService{
     EventRepository eventrep;
     
 	@Override
-	public void ajouterLP(int userId, int eventId, Date dateP) {
+	public void Participer(int userId, int eventId) {
+		ListParticipants l = ListParticipantsrep.annuler(userId, eventId);
+		System.out.println(l);
+		if(l !=null){
+			l.setEtat("annulé");
+			ListParticipantsrep.save(l);	
+			
+		} else{
 		ListParticipantsPK LPPK = new ListParticipantsPK();
 		LPPK.setIdUser(userId);
 		LPPK.setIdEvent(eventId);
-		LPPK.setDateParticipation(dateP);
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+		Date date = new Date(System.currentTimeMillis());
+		LPPK.setDateParticipation(date);
 		
 		
 		ListParticipants LP = new ListParticipants();
 		LP.setListparticipantsPK(LPPK);
+		LP.setEtat("participé");
 		ListParticipantsrep.save(LP);
-		
+		}
 		
 	}
 
@@ -54,7 +67,51 @@ public class ListParticipantsService  implements IListParticipantsService{
 	public List<Event> getAllEventByUser(int userId) {
 		return ListParticipantsrep.getAllEventByUser(userId);
 	}
-    
+
+	@Override
+	public void interssé(int userId, int eventId) {
+		ListParticipantsPK LPPK = new ListParticipantsPK();
+		LPPK.setIdUser(userId);
+		LPPK.setIdEvent(eventId);
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+		Date date = new Date(System.currentTimeMillis());
+		LPPK.setDateParticipation(date);
+	
+		
+		
+		ListParticipants LP = new ListParticipants();
+		LP.setListparticipantsPK(LPPK);
+		LP.setEtat("interssé");
+		ListParticipantsrep.save(LP);
+		
+	}
+
+	@Override
+	public int getNombreParticipantsJPQL() {
+		return ListParticipantsrep.getNombreParticipantsJPQL();
+	}
+
+	@Override
+	public List<Child> getChildForUserInKinderJPQL(int user, int kindergarten) {
+		
+		return ListParticipantsrep.getChildForUserInKinderJPQL(user, kindergarten);
+	}
+
+	
+		
+	}
+
+	
+		
+		
+		
+	
+
+	
+		
+	
+
+	
 	
 	
 	
@@ -72,4 +129,4 @@ public class ListParticipantsService  implements IListParticipantsService{
 	
 	
 
-}
+

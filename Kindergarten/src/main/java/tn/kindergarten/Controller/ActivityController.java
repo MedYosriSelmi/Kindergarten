@@ -3,19 +3,28 @@ package tn.kindergarten.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
+
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import tn.kindergarten.entities.Activity;
+import tn.kindergarten.entities.Category;
 import tn.kindergarten.sevices.IActivityService;
+import tn.kindergarten.sevices.IUploadFileService;
 
 
 @Controller
@@ -25,37 +34,42 @@ public class ActivityController  {
 	@Autowired
 	IActivityService iactivityservice;
 	
+	@Autowired
+	IUploadFileService uploadFileService;
 	
-//  http://localhost:8081/SpringMVC/servlet/add-activity
- @PostMapping("/add-activity")
- @ResponseBody
-	public int ajouterActivity(@RequestBody Activity Activity) {
-	 iactivityservice.ajouterActivity(Activity);
-	 return Activity.getId();
-	}
-//URL : http://localhost:8081/SpringMVC/servlet/getAllActivity
+	//http://localhost:8081/SpringMVC/servlet/ajout/1/2
+		//attributes ,values,file
+		@PostMapping(value= "/ajoutactivity/{idkinder}/{iduser}")
+		
+		public ResponseEntity<String> ajoutActivity(@ModelAttribute Activity activity,@PathVariable("idkinder") int kinderId,@PathVariable("iduser") int userId ,@RequestParam("file") MultipartFile file){
+		
+			return  iactivityservice.ajoutActivity(activity, kinderId, userId,file);
+			
+		}
+
+    //http://localhost:8081/SpringMVC/servlet/getAllActivity
 	@GetMapping(value = "/getAllActivity")
-  @ResponseBody
+    @ResponseBody
 	public List<Activity> getAllActivity() {
 		return iactivityservice.getAllActivity();
 	}
 
-	// URL : http://localhost:8081/SpringMVC/servlet/deleteActivityById/1
+	//http://localhost:8081/SpringMVC/servlet/deleteActivityById/1
     @DeleteMapping("/deleteActivityById/{idactivity}") 
 	@ResponseBody 
-	public void deleteActivityById(@PathVariable("idactivity")int ActivityId) {
+	public ResponseEntity<String> deleteActivityById(@PathVariable("idactivity")int ActivityId) {
     	iactivityservice.deleteActivityById(ActivityId);
-		
+		return new ResponseEntity<String>("deleted succesfuly",HttpStatus.OK);
 	}
 
-//  http://localhost:8081/SpringMVC/servlet/NbreActivity
+   //http://localhost:8081/SpringMVC/servlet/NbreActivity
 	@GetMapping("/NbreActivity")
 	 @ResponseBody
 	public int getNombreActivityJPQL() {
 		return iactivityservice.getNombreActivityJPQL();
 	}
 
-//  http://localhost:8081/SpringMVC/servlet/Activityname
+   //http://localhost:8081/SpringMVC/servlet/Activityname
 	@GetMapping("/Activityname")
 	 @ResponseBody
 	public List<String> getAllActivityNamesJPQL() {
@@ -64,30 +78,67 @@ public class ActivityController  {
 
 	@PutMapping("/updateActivity/{idActivity}")
 	@ResponseBody
-	public ResponseEntity<String> updateActivity(@RequestBody Activity a,@PathVariable("idActivity") int idActivity){
-		iactivityservice.updateActivity(a,idActivity);
+	public ResponseEntity<String> updateActivity(@ModelAttribute Activity a,@PathVariable("idActivity") int idActivity,@RequestParam("file") MultipartFile file){
+		iactivityservice.updateActivity(a,idActivity,file );
   	    return new ResponseEntity<String>("Activity updated successfully",HttpStatus.OK);
 		
 	}
 
-//  http://localhost:8081/SpringMVC/servlet/getActivity/{name}
+   //http://localhost:8081/SpringMVC/servlet/getActivity/{name}
 	@GetMapping("/getActivity/{name}")
 	 @ResponseBody
 	public Activity getActivity(@PathVariable("name")String name) {
 		return iactivityservice.getActivity(name);
 	}
 	
-	@PutMapping(value ="/kindergartenaActivity/{idkinder}/{idactivity}")
+	
+ @PostMapping("/assignAttachementToPost/{id}")
+	public void assignAttachementToPost(@PathVariable("id") int id , @RequestParam("file") MultipartFile file){
+		if (uploadFileService.addFile(file)){
+			iactivityservice.assignAttachementToPost(id, file);
+		}
+	}
+//http://localhost:8081/SpringMVC/servlet/retrieveallActivitybycategorie
+	@GetMapping(value="/retrieveallActivitybycategorie/{categorie}")
 	@ResponseBody
-	public void kindergartenaActivity(@PathVariable("idkinder") int kinderId ,@PathVariable("idactivity") int ActivityId){
-		iactivityservice.kindergartenaActivity(kinderId,  ActivityId);
+	public List<Activity> getAllActivityByCategorie(@PathVariable("categorie") Category category) {
+	return iactivityservice.getAllActivityByCategorie(category);
 	}
 	
-	@PutMapping(value ="/useraactivity/{iduser}/{idactivity}")
+	@GetMapping(value="/seach/{keyword}")
 	@ResponseBody
-	public void useraactivity(@PathVariable("iduser")int userId,@PathVariable("idactivity") int ActivityId) {
-		iactivityservice.useraactivity(userId,  ActivityId);
+	    public List<Activity> search(@PathVariable("keyword") String keyword) {
+		 return iactivityservice.search(keyword);
+	    }
+	
+	@GetMapping(value="/all")
+	@ResponseBody
+	    public List<Activity> activities () {
+		 return iactivityservice.activities();
+	    }
+	//http://localhost:8081/SpringMVC/servlet/?pageSize=1&pageNo=0&sortBy=
+	@GetMapping("pagination")
+    public ResponseEntity<List<Activity>> paginationsorting(
+                        @RequestParam(defaultValue = "0") Integer pageNo, 
+                        @RequestParam(defaultValue = "10") Integer pageSize,
+                        @RequestParam(defaultValue = "id") String sortBy) 
+    {
+        List<Activity> list = iactivityservice.paginationsorting(pageNo, pageSize, sortBy);
+ 
+        return new ResponseEntity<List<Activity>>(list, new HttpHeaders(), HttpStatus.OK); 
+    }
+	
+	
+	//http://localhost:8081/SpringMVC/servlet/retrieveallActivitysoftoday
+		@GetMapping(value = "/retrieveallActivitysoftoday")
+		@ResponseBody
+		public List<Activity> getAllActivityPourToday() {
+			return  iactivityservice.getAllActivityPourToday();}
 		
-	}
-
+	// http://localhost:8081/SpringMVC/servlet/retrieve-all-Activitysordonnebydate
+			@GetMapping(value = "/retrieve-all-Activitysordonnebydate")
+			@ResponseBody
+			public List<Activity> getAllActivityOrdonneParDate() {
+				return iactivityservice.getAllActivityOrdonneParDate();
+			}
 }

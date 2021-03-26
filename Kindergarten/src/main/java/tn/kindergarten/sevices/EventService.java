@@ -1,10 +1,20 @@
 package tn.kindergarten.sevices;
 
+
+import java.io.IOException;
+
+
+import java.util.Base64;
+
 import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import org.springframework.web.multipart.MultipartFile;
 
 
 import tn.kindergarten.entities.Event;
@@ -25,11 +35,38 @@ public class EventService implements IEventService {
 	@Autowired
 	KindergartenRepository kinderrep;
 	
+	
+	
 	@Override
-	public int ajouterEvent(Event event) {
+	public ResponseEntity<String> ajout(Event event, int kinderId, int userId, MultipartFile file) {
+		
+		Kindergarten k =kinderrep.findById(kinderId).orElse(null);
+		User u =userrep.findById(userId).orElse(null);
+		if (u.getRole().toString()=="Childcare_Manger" ){
+		event.setKindergarten(k);
+		event.setUser(u);
+
+		
+		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+		if (fileName.contains(".."))
+		{
+			System.out.println("not a a valid file");
+		}
+			try {
+				event.setPhoto(Base64.getEncoder().encodeToString(file.getBytes()));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		
 		eventrep.save(event);
-		return event.getId();
+		return  ResponseEntity.ok("Event added successfully");
 	}
+		return ResponseEntity.ok ("ajout non autorisé");
+		}
+	
+	
 
 	@Override
 	public List<Event> getAllEvents() {
@@ -54,11 +91,22 @@ public class EventService implements IEventService {
 	}
 
 	@Override
-	public void updateEvent(Event e, int idEvent) {
+	public void updateEvent(Event e, int idEvent , MultipartFile file) {
 		Event event = eventrep.findById(idEvent).get();
 		event.setDateOfEvent(e.getDateOfEvent());
 		event.setDescription(e.getDescription());
 	    event.setName(e.getName());
+		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+		if (fileName.contains(".."))
+		{
+			System.out.println("not a a valid file");
+		}
+			try {
+				event.setPhoto(Base64.getEncoder().encodeToString(file.getBytes()));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		eventrep.save(event);
 			
 	}
@@ -70,22 +118,38 @@ public class EventService implements IEventService {
 
 	
 
+
+
 	@Override
-	public void kindergartenaEvent(int kinderId, int EventId) {
-		Kindergarten k =kinderrep.findById(kinderId).orElse(null);
-		Event e =eventrep.findById( EventId).orElse(null);
-		e.setKindergarten(k);
-		eventrep.save(e);
-		
+	public List<Event> getAllEventPourToday() {
+		return eventrep.getAllEventPourToday();
 	}
 
 	@Override
-	public void useraEvent(int userId, int EventId) {
-		User u =userrep.findById(userId).orElse(null);
-		Event e =eventrep.findById( EventId).orElse(null);
-		e.setUser(u);
-		eventrep.save(e);
+	public List<Event> getAllEventOrdonneParDate() {
+		return eventrep.getAllEventOrdonneParDate();
+	}
+
+	@Override
+	public void assiAttachementToPost(int id, MultipartFile file) {
+		
+		Event p =eventrep.findById(id).orElse(null);
+			if (p!=null){
+				p.setPhoto(file.getOriginalFilename());
+				eventrep.save(p);
+			}
+
+	}
+
+	
+
+	
+	
+	
+	
 		
 	}
 
-}
+	
+
+

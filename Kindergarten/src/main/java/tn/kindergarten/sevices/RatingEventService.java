@@ -21,7 +21,7 @@ public class RatingEventService implements IRatingEventService{
 	@Autowired
 	EventRepository eventrepo;
 	@Override
-	public String addRatingEvent(int idUser, int idEvent, int ratingValue) {
+	public String addRatingEvent(int idUser, int idEvent, float ratingValue) {
 		Rating rat = new Rating();
 		User user = userrepo.findById(idUser).orElse(null);
 		Event event =eventrepo.findById(idEvent).orElse(null);

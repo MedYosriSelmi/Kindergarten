@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,7 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 
 @Entity
 public class Activity implements Serializable {
@@ -30,15 +37,36 @@ public class Activity implements Serializable {
 	private String Description;
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date DateOfActivity;
 	
 	private String Photo;
 	
-	public Activity () {}
+	@Enumerated(EnumType.STRING)
+	private Category category;
+	
+	public Activity(String name, String description, Date dateOfActivity, String photo, Category category) {
+		super();
+		Name = name;
+		Description = description;
+		DateOfActivity = dateOfActivity;
+		Photo = photo;
+		this.category = category;
+	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Activity () {}
+   @JsonIgnore
 	@ManyToOne
 	private User user;
-	
+	@JsonIgnore
 	@ManyToOne
 	private Kindergarten kindergarten;
 	

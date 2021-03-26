@@ -1,21 +1,16 @@
 package tn.kindergarten.Controller;
 
-
-
-
-
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import tn.kindergarten.entities.Child;
 import tn.kindergarten.entities.Event;
 import tn.kindergarten.entities.User;
 import tn.kindergarten.sevices.IListParticipantsService;
@@ -27,13 +22,13 @@ public class ListParticipantsController {
 	IListParticipantsService ilistservice;
 	
 	
-	// http://localhost:8081/SpringMVC/servlet/ajouterLP
+	// http://localhost:8081/SpringMVC/servlet/Participer
     //{"missionId":1,"employeId":2,"dateDebut":"2020-03-01","dateFin":"2021-03-01"}
 	
-	@PostMapping("/ajouterLP/{iduser}/{idevent}/{datep}")
+	@PostMapping("/Participer/{iduser}/{idevent}")
 	@ResponseBody
-	public void ajouterLP(@PathVariable("iduser") int userId, @PathVariable("idevent") int eventId, @PathVariable("datep") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateP) {
-		ilistservice.ajouterLP(userId, eventId, dateP);
+	public void Participer(@PathVariable("iduser") int userId, @PathVariable("idevent") int eventId) {
+		ilistservice.Participer(userId, eventId);
 
 	}
 	 // URL : http://localhost:8081/SpringMVC/servlet/getAllUserByEvent/12
@@ -51,5 +46,25 @@ public class ListParticipantsController {
 
 		return ilistservice.getAllEventByUser(userId);
 	}
+    
+    @PostMapping("/intersser/{iduser}/{idevent}")
+	@ResponseBody
+	public void interssé(@PathVariable("iduser") int userId, @PathVariable("idevent") int eventId) {
+		ilistservice.interssé(userId, eventId);;
 
+	}
+   
+  //http://localhost:8081/SpringMVC/servlet/Nbreparticipant
+	@GetMapping("/Nbreparticipant")
+	 @ResponseBody
+	public int getNombreParticipantsJPQL() {
+		return ilistservice.getNombreParticipantsJPQL();
+	}
+	
+  //http://localhost:8081/SpringMVC/servlet/getChild/{iduser}/{idkinder}
+	@GetMapping("/getChild/{iduser}/{idkinder}")
+	 @ResponseBody
+	public List<Child> getChildForUserInKinderJPQL(@PathVariable("iduser")int user,@PathVariable("idkinder") int kindergarten){
+		return ilistservice.getChildForUserInKinderJPQL(user, kindergarten);
+	}
 }

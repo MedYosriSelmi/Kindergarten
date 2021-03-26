@@ -21,5 +21,9 @@ public interface EventRepository extends CrudRepository<Event, Integer>  {
 	public List<String> getAllEventNamesJPQL() ;
 	 @Query("SELECT DISTINCT event from Event event where event.Name=:name ")
 	    public Event getEvent(@Param("name") String name);
+	 @Query("SELECT e from Event e where e.DateOfEvent = CURRENT_DATE()")
+	 public List<Event> getAllEventPourToday();
+	 @Query("SELECT e from Event e  order by e.DateOfEvent")
+	  public List<Event> getAllEventOrdonneParDate();
 
 }
