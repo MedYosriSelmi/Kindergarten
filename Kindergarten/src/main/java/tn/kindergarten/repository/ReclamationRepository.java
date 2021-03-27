@@ -15,6 +15,12 @@ public interface ReclamationRepository extends CrudRepository<Reclamation,Intege
 	@Query(value="SELECT COUNT(*) FROM reclamation",nativeQuery=true) 
 	long getTotalReclamation();
 	
+	@Query(value="SELECT COUNT(*) FROM Reclamation r WHERE r.Status LIKE '%New' AND r.DateOfReclam =:date") 
+	long getNbNewReclamation(@Param("date") Date date);
+	
+	@Query(value="SELECT COUNT(*) FROM Reclamation r WHERE r.Status LIKE '%Pending' AND r.DateOfReclam =:date") 
+	long getNbPendingReclamation(@Param("date") Date date);
+	
 	@Query("SELECT r FROM Reclamation r "
 			+ "WHERE r.Type =:type AND "
 			+ "r.DateOfReclam >=:d1 AND "
@@ -39,8 +45,11 @@ public interface ReclamationRepository extends CrudRepository<Reclamation,Intege
 	@Query("SELECT r FROM Reclamation r WHERE r.Type =:type AND r.Status IN :status") 
 	List<Reclamation> getallReclamationsByTypeAndStatus(@Param("type") String type,@Param("status") Status status);
 	
+	@Query("SELECT r FROM Reclamation r WHERE r.DateOfReclam =:date") 
+	List<Reclamation> searchReclamationByDate(@Param("date") Date date);
+	
 	@Query("SELECT r FROM Reclamation r INNER JOIN r.user u WHERE r.Type LIKE %?1% OR u.role LIKE %?1%") 
-	List<Reclamation> SearchReclamationByType(String keyword);
+	List<Reclamation> searchReclamationByType(String keyword);
 }
 
 

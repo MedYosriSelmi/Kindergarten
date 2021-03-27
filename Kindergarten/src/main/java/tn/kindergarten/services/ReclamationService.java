@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,8 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import tn.kindergarten.entities.Child;
 import tn.kindergarten.entities.Kindergarten;
 import tn.kindergarten.entities.Reclamation;
+import tn.kindergarten.entities.Role;
 import tn.kindergarten.entities.Status;
 import tn.kindergarten.entities.User;
 import tn.kindergarten.repository.KindergartenRepository;
@@ -44,14 +47,9 @@ public class ReclamationService implements IReclamationService {
     private String FROM_NUMBER;
     
 	@Override
-	public void AddReclamation(int idUser, String description, String date, String type, Status status, MultipartFile file) throws IllegalStateException, IOException {
-		User user = userRep.findById(idUser).get();
-		/*List<Kindergarten> liste = user.getKindergartens();
-		for(Kindergarten kind : liste){
-			
-		}*/
+	public void AddReclamation(int idUser, int idKinder,  String description, String date, String type, Status status, MultipartFile file) throws IllegalStateException, IOException {
 		Reclamation reclamation = new Reclamation();
-		String filename=reclamation.getId() + file.getOriginalFilename();
+		String filename = file.getOriginalFilename();
 	    file.transferTo(new File("C:\\Users\\MONDHER\\Documents\\STS\\Kindergarten\\Kindergarten\\Images\\"+file.getOriginalFilename()));
 		reclamation.setDescription(description);
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -60,18 +58,53 @@ public class ReclamationService implements IReclamationService {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		reclamation.setType(type);
-		reclamation.setStatus(status);
-		reclamation.setPhoto(filename);
-		//reclamation.setKindergarten(kindergarten);
-		reclamation.setUser(user);
-		recRep.save(reclamation);
+	    User user = userRep.findById(idUser).get();
+		List<Child> liste = user.getList_child();
+		for(Child child : liste){
+			if(child.getKindergarten().getId()==idKinder){
+				Kindergarten K = child.getKindergarten();
+				reclamation.setType(type);
+				reclamation.setStatus(status);
+				reclamation.setPhoto(filename);
+				reclamation.setKindergarten(K);
+				reclamation.setUser(user);
+				recRep.save(reclamation);
+			}else{
+				System.out.println("ERROR");
+			}
+		}
 	}
 	
 	@Override
-	public void DeleteReclamation(int idRec) {
-		Reclamation reclamation = recRep.findById(idRec).orElse(null);
-		recRep.delete(reclamation);
+	public void UpdateReclamation(int idUser, int reclamationId,String description, MultipartFile file) throws IllegalStateException, IOException {
+		User user = userRep.findById(idUser).get();
+		if(user.getRole().equals(Role.Admin) || user.getRole().equals(Role.Director)){
+			System.out.println("Sorry You Can't Edit This Reclamation");
+		}else{
+			Reclamation rec = recRep.findById(reclamationId).orElse(null);
+		if(rec.getStatus().equals(Status.New))
+		{
+			rec.setDescription(description);
+			String filename = file.getOriginalFilename();
+		    file.transferTo(new File("C:\\Users\\MONDHER\\Documents\\STS\\Kindergarten\\Kindergarten\\Images\\"+file.getOriginalFilename()));
+			rec.setPhoto(filename);
+			recRep.save(rec);
+		}
+		else {
+			System.out.println("This reclamation was treated");
+		}
+		}
+	}
+	
+	@Override
+	public void DeleteReclamation(int idUser, int idRec) {
+		User user = userRep.findById(idUser).get();
+		if(user.getRole().equals(Role.Admin) || user.getRole().equals(Role.Director)){
+			System.out.println("Sorry You Can't Delete This Reclamation");
+		}else{
+			Reclamation reclamation = recRep.findById(idRec).orElse(null);
+			recRep.delete(reclamation);
+		}
 	}
 
 	@Override
@@ -85,6 +118,24 @@ public class ReclamationService implements IReclamationService {
 		long nbReclamation;
 		nbReclamation = recRep.getTotalReclamation();
 		return nbReclamation;
+	}
+	
+	@Override
+	public long getNbNewReclamation() {
+		long NbNewReclamation;
+		LocalDate d = LocalDate.now();
+		Date dateDuJour = java.sql.Date.valueOf(d);
+		NbNewReclamation = recRep.getNbNewReclamation(dateDuJour);
+		return NbNewReclamation;
+	}
+
+	@Override
+	public long getNbPendingReclamation() {
+		long NbPendingReclamation;
+		LocalDate d = LocalDate.now();
+		Date dateDuJour = java.sql.Date.valueOf(d);
+		NbPendingReclamation = recRep.getNbPendingReclamation(dateDuJour);
+		return NbPendingReclamation;
 	}
 
 	@Override
@@ -103,51 +154,33 @@ public class ReclamationService implements IReclamationService {
 	}
 
 	@Override
-	public void UpdateReclamation(int reclamationId, String description,  MultipartFile file) throws IllegalStateException, IOException {
-		Reclamation rec = recRep.findById(reclamationId).orElse(null);
-		if(rec.getStatus()==Status.Pending || rec.getStatus()==Status.New)
-		{
-			rec.setDescription(description);
-			String filename=rec.getId() + file.getOriginalFilename();
-		    file.transferTo(new File("C:\\Users\\MONDHER\\Documents\\STS\\Kindergarten\\Kindergarten\\Images\\"+file.getOriginalFilename()));
-			rec.setPhoto(filename);
-			recRep.save(rec);
-		}
-		else {
-			System.out.println("This reclamation was treated");
-		}
-	}
-
-	@Override
-	public int addUser(User user) {
-		userRep.save(user);
-		return user.getId();
-	}
-	
-	@Override
 	public User getUserById(int userId) {
 		User u = userRep.findById(userId).orElse(null);
 		return u;
 	}
 
 	@Override
-	public int addKindergarten(Kindergarten kindergarten) {
-		kindRep.save(kindergarten);
-		return kindergarten.getId();
-	}
-
-	@Override
 	public List<Reclamation> FiltrerReclamationsByDateAndType(String type, Date d1, Date d2) {
-		List<Reclamation> liste = new ArrayList<>();
-		liste = recRep.FiltrerReclamationsByDateAndType(type, d1, d2);
-		return liste;
+		List<Reclamation> list = new ArrayList<>();
+		LocalDate d = LocalDate.now();
+		Date dateDuJour = java.sql.Date.valueOf(d);
+		if (d1.after(dateDuJour) || d2.after(dateDuJour) || d1.after(d2)) {
+		      System.out.println("Please Check Your Data .. d1 could not be after d2");
+		}else
+			list = recRep.FiltrerReclamationsByDateAndType(type, d1, d2);
+			return list;
 	}
 
 	@Override
 	public List<Reclamation> FiltrerReclamationsByDateAndStatus(Status status, Date d1, Date d2) {
 		List<Reclamation> list = new ArrayList<>();
-		list = recRep.FiltrerReclamationsByDateAndStatus(status, d1, d2);
-		return list;
+		LocalDate d = LocalDate.now();
+		Date dateDuJour = java.sql.Date.valueOf(d);
+		if (d1.after(dateDuJour) || d2.after(dateDuJour) || d1.after(d2)){
+			 System.out.println("Please Check Your Data .. d1 could not be after d2");
+		}else
+		    list = recRep.FiltrerReclamationsByDateAndStatus(status, d1, d2);
+		    return list;
 	}
 
 	@Override
@@ -162,23 +195,31 @@ public class ReclamationService implements IReclamationService {
 
 	@Override
 	public List<Reclamation> CombinedSearchReclamation(String keyword) {
-		return recRep.SearchReclamationByType(keyword);
+		return recRep.searchReclamationByType(keyword);
+	}
+	
+	@Override
+	public List<Reclamation> searchReclamationByDate(Date date) {
+		LocalDate d = LocalDate.now();
+		Date dateDuJour = java.sql.Date.valueOf(d);
+		if(date.after(dateDuJour )){
+			System.out.println("Please Check Your Data .. date could not be after Today");
+		}
+		return recRep.searchReclamationByDate(date);
 	}
 
 	@Override
 	public void sendSMSforUser(int idUser, String body) {
 		User u = userRep.findById(idUser).orElse(null);
-		String number = u.getPhone();
-		Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
-		Message message = Message.creator(new PhoneNumber(number), new PhoneNumber(FROM_NUMBER), body).create();
+		if(!u.getRole().equals(Role.Admin)){
+			String number = u.getPhone();
+		    Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
+		    Message message = Message.creator(new PhoneNumber(number), new PhoneNumber(FROM_NUMBER), body).create();
+		}
+		else
+			System.out.println("This is Admin Account .. Please Check It Again");
 	}
-
-	@Override
-	public void DeleteUser(int idUser) {
-		User user = userRep.findById(idUser).orElse(null);
-		userRep.delete(user);
-	}
-
+	
 }
 
 

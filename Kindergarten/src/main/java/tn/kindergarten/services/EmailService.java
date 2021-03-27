@@ -13,6 +13,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import tn.kindergarten.entities.Role;
 import tn.kindergarten.entities.User;
 import tn.kindergarten.repository.UserRepository;
 
@@ -52,16 +53,18 @@ public class EmailService implements IEmailService {
 		msg.setContent(body,"text/html");
 		msg.setSentDate(new Date());
 		
-		// send the e-mail
-        Transport.send(msg);
-
+		if(!u.getRole().equals(Role.Admin))
+		    // send the e-mail
+		    Transport.send(msg);	
+			else
+				System.out.println("This is Admin Account .. Please Check It Again");
 	}
 
 	@Override
 	public void sendEmailforUserReview(int idUser) throws AddressException, MessagingException {
 		User u = usRep.findById(idUser).orElse(null);
-		String email = u.getEmail();
-		
+	    String email = u.getEmail();
+	    
 	    Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -83,9 +86,11 @@ public class EmailService implements IEmailService {
 		msg.setContent(htmlMsg, "text/html");
 		msg.setSentDate(new Date());
 		
-		// send the e-mail
-        Transport.send(msg);
-		
+		if(!u.getRole().equals(Role.Admin))
+	    // send the e-mail
+	    Transport.send(msg);	
+		else
+			System.out.println("This is Admin Account .. Please Check It Again");
 	}
-
+	
 }
