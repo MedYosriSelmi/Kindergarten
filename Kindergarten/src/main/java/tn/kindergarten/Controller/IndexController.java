@@ -4,17 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import tn.kindergarten.entities.Rating;
 
-import tn.kindergarten.entities.RatingModel;
 import tn.kindergarten.sevices.IRatingEventService;
 
 
 
 @Controller
-@RequestMapping({ "/", "/index" })
+@RequestMapping({ "/", "{idEvent}" })
 public class IndexController {
 
 	
@@ -23,21 +24,21 @@ public class IndexController {
 	
     @GetMapping
     public String main(Model model) {
-        model.addAttribute("rating", new RatingModel());
+        model.addAttribute("rating", new Rating());
         return "index";
     }
 
-    @PostMapping
-    public String save(RatingModel rating, Model model) {
-       model.addAttribute("rating", rating);
-       return "saved";
-   }
+   // @PostMapping
+   // public String save(RatingModel rating, Model model) {
+    //   model.addAttribute("rating", rating);
+    //   return "saved";
+  // }
     
     
-	//@PostMapping
-	//public String addRatingEvent(RatingModel rating)
-	//{
-		//return ratEvent.addRatingEvent(1,1,rating.getStars());
-		
-	//}
+	@PostMapping("{idEvent}")
+	public String addRatingEvent(Rating rating ,@PathVariable("idEvent") int idEvent)
+	{
+	 ratEvent.addRatingEvent(1,idEvent,rating.getRatingValue());
+		return "saved";
+		}
 }
