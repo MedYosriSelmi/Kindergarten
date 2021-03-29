@@ -32,7 +32,7 @@ public class ReclamationController {
 
 	@RequestMapping("/addReclamation/{idUser}/{idKinder}") //Pending
 	public void AddReclamation(@PathVariable int idUser, @PathVariable int idKinder, @RequestParam("description") String description,@RequestParam("date") String date,@RequestParam("type") String type,@RequestParam("status") Status status, @RequestParam("photo") MultipartFile file) throws IllegalStateException, IOException{
-		recSer.AddReclamation(idUser, idKinder, description, date, type, status, file);
+		recSer.addReclamation(idUser, idKinder, description, date, type, status, file);
 	}
 	
 	@GetMapping("/getAllReclamations") //DONE
@@ -42,12 +42,12 @@ public class ReclamationController {
 	
 	@DeleteMapping("/deleteReclamation/{idUser}/{idRec}") //DONE
 	public void DeleteReclamation(@PathVariable int idUser, @PathVariable int idRec) {
-		recSer.DeleteReclamation(idUser, idRec);
+		recSer.deleteReclamation(idUser, idRec);
 	}
 	 
 	@PutMapping("/updateReclamation/{idUser}/{reclamationId}") //DONE
     public void UpdateReclamation(@PathVariable int idUser, @PathVariable int reclamationId,@RequestParam("description") String description,@RequestParam("photo") MultipartFile photo) throws IllegalStateException, IOException{
-    	recSer.UpdateReclamation(idUser, reclamationId, description, photo);
+    	recSer.updateReclamation(idUser, reclamationId, description, photo);
     }
 	
 	@GetMapping("/getReclamationById/{reclamationId}") //DONE
@@ -97,7 +97,7 @@ public class ReclamationController {
 	
 	@GetMapping("/getallReclamationsCombined/{keyword}") //DONE
 	public List<Reclamation> CombinedSearchReclamation(@PathVariable String keyword) {
-		return recSer.CombinedSearchReclamation(keyword);
+		return recSer.combinedSearchReclamation(keyword);
 	}
 	
 	@GetMapping("/searchReclamationByDate/{date}")  //DONE
@@ -110,21 +110,19 @@ public class ReclamationController {
 		return recSer.getListReclamationsByStatusSorted(status);
 	}
 	
-	@GetMapping("/sendSMS/{idUser}/{body}") //DONE
-	public void sendSMSforUser(@PathVariable int idUser,@PathVariable String body) {
-		recSer.sendSMSforUser(idUser, body);
+	@GetMapping("/sendSMS/{idUser}/{idRec}") //DONE
+	public void sendSMSforUser(@PathVariable int idUser, @PathVariable int idRec) {
+		recSer.NotifyUserBySMS(idUser, idRec);
 	}
 	
-	@PostMapping("/sendEmail/{idUser}/{subject}/{body}") //DONE
-	public String sendEmailforUser(@PathVariable int idUser,@PathVariable String subject,@PathVariable String body) throws AddressException, MessagingException{
-		emailSer.sendEmailforUser(idUser, subject, body);
-		return "Email sent successfully";
+	@PostMapping("/sendEmail/{idUser}/{idRec}") //DONE
+	public void sendEmailforUser(@PathVariable int idUser,@PathVariable int idRec) throws AddressException, MessagingException{
+		emailSer.NotifyUserByEmail(idUser, idRec);
 	}
 	
-	@PostMapping("/sendEmail/{idUser}") //DONE
-	public String sendEmailforUserReview(@PathVariable int idUser) throws AddressException, MessagingException{
-		emailSer.sendEmailforUserReview(idUser);
-		return "Email sent";
+	@PostMapping("/checkReclaamtionStatus/{idUser}/{idRec}") //DONE
+	public void CheckReclamationStatus(@PathVariable int idUser,@PathVariable int idRec) throws AddressException, MessagingException{
+		emailSer.CheckReclamationStatus(idUser, idRec);;
 	}
-	
+
 }

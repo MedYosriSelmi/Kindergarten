@@ -9,10 +9,10 @@ import tn.kindergarten.entities.Status;
 import tn.kindergarten.entities.User;
 
 public interface IReclamationService { 
-	public void AddReclamation(int idUser,int idKinder,  String description, String date, String type, Status status, MultipartFile file) throws IllegalStateException, IOException; 
-	public void UpdateReclamation(int idUser, int reclamationId,String description, MultipartFile file) throws IllegalStateException, IOException; 
+	public void addReclamation(int idUser,int idKinder,  String description, String date, String type, Status status, MultipartFile file) throws IllegalStateException, IOException; 
+	public void updateReclamation(int idUser, int reclamationId,String description, MultipartFile file) throws IllegalStateException, IOException; 
 	public List<Reclamation> listReclamations(); 
-	public void DeleteReclamation(int idUser, int idRec); 
+	public void deleteReclamation(int idUser, int idRec); 
     public User getUserById(int userId);  
     public long getTotalReclamation();
     public long getNbNewReclamation();
@@ -24,7 +24,7 @@ public interface IReclamationService {
     public List<Reclamation> FiltrerReclamationsByDateAndType(String type, Date d1, Date d2); 
     public List<Reclamation> FiltrerReclamationsByDateAndStatus(Status status, Date d1, Date d2); 
     public List<Reclamation> getallReclamationsByTypeAndStatus(String type, Status status);
-    public List<Reclamation> CombinedSearchReclamation(String keyword);
+    public List<Reclamation> combinedSearchReclamation(String keyword);
     public List<Reclamation> searchReclamationByDate(Date date);
-    public void sendSMSforUser(int idUser, String body); 
+    public void NotifyUserBySMS(int idUser, int idRec); 
 }

@@ -21,7 +21,6 @@ import tn.kindergarten.entities.Reclamation;
 import tn.kindergarten.entities.Role;
 import tn.kindergarten.entities.Status;
 import tn.kindergarten.entities.User;
-import tn.kindergarten.repository.KindergartenRepository;
 import tn.kindergarten.repository.ReclamationRepository;
 import tn.kindergarten.repository.UserRepository;
 
@@ -34,9 +33,6 @@ public class ReclamationService implements IReclamationService {
 	@Autowired
 	UserRepository userRep;
 	
-	@Autowired
-	KindergartenRepository kindRep;
-
 	@Value("${TWILIO_ACCOUNT_SID}")
     private String ACCOUNT_SID;
 
@@ -47,11 +43,10 @@ public class ReclamationService implements IReclamationService {
     private String FROM_NUMBER;
     
 	@Override
-	public void AddReclamation(int idUser, int idKinder,  String description, String date, String type, Status status, MultipartFile file) throws IllegalStateException, IOException {
+	public void addReclamation(int idUser, int idKinder,  String description, String date, String type, Status status, MultipartFile file) throws IllegalStateException, IOException {
 		Reclamation reclamation = new Reclamation();
 		String filename = file.getOriginalFilename();
 	    file.transferTo(new File("C:\\Users\\MONDHER\\Documents\\STS\\Kindergarten\\Kindergarten\\Images\\"+file.getOriginalFilename()));
-		reclamation.setDescription(description);
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	    try {
 			reclamation.setDateOfReclam(formatter.parse(date));
@@ -63,6 +58,7 @@ public class ReclamationService implements IReclamationService {
 		for(Child child : liste){
 			if(child.getKindergarten().getId()==idKinder){
 				Kindergarten K = child.getKindergarten();
+				reclamation.setDescription(description);
 				reclamation.setType(type);
 				reclamation.setStatus(status);
 				reclamation.setPhoto(filename);
@@ -76,37 +72,36 @@ public class ReclamationService implements IReclamationService {
 	}
 	
 	@Override
-	public void UpdateReclamation(int idUser, int reclamationId,String description, MultipartFile file) throws IllegalStateException, IOException {
+	public void updateReclamation(int idUser, int reclamationId,String description, MultipartFile file) throws IllegalStateException, IOException {
 		User user = userRep.findById(idUser).get();
-		if(user.getRole().equals(Role.Admin) || user.getRole().equals(Role.Director)){
-			System.out.println("Sorry You Can't Edit This Reclamation");
-		}else{
-			Reclamation rec = recRep.findById(reclamationId).orElse(null);
-		if(rec.getStatus().equals(Status.New))
-		{
-			rec.setDescription(description);
-			String filename = file.getOriginalFilename();
-		    file.transferTo(new File("C:\\Users\\MONDHER\\Documents\\STS\\Kindergarten\\Kindergarten\\Images\\"+file.getOriginalFilename()));
-			rec.setPhoto(filename);
-			recRep.save(rec);
-		}
-		else {
-			System.out.println("This reclamation was treated");
-		}
+		List<Reclamation> list = user.getList_reclams();
+		for(Reclamation rec : list){
+			if(rec.getId()==reclamationId){
+				if(rec.getStatus().equals(Status.New)){
+					rec.setDescription(description);
+					String filename = file.getOriginalFilename();
+				    file.transferTo(new File("C:\\Users\\MONDHER\\Documents\\STS\\Kindergarten\\Kindergarten\\Images\\"+file.getOriginalFilename()));
+					rec.setPhoto(filename);
+					recRep.save(rec);
+				}else
+					System.out.println("This Reclamation Was Treated");
+			}else
+				System.out.println("Sorry, This Reclamation Does Not Belong To You...");		
 		}
 	}
 	
 	@Override
-	public void DeleteReclamation(int idUser, int idRec) {
+	public void deleteReclamation(int idUser, int idRec) {
 		User user = userRep.findById(idUser).get();
-		if(user.getRole().equals(Role.Admin) || user.getRole().equals(Role.Director)){
-			System.out.println("Sorry You Can't Delete This Reclamation");
-		}else{
-			Reclamation reclamation = recRep.findById(idRec).orElse(null);
-			recRep.delete(reclamation);
+		List<Reclamation> list = user.getList_reclams();
+		for(Reclamation rec : list){
+			if(rec.getId()==idRec)
+				recRep.delete(rec);
+			else
+				System.out.println("Sorry, This Reclamation Does Not Belong To You...");
 		}
-	}
-
+    }
+	
 	@Override
 	public Reclamation getreclamationById(int reclamationId) {
         Reclamation rec = recRep.findById(reclamationId).orElse(null);
@@ -194,7 +189,7 @@ public class ReclamationService implements IReclamationService {
 	}
 
 	@Override
-	public List<Reclamation> CombinedSearchReclamation(String keyword) {
+	public List<Reclamation> combinedSearchReclamation(String keyword) {
 		return recRep.searchReclamationByType(keyword);
 	}
 	
@@ -205,21 +200,24 @@ public class ReclamationService implements IReclamationService {
 		if(date.after(dateDuJour )){
 			System.out.println("Please Check Your Data .. date could not be after Today");
 		}
-		return recRep.searchReclamationByDate(date);
+		return recRep.searchReclamationByDate(date);			
 	}
 
 	@Override
-	public void sendSMSforUser(int idUser, String body) {
+	public void NotifyUserBySMS(int idUser, int idRec) {
 		User u = userRep.findById(idUser).orElse(null);
-		if(!u.getRole().equals(Role.Admin)){
+		List<Reclamation> liste = u.getList_reclams();
+		for(Reclamation rec : liste){
+		if(rec.getId()==idRec && !u.getRole().equals(Role.Admin) && rec.getStatus().equals(Status.New)){
 			String number = u.getPhone();
 		    Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
-		    Message message = Message.creator(new PhoneNumber(number), new PhoneNumber(FROM_NUMBER), body).create();
+		    Message message = Message.creator(new PhoneNumber(number), new PhoneNumber(FROM_NUMBER), "Hello,We want To Notify You That It Has Been Received Your Reclamation").create();
 		}
 		else
-			System.out.println("This is Admin Account .. Please Check It Again");
+			System.out.println("You Can't send This Message!");
+	    }
 	}
-	
+
 }
 
 
