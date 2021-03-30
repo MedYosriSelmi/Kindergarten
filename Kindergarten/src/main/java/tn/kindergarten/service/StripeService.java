@@ -26,7 +26,7 @@ public class StripeService {
     @Autowired
 	BillRepository bills ;
     
-    public Charge charge(Bill chargeRequest ,int idBill  ) 
+    public Charge charge(Bill chargeRequest ,int idBill   ) 
       throws AuthenticationException, InvalidRequestException,
         APIConnectionException, CardException, APIException {
     	 String id = null;
@@ -37,8 +37,8 @@ public class StripeService {
         chargeParams.put("date", bill.getDateOfBill());
         chargeParams.put("description", bill.getDescription());
         chargeParams.put("Kindergarten Name ", bill.getKindergarten().getName());
-        chargeParams.put("User Name ", bill.getUser().getId());
-      
+        chargeParams.put("User Name ", bill.getUser().getFirstName()+" " + bill.getUser().getLastName());
+        chargeParams.put("customer",bill.getUser().getId());
         
          return Charge.create(chargeParams );
    }

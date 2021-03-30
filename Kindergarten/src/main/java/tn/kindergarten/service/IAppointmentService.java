@@ -22,7 +22,9 @@ public interface IAppointmentService {
 	public String getallappointment_status_1(int id_medecin);
 	public String accepte_appointment(int Doctor_id,int id_appointment);
 	public String refut_appointment(int Doctor_id,int id_appointment);
-    List<Appointment> searchappointment( String search);
-	List<Appointment> find_date_appointment_byDoctor(Date date,int doctor_id);
+	public String findParentAppointment(int parent_id);
+	List<Appointment> FindDateAppointmentDoctor( Date date,int doctor_id);
+	List<Appointment> SearchApp( String search);
+	List<Appointment> FindAppointmentsByparent(int parent_id);
 	
 }

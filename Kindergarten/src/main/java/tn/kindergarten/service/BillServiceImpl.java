@@ -34,7 +34,7 @@ public class BillServiceImpl implements IBillService {
 	public String ajout_Bill_To_User(int id_user , int id_kinder ,Bill bill) {
 		Kindergarten kinder = kinders.findById(id_kinder).orElse(null);
 		User UserId = users.findById(id_user).orElse(null);
-		if (kinder.getUserkinder().getRole().toString()!="Director") { return (" Que led directeurs peuvent ajouter des factures");	}
+		if (kinder.getUserkinder().getRole().toString()!="Director") { return (" Que les directeurs peuvent ajouter des factures");	}
 		if (UserId.getRole().toString()=="Parent") {
 	        	bill.setKindergarten(kinder);
 				bill.setUser(UserId);

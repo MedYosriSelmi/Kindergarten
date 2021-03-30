@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
-
-
 import tn.kindergarten.entities.Appointment;
 import tn.kindergarten.entities.User;
 import tn.kindergarten.repository.AppointmentRepository;
@@ -42,7 +40,7 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 			
 			
 	List<String> compteur= new ArrayList<String>();
-	for (Appointment appointment1 : appointments.find_date_appointment_byDoctor(appointment.getDate(),DoctorId.getId())) {
+	for (Appointment appointment1 : appointments.FindDateAppointmentDoctor(appointment.getDate(),DoctorId.getId())) {
 				compteur.add(appointment1.getBeginhour());
 			}
 				if(compteur.contains(appointment.getBeginhour()))
@@ -84,11 +82,11 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 		List<Integer> hour= new ArrayList<Integer>();
 		hour.add(8);hour.add(9); hour.add(10);hour.add(11);hour.add(12);hour.add(13);hour.add(14);hour.add(15);hour.add(16);
 		
-		for (Appointment app : appointments.find_date_appointment_byDoctor(d,Doctor.getId())) {
-			System.out.println("*************"+Integer.parseInt(app.getBeginhour()));
+		for (Appointment app : appointments.FindDateAppointmentDoctor(d,Doctor.getId())) {
+			System.out.println("---"+Integer.parseInt(app.getBeginhour()));
 			if( hour.contains(Integer.parseInt(app.getBeginhour()) ))
 			{
-				System.out.println("***************************");
+				System.out.println("-------");
 				hour.remove(hour.indexOf(Integer.parseInt(app.getBeginhour())) );
 		}
 }
@@ -129,23 +127,23 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 	public String update_appointment_By_User(int user_id , int appointment_id,Appointment appointment) {
 		User UserId = users.findById(user_id).orElse(null);
 		
-			 Appointment appointment_To_Update =appointments.findById(appointment_id).orElse(null);
-			if  ( appointment_To_Update == null) {
+			 Appointment Update =appointments.findById(appointment_id).orElse(null);
+			if  ( Update == null) {
 					return ("appointment n'existe pas");
 				
 				}
 			
-			 if (UserId.getId()==appointment_To_Update.getUser().getId()){
-			 if ( appointment_To_Update != null) {
+			 if (UserId.getId()==Update.getUser().getId()){
+			 if ( Update != null) {
 				
-				appointment_To_Update.setBeginhour(appointment.getBeginhour());
-				appointment_To_Update.setDate(appointment.getDate());
-				appointment_To_Update.setDescription(appointment.getDescription());
-				appointment_To_Update.setEndhour(Integer.toString(Integer.parseInt(appointment.getBeginhour()) +1));
-				appointment_To_Update.setStatus(0);
+				 Update.setBeginhour(appointment.getBeginhour());
+				 Update.setDate(appointment.getDate());
+				 Update.setDescription(appointment.getDescription());
+				 Update.setEndhour(Integer.toString(Integer.parseInt(appointment.getBeginhour()) +1));
+				 Update.setStatus(0);
 
 				
-				appointments.save(appointment_To_Update);
+				appointments.save(Update);
 				return ("appointment est bien modifiée ");
 			 }
 			
@@ -164,29 +162,29 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 	public String update_appointment_By_Doctor(int doctor_id , int appointment_id,Appointment appointment) {
 		User Doctor = users.findById(doctor_id).orElse(null);
 		
-		 Appointment appointment_To_Update =appointments.findById(appointment_id).orElse(null);
+		 Appointment Update =appointments.findById(appointment_id).orElse(null);
 	
-		if  ( appointment_To_Update == null) {
+		if  ( Update == null) {
 			return ("appointment n'existe pas");
 		
 		}
 	
-	 if (Doctor.getId()==appointment_To_Update.getDoctor().getId()){
-	 if ( appointment_To_Update != null) {
-			appointment_To_Update.setBeginhour(appointment.getBeginhour());
-			appointment_To_Update.setDate(appointment.getDate());
-			appointment_To_Update.setDescription(appointment.getDescription());
-			appointment_To_Update.setEndhour(Integer.toString(Integer.parseInt(appointment.getBeginhour()) +1));
-			appointment_To_Update.setStatus(1);
+	 if (Doctor.getId()==Update.getDoctor().getId()){
+	 if ( Update != null) {
+		 Update.setBeginhour(appointment.getBeginhour());
+		 Update.setDate(appointment.getDate());
+		 Update.setDescription(appointment.getDescription());
+			Update.setEndhour(Integer.toString(Integer.parseInt(appointment.getBeginhour()) +1));
+			Update.setStatus(1);
 			
 			
-			appointments.save(appointment_To_Update);
+			appointments.save(Update);
 			SimpleMailMessage mailMessage = new SimpleMailMessage();
-			mailMessage.setTo(appointment_To_Update.getUser().getEmail());
-			mailMessage.setSubject("!! appointment Information !!");
+			mailMessage.setTo(Update.getUser().getEmail());
+			mailMessage.setSubject(" update");
 			mailMessage.setFrom("kinder.garten0206@gmail.com");
-			mailMessage.setText(" Dear Mr "+appointment_To_Update.getUser().getFirstName()+"  "+appointment_To_Update.getUser().getLastName()+
-								"    your appointment is  updated ,  in  "+appointment_To_Update.getDate()+ "  at  "+appointment_To_Update.getBeginhour());
+			mailMessage.setText(" Dear Mr "+Update.getUser().getFirstName()+"  "+Update.getUser().getLastName()+
+								"    your appointment is  updated ,  in  "+Update.getDate()+ "  at  "+Update.getBeginhour());
 
 			emailSenderService.sendEmail(mailMessage);
 			
@@ -201,14 +199,7 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 		return null;
 		 
 }
-	public String searchappointment(int user_id,String search) {
 	
-		
-			List<Appointment> appointment_search =appointments.searchappointment(search);
-	
-				return (""+appointment_search);
-
-			}
 	
 	public String getallappointment_status_1(int id_medecin) {
 		User Doctor = users.findById(id_medecin).orElse(null);
@@ -242,7 +233,7 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 				
 				SimpleMailMessage mailMessage = new SimpleMailMessage();
 				mailMessage.setTo(appointment.getUser().getEmail());
-				mailMessage.setSubject("!! appointment Information !!");
+				mailMessage.setSubject("Accept ");
 				mailMessage.setFrom("kinder.garten0206@gmail.com");
 				mailMessage.setText(" Dear Mr "+appointment.getUser().getFirstName()+"  "+appointment.getUser().getLastName()+
 									"    your appointment is  accepted ,  in  "+appointment.getDate()+ "  at  "+appointment.getBeginhour());
@@ -276,7 +267,7 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 			
 				SimpleMailMessage mailMessage = new SimpleMailMessage();
 				mailMessage.setTo(appointment.getUser().getEmail());
-				mailMessage.setSubject("!! appointment Information !!");
+				mailMessage.setSubject("Refuse");
 				mailMessage.setFrom("kinder.garten0206@gmail.com");
 				mailMessage.setText(" Dear Mr "+appointment.getUser().getFirstName()+"  "+appointment.getUser().getLastName()+
 									"    your appointment is  not  accepted ,  in  "+appointment.getDate()+ "  at  "+appointment.getBeginhour());
@@ -297,25 +288,45 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 		  else {return (" tu n' as pas le droit  de refuser des rendez-vous pour d'autres personnes  ");}
 	}
 	
-	
+	public  String searchappointment(int user_id,String search) {
+		
+		
+		List<Appointment> searchapp =appointments.SearchApp(search);
+
+			return (""+searchapp);
+
+		}
+
+	@Override
+	public String findParentAppointment(int parent_id) {
+		List<Appointment> parent =appointments.FindAppointmentsByparent(parent_id);
+		
+		return (""+parent);
+
+	}
+
+	@Override
+	public List<Appointment> FindDateAppointmentDoctor(java.sql.Date date, int doctor_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Appointment> SearchApp(String search) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Appointment> FindAppointmentsByparent(int parent_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 		
 
 
 
-	@Override
-	public List<Appointment> searchappointment(String search) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	
-
-
-	@Override
-	public List<Appointment> find_date_appointment_byDoctor(java.sql.Date date, int doctor_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 

@@ -30,7 +30,7 @@ public List<Bill> getAllBillBykinder(@Param("kinderId")int kinderId);
 	@Query("select DISTINCT e from Bill e "
 			+ "join e.kindergarten k  "
 			+"join e.user u "
-			+ "where k.id=:kinderId AND u.id =:userId")
-public List<Bill> getAllBillForUserInKinder(@Param("kinderId")int kinderId  , @Param("userId")int userId);
+			+ "where u.id =:userId  AND  k.id=:kinderId")
+public List<Bill> getAllBillForUserInKinder(   @Param("userId")int userId , @Param("kinderId")int kinderId);
 }
 

@@ -34,7 +34,7 @@ public class ChargeController  {
     
     @PostMapping("/charge/{idBill}")
     
-    public String charge( Bill chargeRequest, Model model  ,@PathVariable("idBill")int idBill )
+    public String charge( Bill chargeRequest, Model model  ,@PathVariable("idBill")int idBill  )
       throws StripeException {
     	
          
@@ -43,6 +43,7 @@ public class ChargeController  {
         model.addAttribute("id", charge.getId());
         model.addAttribute("status", charge.getStatus());
         model.addAttribute("chargeId", charge.getId());
+       model.addAttribute("userId",charge.getCustomer());
         model.addAttribute("balance_transaction", charge.getBalanceTransaction());
         return "result";
     }

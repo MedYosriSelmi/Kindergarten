@@ -29,17 +29,18 @@ public class AppointmentRestControllerImpl {
 		return appointmentss.getAllAppointment();
 	}
 
+	@GetMapping("/lister_date_disponible_byDoctor/{id_user}/{id_doctor}/{date}")
+	public String lister_date_disponible_bygarden(@PathVariable("id_user") int id_user,@PathVariable("id_doctor") int id_doctor,@PathVariable("date") String date) throws ParseException,Exception {
+		
+		return appointmentss.lister_date_disponible_byDoctor(id_user,id_doctor,date);
+	}
 
 	@PostMapping("/ajouter_Doctor_rendezVous/{id_user}/{id_doctor}")
 	public String ajouter_Doctor_rendezVous(@PathVariable("id_user") int id_user,@PathVariable("id_doctor") int id_doctor,@RequestBody Appointment appointment) throws ParseException {
 		
 		return appointmentss.ajouter_Doctor_rendezVous(id_user,id_doctor,appointment);
 	}
-	@GetMapping("/lister_date_disponible_byDoctor/{id_user}/{id_doctor}/{date}")
-	public String lister_date_disponible_bygarden(@PathVariable("id_user") int id_user,@PathVariable("id_doctor") int id_doctor,@PathVariable("date") String date) throws ParseException,Exception {
-		
-		return appointmentss.lister_date_disponible_byDoctor(id_user,id_doctor,date);
-	}
+	
 	@DeleteMapping("/delete_appointment/{user_id}/{appointment_id}")
 	public String delete_appointment(@PathVariable("user_id") int user_id,@PathVariable("appointment_id") int appointment_id) throws ParseException {
 		
@@ -58,11 +59,7 @@ public class AppointmentRestControllerImpl {
 		
 		return appointmentss.update_appointment_By_Doctor( doctor_id ,appointment_id, appointment);
 	}
-	@GetMapping("/searchappointment/{user_id}/{search}")
-	public String searchappointment(@PathVariable("user_id") int user_id, @PathVariable String search) {
 
-		return appointmentss.searchappointment(user_id, search);
-	}
 	@GetMapping("/getallappointment_status_1/{id_doctor}")
 	public String getallappointment_status_1(@PathVariable("id_doctor") int id_doctor) throws ParseException {
 	
@@ -78,6 +75,16 @@ public class AppointmentRestControllerImpl {
 		
 		return appointmentss.refut_appointment(id_doctor,appointment_id);
 	
+	}
+	@GetMapping("/searchappointment/{user_id}/{search}")
+	public String searchappointment(@PathVariable("user_id") int user_id, @PathVariable String search) {
+
+		return appointmentss.searchappointment(user_id, search);
+	}
+	@GetMapping("/findParentAppointment/{user_id}")
+	public String findParentAppointment(@PathVariable("user_id") int user_id) {
+
+		return appointmentss.findParentAppointment(user_id);
 	}
 
 	
