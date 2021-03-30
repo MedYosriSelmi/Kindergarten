@@ -37,7 +37,7 @@ public class ActivityController  {
 	@Autowired
 	IUploadFileService uploadFileService;
 	
-	//http://localhost:8081/SpringMVC/servlet/ajout/1/2
+	//http://localhost:8081/SpringMVC/servlet/ajoutactivity/1/2
 		//attributes ,values,file
 		@PostMapping(value= "/ajoutactivity/{idkinder}/{iduser}")
 		

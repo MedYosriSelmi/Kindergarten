@@ -15,7 +15,6 @@ public interface IListParticipantsService {
 	
 	public List<Event> getAllEventByUser(int userId);
 	
-	public void interssé(int userId, int eventId);
 	
 	public int getNombreParticipantsJPQL();
 	

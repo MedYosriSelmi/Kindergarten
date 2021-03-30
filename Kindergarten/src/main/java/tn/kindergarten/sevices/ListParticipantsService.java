@@ -37,7 +37,7 @@ public class ListParticipantsService  implements IListParticipantsService{
 	public void Participer(int userId, int eventId) {
 		ListParticipants l = ListParticipantsrep.annuler(userId, eventId);
 		System.out.println(l);
-		if(l !=null){
+		if(l.getEtat().equals("participé") &&l!=null){
 			l.setEtat("annulé");
 			ListParticipantsrep.save(l);	
 			
@@ -53,10 +53,11 @@ public class ListParticipantsService  implements IListParticipantsService{
 		ListParticipants LP = new ListParticipants();
 		LP.setListparticipantsPK(LPPK);
 		LP.setEtat("participé");
+	
 		ListParticipantsrep.save(LP);
-		}
+		}}
 		
-	}
+	
 
 	@Override
 	public List<User> getAllUserByEvent(int eventId) {
@@ -68,23 +69,7 @@ public class ListParticipantsService  implements IListParticipantsService{
 		return ListParticipantsrep.getAllEventByUser(userId);
 	}
 
-	@Override
-	public void interssé(int userId, int eventId) {
-		ListParticipantsPK LPPK = new ListParticipantsPK();
-		LPPK.setIdUser(userId);
-		LPPK.setIdEvent(eventId);
-		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-		Date date = new Date(System.currentTimeMillis());
-		LPPK.setDateParticipation(date);
-	
-		
-		
-		ListParticipants LP = new ListParticipants();
-		LP.setListparticipantsPK(LPPK);
-		LP.setEtat("interssé");
-		ListParticipantsrep.save(LP);
-		
-	}
+
 
 	@Override
 	public int getNombreParticipantsJPQL() {

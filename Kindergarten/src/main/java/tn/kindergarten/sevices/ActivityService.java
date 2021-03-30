@@ -157,7 +157,7 @@ public class ActivityService implements IActivityService {
 	@Override
 	public List<Activity> paginationsorting(Integer pageNo, Integer pageSize, String sortBy) {
 		
-		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending());
 	 
 	        Page<Activity>pagedResult = Activityrep.findAll(paging);
 	         

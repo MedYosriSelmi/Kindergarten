@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+
 @Embeddable
 public class ListParticipantsPK   implements Serializable {
 
@@ -23,12 +24,21 @@ public class ListParticipantsPK   implements Serializable {
 	
 	private int idEvent;
 	
+	
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date DateParticipation;
+
 	
-	
+
+	public Date getDateParticipation() {
+		return DateParticipation;
+	}
+
+	public void setDateParticipation(Date dateParticipation) {
+		DateParticipation = dateParticipation;
+	}
 
 	public ListParticipantsPK() {
 		super();
@@ -81,22 +91,17 @@ public class ListParticipantsPK   implements Serializable {
 		this.idEvent = idEvent;
 	}
 
-	
-
-	
-	public Date getDateParticipation() {
-		return DateParticipation;
-	}
-
-	public void setDateParticipation(Date dateParticipation) {
-		DateParticipation = dateParticipation;
-	}
-
 	@Override
 	public String toString() {
-		return "ListParticipantsPK [idUser=" + idUser + ", idEvent=" + idEvent + ", DateParticipation="
-				+ DateParticipation + "]";
+		return "ListParticipantsPK [idUser=" + idUser + ", idEvent=" + idEvent + "]";
 	}
+
+	
+
+	
+
+
+	
 
 	
 	

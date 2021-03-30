@@ -1,12 +1,19 @@
 package tn.kindergarten.entities;
 
 import java.io.Serializable;
-
+import java.util.Date;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
@@ -21,18 +28,19 @@ public class ListParticipants implements Serializable {
 	
 	    @EmbeddedId
 	    private ListParticipantsPK listparticipantsPK;
-	
+	    @JsonIgnore
 		@ManyToOne
 	    @JoinColumn(name = "idEvent", referencedColumnName = "id", insertable=false, updatable=false)
 		private Event event;
-		
+		@JsonIgnore
 		@ManyToOne
 	    @JoinColumn(name = "idUser", referencedColumnName = "id", insertable=false, updatable=false)
 		private User user;
 		
 
 		private String Etat;
-
+		
+	
 		public String getEtat() {
 			return Etat;
 		}
@@ -51,12 +59,11 @@ public class ListParticipants implements Serializable {
 		}
 
 		
-		@Override
-		public String toString() {
-			return "ListParticipants [listparticipantsPK=" + listparticipantsPK + ", event=" + event + ", user=" + user
-					+ ", Etat=" + Etat + "]";
-		}
+	
 
+
+
+	
 
 		public ListParticipantsPK getListparticipantsPK() {
 			return listparticipantsPK;
@@ -102,8 +109,14 @@ public class ListParticipants implements Serializable {
 
 		
 
+
+		}
+
+
+		
+
 		
 
 	
 
-}
+

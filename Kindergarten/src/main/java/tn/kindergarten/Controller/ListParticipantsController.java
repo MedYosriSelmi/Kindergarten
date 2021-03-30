@@ -47,12 +47,7 @@ public class ListParticipantsController {
 		return ilistservice.getAllEventByUser(userId);
 	}
     
-    @PostMapping("/intersser/{iduser}/{idevent}")
-	@ResponseBody
-	public void interssé(@PathVariable("iduser") int userId, @PathVariable("idevent") int eventId) {
-		ilistservice.interssé(userId, eventId);;
-
-	}
+  
    
   //http://localhost:8081/SpringMVC/servlet/Nbreparticipant
 	@GetMapping("/Nbreparticipant")
