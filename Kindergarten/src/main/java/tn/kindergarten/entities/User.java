@@ -7,9 +7,11 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -67,13 +69,9 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<Publication> list_pub;
 	
-	
-	@OneToMany(mappedBy="user")
-	private List<Kindergarten> list_kindergartens;
-	
-	@OneToOne(mappedBy="userkinder")
-	private Kindergarten kindergarten;
-	
+	@ManyToMany(mappedBy="user",fetch=FetchType.EAGER )
+	private List<Kindergarten> kindergartens;
+		
 	@OneToMany(mappedBy="user")
 	private List<Event> list_events;
 	
@@ -287,31 +285,18 @@ public class User implements Serializable {
 
 
 
-	
 
 
-
-	public List<Kindergarten> getList_kindergartens() {
-		return list_kindergartens;
+	public List<Kindergarten> getKindergartens() {
+		return kindergartens;
 	}
 
 
 
-	public void setList_kindergartens(List<Kindergarten> list_kindergartens) {
-		this.list_kindergartens = list_kindergartens;
+	public void setKindergartens(List<Kindergarten> kindergartens) {
+		this.kindergartens = kindergartens;
 	}
 
-
-
-	public Kindergarten getKindergarten() {
-		return kindergarten;
-	}
-
-
-
-	public void setKindergarten(Kindergarten kindergarten) {
-		this.kindergarten = kindergarten;
-	}
 
 
 
@@ -399,17 +384,6 @@ public class User implements Serializable {
 
 
 
-	
-
-	
-
-	
-
-
-
-	
-	
-	
 	
 	
 	

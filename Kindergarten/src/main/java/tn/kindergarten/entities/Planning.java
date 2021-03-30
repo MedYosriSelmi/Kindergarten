@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Planning implements Serializable {
 
@@ -24,6 +26,7 @@ public class Planning implements Serializable {
 	private int id; 
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date StartTime;
 	
 	private String Departure;
@@ -32,6 +35,9 @@ public class Planning implements Serializable {
 	
 	@ManyToOne
 	private User user;
+
+	@ManyToOne
+	private Kindergarten kidergarten;
 	
 	public Planning () {
 		
@@ -75,6 +81,14 @@ public class Planning implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public Kindergarten getKidergarten() {
+		return kidergarten;
+	}
+
+	public void setKidergarten(Kindergarten kidergarten) {
+		this.kidergarten = kidergarten;
 	}
 	
 	

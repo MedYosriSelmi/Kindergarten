@@ -14,16 +14,16 @@ public class LikesPubPK implements Serializable {
 	
     private int idUser;
 		
-	private int idLikesPub;
+	private int idPub;
 
 	public LikesPubPK() {
 		super();
 	}
 
-	public LikesPubPK(int idUser, int idLikesPub) {
+	public LikesPubPK(int idUser, int idPub) {
 		super();
 		this.idUser = idUser;
-		this.idLikesPub = idLikesPub;
+		this.idPub = idPub;
 	}
 
 	public int getIdUser() {
@@ -34,19 +34,19 @@ public class LikesPubPK implements Serializable {
 		this.idUser = idUser;
 	}
 
-	public int getIdLikesPub() {
-		return idLikesPub;
+	public int getIdPub() {
+		return idPub;
 	}
 
-	public void setIdLikesPub(int idLikesPub) {
-		this.idLikesPub = idLikesPub;
+	public void setIdPub(int idPub) {
+		this.idPub = idPub;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + idLikesPub;
+		result = prime * result + idPub;
 		result = prime * result + idUser;
 		return result;
 	}
@@ -60,7 +60,7 @@ public class LikesPubPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		LikesPubPK other = (LikesPubPK) obj;
-		if (idLikesPub != other.idLikesPub)
+		if (idPub != other.idPub)
 			return false;
 		if (idUser != other.idUser)
 			return false;
@@ -69,9 +69,13 @@ public class LikesPubPK implements Serializable {
 
 	@Override
 	public String toString() {
-		return "LikesPubPK [idUser=" + idUser + ", idLikesPub=" + idLikesPub + "]";
+		return "LikesPubPK [idUser=" + idUser + ", idPub=" + idPub + "]";
 	}
+
 	
+	
+
+
 	
 
 }

@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -37,11 +37,13 @@ public class Kindergarten implements Serializable {
 	
 	private float PricePerChild;
 	
-	@ManyToOne
-	private User user;
+	@ManyToMany
+	//@NotNull
+	private List<User> user;
 	
-	@OneToOne
-	private User userkinder;
+
+	@OneToMany(mappedBy="kidergarten")
+	private List<Planning> list_plannings;
 	
 	@OneToMany(mappedBy="kindergarten")
 	private List<Event> list_events;
@@ -129,23 +131,15 @@ public class Kindergarten implements Serializable {
 	}
 
 
-	public User getUser() {
+	
+
+	public List<User> getUser() {
 		return user;
 	}
 
 
-	public void setUser(User user) {
+	public void setUser(List<User> user) {
 		this.user = user;
-	}
-
-
-	public User getUserkinder() {
-		return userkinder;
-	}
-
-
-	public void setUserkinder(User userkinder) {
-		this.userkinder = userkinder;
 	}
 
 
