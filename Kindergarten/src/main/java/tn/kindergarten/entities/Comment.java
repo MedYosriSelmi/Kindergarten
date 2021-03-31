@@ -3,14 +3,17 @@ package tn.kindergarten.entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Comment implements Serializable {
@@ -26,32 +29,36 @@ public class Comment implements Serializable {
 	
 	private String Description;
 	
-	@Temporal(TemporalType.DATE)
-	private Date DateDelivered;
+	@Column(updatable = false, nullable = false)
+    private Date creationDate;
 	
+    @Column(nullable = false)
+    private Date lastUpdateDate;
+	
+    @JsonBackReference
 	@ManyToOne 
 	private Subject sub;
 	
+    @JsonBackReference
 	@ManyToOne
 	private User user;
 	
+	@JsonBackReference
 	@OneToOne
 	private Comment comment;
 	
 	public Comment () {}
+	
+	@PrePersist
+    protected void onCreate() {
+        this.creationDate = new Date();
+        this.lastUpdateDate = new Date();
+    }
 
-	public Comment(int id, String description, Date dateDelivered) {
-		super();
-		this.id = id;
-		Description = description;
-		DateDelivered = dateDelivered;
-	}
-
-	public Comment(String description, Date dateDelivered) {
-		super();
-		Description = description;
-		DateDelivered = dateDelivered;
-	}
+    @PreUpdate
+    protected void onUpdate() {
+        this.lastUpdateDate = new Date();
+    }
 
 	public int getId() {
 		return id;
@@ -67,14 +74,6 @@ public class Comment implements Serializable {
 
 	public void setDescription(String description) {
 		Description = description;
-	}
-
-	public Date getDateDelivered() {
-		return DateDelivered;
-	}
-
-	public void setDateDelivered(Date dateDelivered) {
-		DateDelivered = dateDelivered;
 	}
 
 	public Subject getSub() {
@@ -101,17 +100,42 @@ public class Comment implements Serializable {
 		this.comment = comment;
 	}
 
-	public Comment(String description, Date dateDelivered, Subject sub, User user, Comment comment) {
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public Date getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Date lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public Comment(int id, String description, Date creationDate, Date lastUpdateDate, Subject sub, User user,
+			Comment comment) {
 		super();
+		this.id = id;
 		Description = description;
-		DateDelivered = dateDelivered;
+		this.creationDate = creationDate;
+		this.lastUpdateDate = lastUpdateDate;
 		this.sub = sub;
 		this.user = user;
 		this.comment = comment;
 	}
 
-	
-	
+	public Comment(String description, Subject sub, User user, Comment comment) {
+		super();
+		Description = description;
+		this.sub = sub;
+		this.user = user;
+		this.comment = comment;
+	}
+
 	
 	
 

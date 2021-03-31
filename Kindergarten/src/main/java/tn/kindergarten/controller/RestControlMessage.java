@@ -1,6 +1,7 @@
 package tn.kindergarten.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,11 +26,14 @@ public class RestControlMessage {
 	
 		// http://localhost:8081/SpringMVC/servlet/addMessage
 	
-		@PostMapping("/addMessage")
+		@PostMapping("/addMessage/{senderId}/{recieverId}")
 		@ResponseBody
-		public void addMessage(@RequestBody Message message){
+		public void addMessage(@RequestBody Message message, @PathVariable ("senderId") int senderId, @PathVariable ("recieverId") int recieverId){
 			
-			messageService.addMessage(message);
+			message.setDescription(messageService.verifyBadWords(message.getDescription()));
+			
+			
+			messageService.addMessage(message,senderId,recieverId);
 			
 		}
 		
@@ -59,10 +63,30 @@ public class RestControlMessage {
 	  	@ResponseBody
 	  	public ResponseEntity<String> updateMessage(@RequestBody Message message,@PathVariable("messageId")int messageId) {
 			
+			message.setDescription(messageService.verifyBadWords(message.getDescription()));
 			messageService.updateMessage(message,messageId);
 	  	    return new ResponseEntity<String>("Message updated successfully",HttpStatus.OK);
 	  		
 		}
+		
+
+		@GetMapping("/getDiscussion/{senderId}/{recieverId}")
+		@ResponseBody
+		public List<String> getDiscussion(@PathVariable("senderId") int senderId, @PathVariable("recieverId") int recieverId){
+			
+			return messageService.getDiscussion(senderId, recieverId);
+			
+		}
+		
+		@GetMapping("/searchStringInDiscussion/{string}/{senderId}/{recieverId}")
+		@ResponseBody
+		public  Set<String> searchStringInDiscussion(@PathVariable("string") String string, @PathVariable("senderId") int senderId, @PathVariable("recieverId") int recieverId){
+			
+			return messageService.searchStringInDiscussion(string, senderId, recieverId);
+			
+		}
+		
+		
 		
 
 }

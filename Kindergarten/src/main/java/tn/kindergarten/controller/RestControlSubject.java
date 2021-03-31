@@ -1,7 +1,9 @@
 package tn.kindergarten.controller;
 
-import java.util.Date;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import tn.kindergarten.entities.Subject;
 import tn.kindergarten.service.ISubjectService;
@@ -25,34 +29,28 @@ public class RestControlSubject {
 	ISubjectService subjectService;
 
 
-	// http://localhost:8081/SpringMVC/servlet/addSubject
-	// {"date_subject":"2021-03-04", "description":"first try", "name":"kindergartens", "photo":"link photo"}
+	// http://localhost:8081/SpringMVC/servlet/addSubjectWithImage
+	
 
-	@PostMapping("/addSubject")
+	@PostMapping("/addSubjectWithImage")
 	@ResponseBody
-	public void addSubject(@RequestBody Subject subject){
+	public void addSubjectWithImage(@RequestParam("description") String description, @RequestParam("name") String name, @RequestParam("file") MultipartFile file, @RequestParam ("isApproved") boolean isApproved, @RequestParam("userId") int userId){
 
-		subjectService.addSubject(subject);
-
-	}
-
-	// http://localhost:8081/SpringMVC/servlet/getSubjectById/1
-
-	@GetMapping(value = "getSubjectById/{idSub}")
-	@ResponseBody
-	public Subject getSubject(@PathVariable ("idSub") int subjectId){
-
-		return subjectService.getSubject(subjectId);
-
-	}
-
-	// http://localhost:8081/SpringMVC/servlet/getDateSubjectById/1
-
-	@GetMapping(value = "getDateSubjectById/{idSub}")
-	@ResponseBody
-	public Date getDateSubject(@PathVariable("idSub") int subjectId){
-
-		return subjectService.getDateSubject(subjectId);
+		Subject subject = new Subject();
+		String filename=subject.getId() + file.getOriginalFilename();
+		try {
+			file.transferTo(new File("C:\\Users\\Yassine\\git\\Kindergarten\\Kindergarten\\Images\\"+file.getOriginalFilename()));
+		} catch (IllegalStateException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		subject.setPhoto(filename);
+		subject.setDescription(description);
+		subject.setName(name);
+		subject.setApproved(isApproved);
+		subjectService.addSubject(subject, userId);
 
 	}
 
@@ -86,6 +84,34 @@ public class RestControlSubject {
   	    return new ResponseEntity<String>("Subject updated successfully",HttpStatus.OK);
   		
 	}
+	
+	// http://localhost:8081/SpringMVC/servlet/getTop5
+	
+	@GetMapping("/getTop5")
+	@ResponseBody
+	public Set<Subject> findtop5ByOrderByCreationDateDesc(){
+
+		return subjectService.findtop5ByOrderByCreationDateDesc();
+
+	}
+	
+	@PutMapping("/approveSubject/{subjectId}")
+	@ResponseBody
+	public void approveSubject(@PathVariable("subjectId") int subjectId){
+		
+		subjectService.approveSubject(subjectId);
+		
+	}
+	
+	
+	@GetMapping("/getSubjectsByUserId/{userId}")
+	@ResponseBody
+	public List<Subject> getSubjectsByUserId(@PathVariable("userId") int userId){
+		
+		return subjectService.getSubjectByUserId(userId);
+		
+	}
+	
 
 
 }

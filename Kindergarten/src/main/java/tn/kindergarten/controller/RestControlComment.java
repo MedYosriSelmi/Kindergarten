@@ -1,6 +1,6 @@
 package tn.kindergarten.controller;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,25 +24,42 @@ public class RestControlComment {
 	ICommentService commentService;
 	
 	
-	// http://localhost:8081/SpringMVC/servlet/addComment
+	// http://localhost:8081/SpringMVC/servlet/addParentComment/1/1
 	
-	@PostMapping("/addComment")
+	@PostMapping("/addParentComment/{subjectId}/{userId}")
 	@ResponseBody
-	public void addComment(@RequestBody Comment comment){
+	public void addParentComment(@RequestBody Comment comment, @PathVariable("subjectId") int subjectId, @PathVariable("userId") int userId){
 		
-		commentService.addComment(comment);
+		commentService.addParentComment(comment,subjectId, userId);
+		
+	}
+	
+	// http://localhost:8081/SpringMVC/servlet/addChildComment/1/1/1
+	
+	@PostMapping("/addChildComment/{subjectId}/{userId}/{parentId}")
+	@ResponseBody
+	public void addChildComment(@RequestBody Comment comment, @PathVariable("subjectId") int subjectId, @PathVariable("userId") int userId, @PathVariable("parentId") int parentId) {
+		
+		commentService.addChildComment(comment, subjectId, userId, parentId);
 		
 	}
 	
 	
-	// http://localhost:8081/SpringMVC/servlet/getAllComments
+	// http://localhost:8081/SpringMVC/servlet/getCommentBySubjectId/1
 
-	@GetMapping("/getAllComments")
+	@GetMapping("/getCommentBySubjectId/{subjectId}")
 	@ResponseBody
-	public List<Comment> getAllComments(){
+	public Set<String> getCommentBySubjectId(@PathVariable("subjectId") int subjectId){
 		
-		return commentService.getAllComments();
+		return commentService.getCommentBySubjectId(subjectId);
 		
+	}
+	
+	@GetMapping("/getCommentByParentId/{parentId}")
+	@ResponseBody
+	public Set<String> getCommentByParentId(@PathVariable("parentId")int parentId){
+		
+		return commentService.getCommentByParentId(parentId);
 	}
 	
 	// http://localhost:8081/SpringMVC/servlet/deleteComment/1

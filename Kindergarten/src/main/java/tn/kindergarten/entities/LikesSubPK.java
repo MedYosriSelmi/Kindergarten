@@ -14,16 +14,16 @@ public class LikesSubPK implements Serializable {
 	
 	 private int idUser;
 		
-     private int idLikesSub;
+     private int idSub;
 
 	public LikesSubPK() {
 		super();
 	}
 
-	public LikesSubPK(int idUser, int idLikesSub) {
+	public LikesSubPK(int idUser, int idSub) {
 		super();
 		this.idUser = idUser;
-		this.idLikesSub = idLikesSub;
+		this.idSub = idSub;
 	}
 
 	public int getIdUser() {
@@ -34,19 +34,19 @@ public class LikesSubPK implements Serializable {
 		this.idUser = idUser;
 	}
 
-	public int getIdLikesSub() {
-		return idLikesSub;
+	public int getIdSub() {
+		return idSub;
 	}
 
-	public void setIdLikesSub(int idLikesSub) {
-		this.idLikesSub = idLikesSub;
+	public void setIdSub(int idSub) {
+		this.idSub = idSub;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + idLikesSub;
+		result = prime * result + idSub;
 		result = prime * result + idUser;
 		return result;
 	}
@@ -60,7 +60,7 @@ public class LikesSubPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		LikesSubPK other = (LikesSubPK) obj;
-		if (idLikesSub != other.idLikesSub)
+		if (idSub != other.idSub)
 			return false;
 		if (idUser != other.idUser)
 			return false;
@@ -69,7 +69,7 @@ public class LikesSubPK implements Serializable {
 
 	@Override
 	public String toString() {
-		return "LikesSubPK [idUser=" + idUser + ", idLikesSub=" + idLikesSub + "]";
+		return "LikesSubPK [idUser=" + idUser + ", idSub=" + idSub + "]";
 	}
      
      
