@@ -11,6 +11,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Kindergarten implements Serializable {
 
@@ -19,6 +21,7 @@ public class Kindergarten implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
@@ -37,29 +40,36 @@ public class Kindergarten implements Serializable {
 	
 	private float PricePerChild;
 	
+	@JsonIgnore
 	@ManyToMany
 	//@NotNull
 	private List<User> user;
 	
-
+	@JsonIgnore
 	@OneToMany(mappedBy="kidergarten")
 	private List<Planning> list_plannings;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="kindergarten")
 	private List<Event> list_events;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="kindergarten")
 	private List<Child> list_child;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="kindergarten")
 	private List<Bill> list_fact;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="kindergarten")
 	private List<Activity> list_act;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="kindergarten")
 	private List<Reclamation> list_reclam;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="kindergarten")
 	private List<Publication> list_pub;
 	

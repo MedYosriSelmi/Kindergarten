@@ -1,5 +1,6 @@
 package tn.kindergarten.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,4 +58,9 @@ public class LikesPubService implements ILikesPubService {
 		return likesPubRepository.getAllPublicationIdsByUserId(userId);
 	}
 	
+	@Override
+	public List<LikesPub> searchLikesPubByDate(Date date){
+		return likesPubRepository.searchLikesPubByDate(date);
+		
+	}
 }

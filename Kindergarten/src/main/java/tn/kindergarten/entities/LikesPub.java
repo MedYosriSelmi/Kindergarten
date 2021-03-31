@@ -3,10 +3,12 @@ package tn.kindergarten.entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -30,7 +32,7 @@ public class LikesPub  implements Serializable {
     @JoinColumn(name = "idUser", referencedColumnName = "id", insertable=false, updatable=false)
 	private User user;
 
-	@Temporal(TemporalType.DATE)
+	@Column(updatable = false, nullable = false)
 	private Date DateLikePub;
 
 	public LikesPub() {
@@ -77,6 +79,10 @@ public class LikesPub  implements Serializable {
 		DateLikePub = dateLikePub;
 	}
 
+	@PrePersist
+	protected void onCreate() {
+		this.DateLikePub = new Date();
+	}
 	
 
 	

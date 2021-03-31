@@ -5,7 +5,12 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 import tn.kindergarten.entities.Planning;
 import tn.kindergarten.entities.Role;
@@ -13,6 +18,9 @@ import tn.kindergarten.entities.User;
 import tn.kindergarten.repository.KindergartenRepository;
 import tn.kindergarten.repository.PlanningRepository;
 import tn.kindergarten.repository.UserRepository;
+
+
+
 
 @Service
 public class PlanningService implements IPlanningService {
@@ -24,14 +32,15 @@ public class PlanningService implements IPlanningService {
 	UserRepository userRep;
 	@Autowired
 	KindergartenRepository kindergartenRep;
-	/*
-	@Override
-	public int AddPlanning(Planning plan) {
-		planRep.save(plan);
-		return plan.getId();
 
-	}
-	*/
+	@Value("${TWILIO_ACCOUNT_SID}")
+    private String ACCOUNT_SID;
+
+    @Value("${TWILIO_AUTH_TOKEN}")
+    private String AUTH_TOKEN;
+
+    @Value("${FROM_NUMBER}")
+    private String FROM_NUMBER;
 	
 	@Override
 	public void AddPlanning(Planning plan, int idUser, int idKind) {
@@ -41,7 +50,6 @@ public class PlanningService implements IPlanningService {
 		{
 			if ((usr.getId() == us.getId() ) && (usr.getRole().equals(Role.Driver)) && (usr.isActif()==true))
 			{
-				//plan.getKidergarten().getLocation();
 				planRep.save(plan);
 		}}
 	}
@@ -88,19 +96,20 @@ public class PlanningService implements IPlanningService {
 		nb = planRep.getTotalPlannings();
 		return nb;
 	}
-	/*
+	
 	@Override
-	public void sendSMS(int idUser, String body) {
+	public void sendSMSforUser(int idUser, String body) {
+		System.out.println("TESTng code");
 		User u = userRep.findById(idUser).orElse(null);
-		if(!u.getRole().equals(Role.Driver)){
+		if(u.getRole().equals(Role.Driver)){
 			String number = u.getPhone();
+			System.out.println("TES numberr");
 		    Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
-		    Message message = Message.creator(new PhoneNumber(number), new PhoneNumber(FROM_NUMBER), body).create();
+		    Message message = Message.creator(new PhoneNumber(number), new PhoneNumber(FROM_NUMBER), body ).create();
 		}
 		else
 			System.out.println("This is Admin Account .. Please Check It Again");
 	}
 	
-	*/
 
 }

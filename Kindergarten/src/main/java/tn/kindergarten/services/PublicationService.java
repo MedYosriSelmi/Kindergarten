@@ -23,46 +23,27 @@ public class PublicationService implements IPublicationService {
 	UserRepository userRep;
 	@Autowired
 	KindergartenRepository kindergartenRep;
-	 /*
+
+
 	@Override
-	public int AddPublication(Publication pub) {
-		pubRep.save(pub);
-		return pub.getId();
-	}*/
-	 
-	/*
-	@Override
-	public void AddPublication(String description, MultipartFile photo, int idUser, int idKind) throws IllegalStateException, IOException {
+	public int AddPublication(String description, MultipartFile photo, int idUser, int idKind) throws IllegalStateException, IOException {
 		Publication pub = new Publication();
 		User usr= userRep.findById(idUser).orElse(null);
 		List<User> listusr = kindergartenRep.findById(idKind).get().getUser();
+		System.out.println("TEST");
 		for (User us:listusr )
 		{
-			if (usr.getId() == us.getId())
-			{
-				pub.setDescription(description);
-				String filename = photo.getOriginalFilename();
-			    photo.transferTo(new File("C:\\Users\\amara\\git\\Kindergarten\\Kindergarten\\PicturesPublications\\"+photo.getOriginalFilename()));
-				pub.setPhoto(filename);
-				
-		}}
-	}
-	*/
-	@Override
-	public void AddPublication(int idUser, int idKind, String description, MultipartFile photo) throws IllegalStateException, IOException {
-		Publication pub = new Publication();
-		User usr= userRep.findById(idUser).orElse(null);
-		List<User> listusr = kindergartenRep.findById(idKind).get().getUser();
-		for (User us:listusr )
-		{
-			if (usr.getId() == us.getId())
+			if (usr.getId() == us.getId()) 
 			{
 				pub.setDescription(description);
 				String filename = photo.getOriginalFilename();
 			    photo.transferTo(new File("C:\\Users\\amara\\git\\Kindergarten\\Kindergarten\\PicturesKindergarten\\Publications\\"+photo.getOriginalFilename()));
 				pub.setPhoto(filename);
+				pubRep.save(pub);
+				System.out.println("This should be added");
 				
 		}}
+		return pub.getId();
 	}
 	
 	@Override
@@ -82,7 +63,7 @@ public class PublicationService implements IPublicationService {
 		Publication pub = pubRep.findById(pubId).orElse(null);
 		pub.setDescription(description);
 		String filename = photo.getOriginalFilename();
-	    photo.transferTo(new File("C:\\Users\\amara\\git\\Kindergarten\\Kindergarten\\PicturesPublications\\"+photo.getOriginalFilename()));
+	    photo.transferTo(new File("C:\\Users\\amara\\git\\Kindergarten\\Kindergarten\\PicturesKindergarten\\Publications\\"+photo.getOriginalFilename()));
 		pub.setPhoto(filename);
 		pubRep.save(pub);
 	}

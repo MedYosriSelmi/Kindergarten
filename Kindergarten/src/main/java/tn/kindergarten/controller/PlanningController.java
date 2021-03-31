@@ -73,5 +73,10 @@ public class PlanningController {
     public long getNbTotalPlannings(){
     	return planSer.getTotalPlannings();
     }
+	
+	@GetMapping("/sendSMS/{idUser}/{body}") 
+	public void sendSMSforUser(@PathVariable int idUser, @PathVariable String body) {
+		planSer.sendSMSforUser(idUser, body);
+	}
 
 }

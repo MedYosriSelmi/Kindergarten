@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,22 +25,9 @@ public class PublicationController {
 	@Autowired
 	PublicationService pubSer;
 
-	/*
-	@PostMapping("/addPublication") //DONE
-	public int AddPublication(@RequestBody Publication pub){
-		pubSer.AddPublication(pub);
-	    return pub.getId();
-	}*/
-	
-	/*
-	@RequestMapping("/addPublication/") //DONE
-	public void AddPublication(@RequestParam("description") String description, @RequestParam("photo") MultipartFile photo, @RequestParam("idUser") int idUser, @RequestParam("idKind") int idKind) throws IllegalStateException, IOException{
-		pubSer.AddPublication(description, photo, idUser, idKind);
-	}*/
-	
 	@RequestMapping("/addPublication/{idUser}/{idKind}") //DONE
-	public void AddPublication(@PathVariable int idUser, @PathVariable int idKind, @RequestParam("description") String description, @RequestParam("photo") MultipartFile photo) throws IllegalStateException, IOException{
-		pubSer.AddPublication(idUser, idKind, description, photo);
+	public void AddPublication(@RequestParam("description") String description, @RequestParam("photo") MultipartFile photo,@PathVariable int idUser, @PathVariable int idKind) throws IllegalStateException, IOException{
+		pubSer.AddPublication(description, photo, idUser, idKind);
 	}
 	@GetMapping("/getAllPublications") //DONE
 	public List<Publication> listPublications(){

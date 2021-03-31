@@ -15,7 +15,7 @@ public interface IPlanningService {
 	    public List <Planning> listPlannings();
 	    public List<Planning> searchPlanningByDate(Date date);
 		public long getTotalPlannings();
-		//public void sendSMS(int idUser, String body); 
+		public void sendSMSforUser(int idUser, String body); 
 		public void AddPlanning(Planning pub, int idUser, int idKind);
 
 }
