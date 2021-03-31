@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import tn.kindergarten.entities.Kindergarten;
@@ -14,12 +15,11 @@ public interface KindergartenRepository extends CrudRepository<Kindergarten, Int
 	
 	@Query(value="SELECT COUNT(*) FROM kindergarten", nativeQuery=true) 
 	long getTotalKindergartens();
-	/*
-	@Query("SELECT pricePerChild FROM Kindergarten p ORDER BY p.pricePerChild DESC")
-	List<Kindergarten> OrderPrice();*/
 
-	@Query(value="SELECT pricePerChild FROM Kindergarten p ORDER BY p.pricePerChild DESC", nativeQuery=true)
-	List<Kindergarten> findByPrice();
+	@Query("SELECT p FROM Kindergarten p ORDER BY p.PricePerChild ASC")
+	public List<Kindergarten> findByPrice();
+
 		
-
+	@Query("SELECT k FROM Kindergarten k WHERE k.PricePerChild =:price") 
+	List<Kindergarten> SearchByPrice(@Param("price") Float price); 
 }

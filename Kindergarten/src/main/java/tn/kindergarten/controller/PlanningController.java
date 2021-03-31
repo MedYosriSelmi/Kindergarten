@@ -27,11 +27,19 @@ public class PlanningController {
 	@Autowired
 	PlanningService planSer;
 
+	/*
 	@PostMapping("/addPlanning") //DONE
-	public int AddPublication(@RequestBody Planning plan){
+	public int AddPlanning(@RequestBody Planning plan){
 		planSer.AddPlanning(plan);
 	    return plan.getId();
 	}
+	*/
+	@PostMapping("/addPlanning/{idUser}/{idKind}") //DONE
+	public int AddPlanning(@RequestBody Planning plan, @PathVariable int idUser, @PathVariable int idKind){
+		planSer.AddPlanning(plan, idUser, idKind);
+	    return plan.getId();
+	}
+	
 	
 	@GetMapping("/getAllPlannings") //DONE
 	public List<Planning> listPlannings(){
@@ -54,11 +62,12 @@ public class PlanningController {
 	    return user.getId();
 	}
 	
-	/*
+
 	@GetMapping("/searchPlanningByDate/{date}")  //DONE
-    public List<Planning> searchReclamationByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date date){
+    public List<Planning> searchPlanningByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ") Date date){
 		return planSer.searchPlanningByDate(date);
-    }*/
+    }
+	
 	
 	@GetMapping("/getNbTotalPlannings") //DONE
     public long getNbTotalPlannings(){

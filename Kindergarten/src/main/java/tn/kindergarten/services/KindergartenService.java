@@ -1,7 +1,10 @@
 package tn.kindergarten.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +28,19 @@ public class KindergartenService implements IKindergartenService {
 	UserRepository userRep;
 	
 	@Override
-	public int AddKindergarten(Kindergarten kindergarten) {
-		kindergartenRep.save(kindergarten);
-		return kindergarten.getId();
+	public int AddKindergarten(String description, String email, String	location, String name, String phone, MultipartFile photo, Float pricePerChild) throws IllegalStateException, IOException {
+		Kindergarten kind = new Kindergarten();
+		kind.setDescription(description);
+		kind.setEmail(email);
+		kind.setLocation(location);
+		kind.setName(name);
+		kind.setPhone(phone);
+		String filename = photo.getOriginalFilename();
+	    photo.transferTo(new File("C:\\Users\\amara\\git\\Kindergarten\\Kindergarten\\PicturesKindergarten\\"+photo.getOriginalFilename()));
+		kind.setPhoto(filename);
+		kind.setPricePerChild(pricePerChild);
+	    kindergartenRep.save(kind);
+		return kind.getId();
 	}
 		
 	@Override
@@ -48,10 +61,12 @@ public class KindergartenService implements IKindergartenService {
 	}
 	
 	@Override
-	public void UpdateKindergarten(int KindergartenId, String description, String photo) {
+	public void UpdateKindergarten(int KindergartenId, String description, MultipartFile photo) throws IllegalStateException, IOException {
 		Kindergarten kindergarten = kindergartenRep.findById(KindergartenId).orElse(null);
 		kindergarten.setDescription(description);
-		kindergarten.setPhoto(photo);
+		String filename = photo.getOriginalFilename();
+	    photo.transferTo(new File("C:\\Users\\amara\\git\\Kindergarten\\Kindergarten\\PicturesKindergarten\\"+photo.getOriginalFilename()));
+	    kindergarten.setPhoto(filename);
 		kindergartenRep.save(kindergarten);
 	}
 
@@ -85,16 +100,18 @@ public class KindergartenService implements IKindergartenService {
 		nb = kindergartenRep.getTotalKindergartens();
 		return nb;
 	}
-	/*
-	@Override
-	public List<Kindergarten> OrderPrice(Float Price) {
-		
-		return (List<Kindergarten>) kindergartenRep.OrderPrice(Price);
-	}*/
+	
 	
 	@Override
-	public List<Kindergarten> findByPrice(){
-	return (List<Kindergarten>)	kindergartenRep.findByPrice();
+	public List<Kindergarten> SearchByPrice(Float price){
+	return kindergartenRep.SearchByPrice(price);
 	}
+
+	@Override
+	public List<Kindergarten> findByPrice(){
+	return kindergartenRep.findByPrice();
+	}
+
+
 
 }

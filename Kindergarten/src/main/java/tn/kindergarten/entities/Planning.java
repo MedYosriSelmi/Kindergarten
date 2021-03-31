@@ -1,7 +1,6 @@
 package tn.kindergarten.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.*;
+
+import com.sun.istack.NotNull;
 
 @Entity
 public class Planning implements Serializable {
@@ -25,9 +28,9 @@ public class Planning implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id; 
 	
+
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-	private Date StartTime;
+	private Date time;
 	
 	private String Departure;
 
@@ -41,14 +44,6 @@ public class Planning implements Serializable {
 	
 	public Planning () {
 		
-	}
-	
-	public Date getStartTime() {
-		return StartTime;
-	}
-
-	public void setStartTime(Date startTime) {
-		StartTime = startTime;
 	}
 
 	public String getDeparture() {

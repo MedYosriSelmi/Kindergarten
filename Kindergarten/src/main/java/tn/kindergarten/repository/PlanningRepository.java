@@ -14,10 +14,10 @@ import tn.kindergarten.entities.Planning;
 
 @Repository
 public interface PlanningRepository extends CrudRepository<Planning, Integer> {
-/*
-	@Query("SELECT p FROM Planning p WHERE p.startTime >= date('01/01/2015 1") 
-	List<Planning> searchPlanningByDate(@Param("date") Date date); 
-	*/
+
+	@Query("SELECT p FROM Planning p WHERE p.time =:date") 
+	public List<Planning> searchPlanningByDate(@Param("date") Date date); 
+
 	@Query(value="SELECT COUNT(*) FROM planning",nativeQuery=true) 
 	long getTotalPlannings();
 }

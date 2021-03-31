@@ -21,7 +21,7 @@ public class LikesPubController {
 	ILikesPubService likesPubService;
 	
 	
-	// http://localhost:8081/SpringMVC/servlet/addLikesSub/1/1
+	
 	@PostMapping("/addLikesPub/{userId}/{pubId}")
 	@ResponseBody
 	public void addLikesPub(@PathVariable ("userId") int userId, @PathVariable("pubId") int pubId){
