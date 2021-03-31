@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Appointment implements Serializable {
 
@@ -24,14 +27,21 @@ public class Appointment implements Serializable {
 	private int id;
 	
 	private String Description;
-	
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
-	private Date DateOfAppoint;
+	private Date date;
 	
-	private String Status;
+	private String Beginhour;
 	
+	private String Endhour;
+	
+	private int Status;
+	@JsonIgnore
 	@ManyToOne
 	private User user;
+	@JsonIgnore
+	@ManyToOne
+	private User doctor;
 	
 	public Appointment () {}
 
@@ -51,21 +61,7 @@ public class Appointment implements Serializable {
 		Description = description;
 	}
 
-	public Date getDateOfAppoint() {
-		return DateOfAppoint;
-	}
 
-	public void setDateOfAppoint(Date dateOfAppoint) {
-		DateOfAppoint = dateOfAppoint;
-	}
-
-	public String getStatus() {
-		return Status;
-	}
-
-	public void setStatus(String status) {
-		Status = status;
-	}
 
 	public User getUser() {
 		return user;
@@ -73,6 +69,48 @@ public class Appointment implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public User getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(User doctor) {
+		this.doctor = doctor;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+
+
+	public String getBeginhour() {
+		return Beginhour;
+	}
+
+	public void setBeginhour(String beginhour) {
+		Beginhour = beginhour;
+	}
+
+	public String getEndhour() {
+		return Endhour;
+	}
+
+	public void setEndhour(String endhour) {
+		Endhour = endhour;
+	}
+
+	public int getStatus() {
+		return Status;
+	}
+
+	public void setStatus(int status) {
+		Status = status;
 	}
 
 	

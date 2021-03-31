@@ -8,18 +8,24 @@ import java.util.List;
 import java.util.Set;
 
 
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.sun.istack.NotNull;
+
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -28,6 +34,8 @@ import javax.validation.constraints.Size;
 
 
 //import com.sun.istack.NotNull;
+
+
 
 
 
@@ -89,6 +97,10 @@ public class User implements Serializable {
 	
 	//all relations  in database
 	
+	
+	@ManyToMany(mappedBy="user")
+	private List<Kindergarten> kinder;
+	
 	@OneToMany(mappedBy="user")
 	private List<ListParticipants> list_participants;
 	
@@ -107,6 +119,11 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<Publication> list_pub;
 	
+	@OneToMany(mappedBy="user")
+	private List<Message> list_messages;
+	
+	
+
 	
 	@ManyToMany(mappedBy="user", fetch = FetchType.EAGER)
 	private List<Kindergarten> kindergarten;
@@ -125,6 +142,8 @@ public class User implements Serializable {
 	
 	@OneToMany(mappedBy="user")
 	private List<Appointment> list_appoint;
+	@OneToMany(mappedBy="doctor")
+	private List<Appointment> list_doctor;
 	
 	@OneToMany(mappedBy="user")
 	private List<Activity> list_act;
@@ -216,7 +235,30 @@ public class User implements Serializable {
 		this.list_pub = list_pub;
 	}
 
+
+
+
+	public List<Message> getList_messages() {
+		return list_messages;
+	}
+
+
+
+	public void setList_messages(List<Message> list_messages) {
+		this.list_messages = list_messages;
+	}
+
+
+
+	
+
+
+
+
+	
+
 	public List<Kindergarten> getKindergarten() {
+
 		return kindergarten;
 	}
 
@@ -285,9 +327,46 @@ public class User implements Serializable {
 		return DateOfBirth;
 	}
 
+
+	public List<Kindergarten> getKinder() {
+		return kinder;
+	}
+
+
+
+	public void setKinder(List<Kindergarten> kinder) {
+		this.kinder = kinder;
+	}
+
+
+
+	public List<Appointment> getList_doctor() {
+		return list_doctor;
+	}
+
+
+
+	public void setList_doctor(List<Appointment> list_doctor) {
+		this.list_doctor = list_doctor;
+	}
+
+
+
+
+
+
+	
+
+
+
+	
+
+	
+
 	public void setDateOfBirth(Date dateOfBirth) {
 		DateOfBirth = dateOfBirth;
 	}
+
 
 	public String getPhoto() {
 		return Photo;
