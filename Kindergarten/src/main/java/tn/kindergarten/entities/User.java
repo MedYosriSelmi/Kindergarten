@@ -62,6 +62,8 @@ public class User implements Serializable {
 	@Email
 	private String email;
 
+	private boolean active = false;
+	
 	@NotBlank
 	@Size(max = 120)
 	private String password;
@@ -87,6 +89,20 @@ public class User implements Serializable {
 	}
 
 	
+	
+	
+	public User(@NotBlank @Size(max = 20) String username, @NotBlank @Size(max = 50) @Email String email,
+			boolean active, @NotBlank @Size(max = 120) String password) {
+		super();
+		this.username = username;
+		this.email = email;
+		this.active = active;
+		this.password = password;
+	}
+
+
+
+
 	//all relations  in database
 	
 	@OneToMany(mappedBy="user")
@@ -303,6 +319,14 @@ public class User implements Serializable {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 	
 	

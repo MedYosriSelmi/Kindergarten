@@ -3,6 +3,8 @@ package tn.kindergarten.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	Boolean existsByEmail(String email);
 	
 	Optional<User> findByEmail(String email);
+	
+	@Transactional
+    @Modifying
+    @Query("UPDATE User a " +
+            "SET a.active = TRUE WHERE a.username = ?1")
+    public int activeUser(String username);
 	
 	
 }

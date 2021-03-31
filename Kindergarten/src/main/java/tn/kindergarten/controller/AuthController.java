@@ -48,8 +48,8 @@ public class AuthController {
 	@Autowired
 	RoleRepository roleRepository;
 
-	@Autowired
-	PasswordEncoder encoder;
+	//@Autowired
+	//PasswordEncoder encoder;
 
 	@Autowired
 	JwtUtils jwtUtils;
@@ -75,58 +75,73 @@ public class AuthController {
 												 roles));
 	}
 
-	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Error: Username is already taken!"));
-		}
-
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Error: Email is already in use!"));
-		}
-
-		// Create new user's account
-		User user = new User(signUpRequest.getUsername(), 
-							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
-
-		Set<String> strRoles = signUpRequest.getRole();
-		Set<Role> roles = new HashSet<>();
-
-		if (strRoles == null) {
-			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(userRole);
-		} else {
-			strRoles.forEach(role -> {
-				switch (role) {
-				case "admin":
-					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(adminRole);
-
-					break;
-				case "dir":
-					Role modRole = roleRepository.findByName(ERole.ROLE_DIRECTOR)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(modRole);
-
-					break;
-				default:
-					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(userRole);
-				}
-			});
-		}
-
-		user.setRoles(roles);
-		userRepository.save(user);
-
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-	}
+//	@PostMapping("/signup")
+//	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+//		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+//			return ResponseEntity
+//					.badRequest()
+//					.body(new MessageResponse("Error: Username is already taken!"));
+//		}
+//
+//		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+//			return ResponseEntity
+//					.badRequest()
+//					.body(new MessageResponse("Error: Email is already in use!"));
+//		}
+//
+//		// Create new user's account
+//		User user = new User(signUpRequest.getUsername(), 
+//							 signUpRequest.getEmail(),
+//							 encoder.encode(signUpRequest.getPassword()));
+//
+//		Set<String> strRoles = signUpRequest.getRole();
+//		Set<Role> roles = new HashSet<>();
+//
+//		if (strRoles == null) {
+//			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+//					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//			roles.add(userRole);
+//		} else {
+//			strRoles.forEach(role -> {
+//				switch (role) {
+//				case "admin":
+//					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+//							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//					roles.add(adminRole);
+//
+//					break;
+//				case "dir":
+//					Role modRole = roleRepository.findByName(ERole.ROLE_DIRECTOR)
+//							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//					roles.add(modRole);
+//                	break;
+//				case "manager":
+//					Role managerRole = roleRepository.findByName(ERole.ROLE_CHILDCAREMANAGER)
+//							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//					roles.add(managerRole);
+//
+//					break;	
+//				case "doctor":
+//					Role medecinRole = roleRepository.findByName(ERole.ROLE_DOCTOR)
+//							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//					roles.add(medecinRole);
+//					break;	
+//				case "driver":
+//					Role driverRole = roleRepository.findByName(ERole.ROLE_DRIVER)
+//							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//					roles.add(driverRole);
+//					break;		
+//				default:
+//					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+//							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//					roles.add(userRole);
+//				}
+//			});
+//		}
+//
+//		user.setRoles(roles);
+//		userRepository.save(user);
+//
+//		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+//	}
 }

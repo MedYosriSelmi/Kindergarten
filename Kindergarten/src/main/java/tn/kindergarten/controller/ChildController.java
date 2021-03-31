@@ -5,19 +5,24 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import tn.kindergarten.entities.Child;
 import tn.kindergarten.services.IChildService;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@RequestMapping("/api/auth")
 public class ChildController {
 
 	@Autowired
@@ -25,13 +30,14 @@ public class ChildController {
 	
 	@PostMapping("/ajouterChild")
 	@ResponseBody
+	//@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public Child ajouterChild(@RequestBody Child child)
 	{
 		childserv.ajouterChild(child);
 		return child;
 	}
 	
-	@DeleteMapping("/deleteChildById/{idChild}") 
+	@DeleteMapping("/deleteChildById/{idChild}") //done
 	@ResponseBody 
 	public void deleteEmployeById(@PathVariable("idChild")int childId) {
 		childserv.deleteChildById(childId);	
@@ -39,16 +45,16 @@ public class ChildController {
 	
 	@PutMapping("/updateChild/{idChild}")
   	@ResponseBody
-  	public ResponseEntity<String> updateAppointment(
+  	public ResponseEntity<String> updateChild(
   		@RequestBody Child child,@PathVariable("idCHild")int idChild) {
 		childserv.updateChild(child,idChild);
   	    return new ResponseEntity<String>("Child updated successfully",HttpStatus.OK);
   		
 	}
 	
-	@GetMapping(value="/Children")
+	@GetMapping(value="/Children")//done
 	@ResponseBody
-	public List<Child> getAllAppointment() {
+	public List<Child> getAllChild() {
 		return childserv.getAllChild();
 	}
 	
