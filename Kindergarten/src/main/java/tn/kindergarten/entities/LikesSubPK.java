@@ -12,42 +12,42 @@ public class LikesSubPK implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	 private int idUser;
+	 private Long idUser;
 		
-     private int idLikesSub;
+	 private int idSub;
 
 	public LikesSubPK() {
 		super();
 	}
 
-	public LikesSubPK(int idUser, int idLikesSub) {
+	public LikesSubPK(Long idUser, int idSub) {
 		super();
 		this.idUser = idUser;
-		this.idLikesSub = idLikesSub;
+		this.idSub = idSub;
 	}
 
-	public int getIdUser() {
+	public Long getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(int idUser) {
+	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
 	}
 
-	public int getIdLikesSub() {
-		return idLikesSub;
+	public int getIdSub() {
+		return idSub;
 	}
 
-	public void setIdLikesSub(int idLikesSub) {
-		this.idLikesSub = idLikesSub;
+	public void setIdSub(int idSub) {
+		this.idSub = idSub;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + idLikesSub;
-		result = prime * result + idUser;
+		result = prime * result + idSub;
+		result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
 		return result;
 	}
 
@@ -60,18 +60,24 @@ public class LikesSubPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		LikesSubPK other = (LikesSubPK) obj;
-		if (idLikesSub != other.idLikesSub)
+		if (idSub != other.idSub)
 			return false;
-		if (idUser != other.idUser)
+		if (idUser == null) {
+			if (other.idUser != null)
+				return false;
+		} else if (!idUser.equals(other.idUser))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "LikesSubPK [idUser=" + idUser + ", idLikesSub=" + idLikesSub + "]";
+		return "LikesSubPK [idUser=" + idUser + ", idSub=" + idSub + "]";
 	}
-     
+
+	
+
+	
      
  
 	

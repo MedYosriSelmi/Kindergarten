@@ -12,42 +12,42 @@ public class LikesPubPK implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-    private int idUser;
+    private Long idUser;
 		
-	private int idLikesPub;
+	private int idPub;
 
 	public LikesPubPK() {
 		super();
 	}
 
-	public LikesPubPK(int idUser, int idLikesPub) {
+	public LikesPubPK(Long idUser, int idPub) {
 		super();
 		this.idUser = idUser;
-		this.idLikesPub = idLikesPub;
+		this.idPub = idPub;
 	}
 
-	public int getIdUser() {
+	public Long getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(int idUser) {
+	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
 	}
 
-	public int getIdLikesPub() {
-		return idLikesPub;
+	public int getIdPub() {
+		return idPub;
 	}
 
-	public void setIdLikesPub(int idLikesPub) {
-		this.idLikesPub = idLikesPub;
+	public void setIdPub(int idPub) {
+		this.idPub = idPub;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + idLikesPub;
-		result = prime * result + idUser;
+		result = prime * result + idPub;
+		result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
 		return result;
 	}
 
@@ -60,17 +60,25 @@ public class LikesPubPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		LikesPubPK other = (LikesPubPK) obj;
-		if (idLikesPub != other.idLikesPub)
+		if (idPub != other.idPub)
 			return false;
-		if (idUser != other.idUser)
+		if (idUser == null) {
+			if (other.idUser != null)
+				return false;
+		} else if (!idUser.equals(other.idUser))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "LikesPubPK [idUser=" + idUser + ", idLikesPub=" + idLikesPub + "]";
+		return "LikesPubPK [idUser=" + idUser + ", idPub=" + idPub + "]";
 	}
+
+	
+	
+
+	
 	
 	
 

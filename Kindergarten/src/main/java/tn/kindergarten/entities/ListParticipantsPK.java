@@ -12,7 +12,7 @@ public class ListParticipantsPK   implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-    private int idUser;
+    private Long idUser;
 	
 	private int idEvent;
 
@@ -20,42 +20,19 @@ public class ListParticipantsPK   implements Serializable {
 		super();
 	}
 
-	public ListParticipantsPK(int idUser, int idEvent) {
+	public ListParticipantsPK(Long idUser, int idEvent) {
 		super();
 		this.idUser = idUser;
 		this.idEvent = idEvent;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + idEvent;
-		result = prime * result + idUser;
-		return result;
-	}
+	
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ListParticipantsPK other = (ListParticipantsPK) obj;
-		if (idEvent != other.idEvent)
-			return false;
-		if (idUser != other.idUser)
-			return false;
-		return true;
-	}
-
-	public int getIdUser() {
+	public Long getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(int idUser) {
+	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
 	}
 
@@ -67,10 +44,7 @@ public class ListParticipantsPK   implements Serializable {
 		this.idEvent = idEvent;
 	}
 
-	@Override
-	public String toString() {
-		return "ListParticipantsPK [idUser=" + idUser + ", idEvent=" + idEvent + "]";
-	}
+	
 	
 	
 

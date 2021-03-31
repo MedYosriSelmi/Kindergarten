@@ -7,9 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
 
 @Entity
 public class Kindergarten implements Serializable {
@@ -37,11 +37,10 @@ public class Kindergarten implements Serializable {
 	
 	private float PricePerChild;
 	
-	@ManyToOne
-	private User user;
+	@ManyToMany
+	private List<User> user;
 	
-	@OneToOne
-	private User userkinder;
+	
 	
 	@OneToMany(mappedBy="kindergarten")
 	private List<Event> list_events;
@@ -128,27 +127,6 @@ public class Kindergarten implements Serializable {
 		PricePerChild = pricePerChild;
 	}
 
-
-	public User getUser() {
-		return user;
-	}
-
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-
-	public User getUserkinder() {
-		return userkinder;
-	}
-
-
-	public void setUserkinder(User userkinder) {
-		this.userkinder = userkinder;
-	}
-
-
 	public List<Event> getList_events() {
 		return list_events;
 	}
@@ -196,6 +174,26 @@ public class Kindergarten implements Serializable {
 
 	public void setList_reclam(List<Reclamation> list_reclam) {
 		this.list_reclam = list_reclam;
+	}
+
+
+	public List<User> getUser() {
+		return user;
+	}
+
+
+	public void setUser(List<User> user) {
+		this.user = user;
+	}
+
+
+	public List<Publication> getList_pub() {
+		return list_pub;
+	}
+
+
+	public void setList_pub(List<Publication> list_pub) {
+		this.list_pub = list_pub;
 	}
 
 
