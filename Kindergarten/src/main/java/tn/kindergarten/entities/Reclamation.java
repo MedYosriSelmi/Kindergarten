@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +32,8 @@ public class Reclamation implements Serializable{
 	
 	private String Type;
 	
-	private String Status;
+	@Enumerated(EnumType.STRING)
+	private Status Status;
 	
 	private String Photo;
 	
@@ -75,14 +78,7 @@ public class Reclamation implements Serializable{
 		Type = type;
 	}
 
-	public String getStatus() {
-		return Status;
-	}
-
-	public void setStatus(String status) {
-		Status = status;
-	}
-
+	
 	public String getPhoto() {
 		return Photo;
 	}
@@ -99,5 +95,22 @@ public class Reclamation implements Serializable{
 		this.user = user;
 	}
 
+	public Status getStatus() {
+		return Status;
+	}
+
+	public void setStatus(Status status) {
+		Status = status;
+	}
+
+	public Kindergarten getKindergarten() {
+		return kindergarten;
+	}
+
+	public void setKindergarten(Kindergarten kindergarten) {
+		this.kindergarten = kindergarten;
+	}
+
+	
 
 }

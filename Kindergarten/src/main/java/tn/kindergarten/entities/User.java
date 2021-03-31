@@ -1,26 +1,54 @@
 package tn.kindergarten.entities;
 
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import com.sun.istack.NotNull;
+
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+
+
+//import com.sun.istack.NotNull;
+
+
+
+
+
+
 
 
 
 @Entity
+@Table(	name = "users",
+		uniqueConstraints = { 
+			@UniqueConstraint(columnNames = "username"),
+			@UniqueConstraint(columnNames = "email") 
+		})
 public class User implements Serializable {
 
 	
@@ -31,26 +59,43 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	
-	private String FirstName;
+	@NotBlank
+	@Size(max = 20)
+	private String username;
+
+	@NotBlank
+	@Size(max = 50)
+	@Email
+	private String email;
+
+	@NotBlank
+	@Size(max = 120)
+	private String password;
 	
-	private String LastName;
-	@NotNull
-	private String Email;
-	
-	private String Password;
-	
-	private String Phone;
-	
-	private boolean isActif;
 	
 	@Temporal(TemporalType.DATE)
 	private Date DateOfBirth;
-	
 	private String Photo;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(	name = "user_roles", 
+				joinColumns = @JoinColumn(name = "user_id"), 
+				inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
+
+	public User() {
+	}
+
+	public User(String username, String email, String password) {
+		this.username = username;
+		this.email = email;
+		this.password = password;
+	}
+
 	
-	private String Adress;
+	//all relations  in database
 	
 	
 	@ManyToMany(mappedBy="user")
@@ -78,9 +123,10 @@ public class User implements Serializable {
 	private List<Message> list_messages;
 	
 	
+
 	
-	@OneToOne(mappedBy="userkinder")
-	private Kindergarten kindergarten;
+	@ManyToMany(mappedBy="user", fetch = FetchType.EAGER)
+	private List<Kindergarten> kindergarten;
 	
 	@OneToMany(mappedBy="user")
 	private List<Event> list_events;
@@ -104,196 +150,91 @@ public class User implements Serializable {
 	
 	@OneToMany(mappedBy="user")
 	private List<Planning> list_plan;
-	
-	@Enumerated(EnumType.STRING)
-	private Role role;
-	
-	public User () 
-	{
-		
-	}
 
-
-
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return FirstName;
-	}
+	
 
-	public void setFirstName(String firstName) {
-		FirstName = firstName;
-	}
-
-	public String getLastName() {
-		return LastName;
-	}
-
-	public void setLastName(String lastName) {
-		LastName = lastName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getEmail() {
-		return Email;
+		return email;
 	}
 
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
 
-	public boolean isActif() {
-		return isActif;
-	}
-
-	public void setActif(boolean isActif) {
-		this.isActif = isActif;
-	}
-
-	public Date getDateOfBirth() {
-		return DateOfBirth;
-	}
-
-	public void setDateOfBirth(Date dateOfBirth) {
-		DateOfBirth = dateOfBirth;
-	}
-
-
-
-	public String getPassword() {
-		return Password;
-	}
-
-
+	
 
 	public void setPassword(String password) {
-		Password = password;
+		this.password = password;
 	}
 
-
-
-	public String getPhone() {
-		return Phone;
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
-
-
-	public void setPhone(String phone) {
-		Phone = phone;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
-
-
-
-	public String getPhoto() {
-		return Photo;
-	}
-
-
-
-	public void setPhoto(String photo) {
-		Photo = photo;
-	}
-
-
-
-	public String getAdress() {
-		return Adress;
-	}
-
-
-
-	public void setAdress(String adress) {
-		Adress = adress;
-	}
-
-
-
-	public Role getRole() {
-		return role;
-	}
-
-
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
-
 
 	public List<ListParticipants> getList_participants() {
 		return list_participants;
 	}
 
-
-
 	public void setList_participants(List<ListParticipants> list_participants) {
 		this.list_participants = list_participants;
 	}
-
-
 
 	public List<LikesSub> getLikes_subs() {
 		return likes_subs;
 	}
 
-
-
 	public void setLikes_subs(List<LikesSub> likes_subs) {
 		this.likes_subs = likes_subs;
 	}
-
-
 
 	public List<LikesPub> getLikes_pubs() {
 		return likes_pubs;
 	}
 
-
-
 	public void setLikes_pubs(List<LikesPub> likes_pubs) {
 		this.likes_pubs = likes_pubs;
 	}
-
-
 
 	public List<Subject> getList_subject() {
 		return list_subject;
 	}
 
-
-
 	public void setList_subject(List<Subject> list_subject) {
 		this.list_subject = list_subject;
 	}
-
-
 
 	public List<Reclamation> getList_reclams() {
 		return list_reclams;
 	}
 
-
-
 	public void setList_reclams(List<Reclamation> list_reclams) {
 		this.list_reclams = list_reclams;
 	}
-
-
 
 	public List<Publication> getList_pub() {
 		return list_pub;
 	}
 
-
-
 	public void setList_pub(List<Publication> list_pub) {
 		this.list_pub = list_pub;
 	}
+
 
 
 
@@ -314,100 +255,77 @@ public class User implements Serializable {
 
 
 
-	public Kindergarten getKindergarten() {
+	
+
+	public List<Kindergarten> getKindergarten() {
+
 		return kindergarten;
 	}
 
-
-
-	public void setKindergarten(Kindergarten kindergarten) {
+	public void setKindergarten(List<Kindergarten> kindergarten) {
 		this.kindergarten = kindergarten;
 	}
-
-
 
 	public List<Event> getList_events() {
 		return list_events;
 	}
 
-
-
 	public void setList_events(List<Event> list_events) {
 		this.list_events = list_events;
 	}
-
-
 
 	public List<Comment> getComments() {
 		return comments;
 	}
 
-
-
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-
-
 
 	public List<Child> getList_child() {
 		return list_child;
 	}
 
-
-
 	public void setList_child(List<Child> list_child) {
 		this.list_child = list_child;
 	}
-
-
 
 	public List<Bill> getList_fact() {
 		return list_fact;
 	}
 
-
-
 	public void setList_fact(List<Bill> list_fact) {
 		this.list_fact = list_fact;
 	}
-
-
 
 	public List<Appointment> getList_appoint() {
 		return list_appoint;
 	}
 
-
-
 	public void setList_appoint(List<Appointment> list_appoint) {
 		this.list_appoint = list_appoint;
 	}
-
-
 
 	public List<Activity> getList_act() {
 		return list_act;
 	}
 
-
-
 	public void setList_act(List<Activity> list_act) {
 		this.list_act = list_act;
 	}
-
-
 
 	public List<Planning> getList_plan() {
 		return list_plan;
 	}
 
-
-
 	public void setList_plan(List<Planning> list_plan) {
 		this.list_plan = list_plan;
 	}
 
+
+	public Date getDateOfBirth() {
+		return DateOfBirth;
+	}
 
 
 	public List<Kindergarten> getKinder() {
@@ -445,14 +363,33 @@ public class User implements Serializable {
 
 	
 
+	public void setDateOfBirth(Date dateOfBirth) {
+		DateOfBirth = dateOfBirth;
+	}
+
+
+	public String getPhoto() {
+		return Photo;
+	}
+
+	public void setPhoto(String photo) {
+		Photo = photo;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+	
+	
+
+    
+
 	
 
 
-
-	
-	
-	
-	
-	
 	
 }
