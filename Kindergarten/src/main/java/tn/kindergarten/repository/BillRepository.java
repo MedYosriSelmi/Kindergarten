@@ -2,6 +2,9 @@ package tn.kindergarten.repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -30,7 +33,11 @@ public List<Bill> getAllBillBykinder(@Param("kinderId")int kinderId);
 	@Query("select DISTINCT e from Bill e "
 			+ "join e.kindergarten k  "
 			+"join e.user u "
-			+ "where u.id =:userId  AND  k.id=:kinderId")
-public List<Bill> getAllBillForUserInKinder(   @Param("userId")int userId , @Param("kinderId")int kinderId);
+			+ "where  u.id =:userId   AND  k.id=:kinderId  ")
+public List<Bill> getAllBillForUserInKinder(   @Param("userId")int userId , @Param("kinderId")int kinderId  );
+	@Modifying
+	@Transactional
+	@Query("UPDATE Bill set TotalPrice=:amount where user=:user_id")
+	public void setFacture_PRICE(@Param("user_id") int user_id ,@Param("amount") float amount);
 }
 

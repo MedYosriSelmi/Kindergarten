@@ -201,7 +201,7 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 }
 	
 	
-	public String getallappointment_status_1(int id_medecin) {
+	public List<Appointment> getallappointment_status_1(int id_medecin) {
 		User Doctor = users.findById(id_medecin).orElse(null);
 		
 		
@@ -215,7 +215,7 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 				appointment.add(app);
 			}
 		}
-		return ("" +appointment);
+		return appointment ;
 		}
 	public String accepte_appointment(int Doctor_id,int id_appointment) {
 		
@@ -288,20 +288,20 @@ public  class AppointmentServiceImpl implements IAppointmentService {
 		  else {return (" tu n' as pas le droit  de refuser des rendez-vous pour d'autres personnes  ");}
 	}
 	
-	public  String searchappointment(int user_id,String search) {
+	public List<Appointment> searchappointment(int user_id,String search) {
 		
 		
-		List<Appointment> searchapp =appointments.SearchApp(search);
+	return 	appointments.SearchApp(search);
 
-			return (""+searchapp);
+			
 
 		}
 
 	@Override
-	public String findParentAppointment(int parent_id) {
-		List<Appointment> parent =appointments.FindAppointmentsByparent(parent_id);
+	public  List<Appointment> findParentAppointment(int parent_id) {
+		return 	appointments.FindAppointmentsByparent(parent_id);
 		
-		return (""+parent);
+		
 
 	}
 

@@ -13,6 +13,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Bill implements Serializable {
@@ -33,14 +34,18 @@ public class Bill implements Serializable {
 	private Date DateOfBill;
 	
 	private float TotalPrice;
+	
+
+
 @Transient
    private String  usnm ;
+@JsonIgnore
 	@ManyToOne
 	private User user;
 	@Transient
 	   private String  kindername ;
 
-	
+	@JsonIgnore
 	@ManyToOne
 	private Kindergarten kindergarten;
 	
@@ -119,6 +124,13 @@ public class Bill implements Serializable {
 		DateOfBill = dateOfBill;
 		TotalPrice = totalPrice;
 	}
+	
+	
+
+	
+
+
+
 
 	public Bill(String description, Date dateOfBill, float totalPrice, User user, Kindergarten kindergarten) {
 		super();

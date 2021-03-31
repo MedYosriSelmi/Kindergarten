@@ -12,6 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Appointment implements Serializable {
@@ -35,9 +36,10 @@ public class Appointment implements Serializable {
 	private String Endhour;
 	
 	private int Status;
-	
+	@JsonIgnore
 	@ManyToOne
 	private User user;
+	@JsonIgnore
 	@ManyToOne
 	private User doctor;
 	

@@ -16,8 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import com.sun.istack.NotNull;
+
+
 
 @Entity
 public class User implements Serializable {

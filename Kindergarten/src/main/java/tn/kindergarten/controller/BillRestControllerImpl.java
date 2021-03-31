@@ -49,6 +49,14 @@ public class BillRestControllerImpl  {
 	
 	}
 
+	@PutMapping("/update_Bill/{kinder_id}/{bill_id}")
+	public String update_Bill(@PathVariable("kinder_id") int kinder_id, @PathVariable ("bill_id") int bill_id,@RequestBody Bill  bill) {
+
+		
+		return bills.update_Bill( kinder_id  ,bill_id, bill);
+	}
+
+	
 	@GetMapping(value="/listofbill")
 	@ResponseBody
 	public List<Bill> getAllBill() {
@@ -63,13 +71,7 @@ public class BillRestControllerImpl  {
 	  	    return new ResponseEntity<String>("Bill updated successfully",HttpStatus.OK);
 	  		
 	}*/
-	@PutMapping("/update_Bill/{kinder_id}/{bill_id}")
-	public String update_Bill(@PathVariable("kinder_id") int kinder_id, @PathVariable ("bill_id") int bill_id,@RequestBody Bill  bill) {
-
-		
-		return bills.update_Bill( kinder_id  ,bill_id, bill);
-	}
-
+	
 	
 	@PutMapping("/calculp/{idBill}")
   	@ResponseBody
@@ -87,12 +89,6 @@ public class BillRestControllerImpl  {
 
 			return bills.getAllBillByUser(usertId);
 		}
-	    @GetMapping("/getAllBillBykinder/{idkinder}")
-	    @ResponseBody
-		public List<Bill> getAllBillBykinder(@PathVariable("idkinder") int idkinder) {
-
-			return bills.getAllBillBykinder(idkinder);
-		}
 	    @GetMapping("/getAllBillForUserInKinder/{idkinder}/{iduser}")
 	    @ResponseBody
 		public List<Bill> getAllBillForUserInKinder(@PathVariable("idkinder") int idkinder ,@PathVariable("iduser") int usertId) {
@@ -100,6 +96,13 @@ public class BillRestControllerImpl  {
 			return bills.getAllBillForUserInKinder(idkinder,usertId );
 		}
 
+	    @GetMapping("/getAllBillBykinder/{idkinder}")
+	    @ResponseBody
+		public List<Bill> getAllBillBykinder(@PathVariable("idkinder") int idkinder) {
+
+			return bills.getAllBillBykinder(idkinder);
+		}
+	   
 	
 	    @GetMapping("/NbreChild/{iduser}/{idkinder}")
 		 @ResponseBody

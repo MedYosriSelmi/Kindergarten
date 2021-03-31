@@ -120,7 +120,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a1490354-72e5-4409-b062-cdd38e84ca75"/>
 				</reportElement>
 				<textElement>
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
@@ -129,7 +129,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="62c1add6-3e63-4c07-8940-906370e26a4b"/>
 				</reportElement>
 				<textElement>
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 			</textField>
@@ -138,7 +138,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ed8115ff-379d-402d-9ab0-5d943a428c68"/>
 				</reportElement>
 				<textElement>
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dateOfBill}]]></textFieldExpression>
 			</textField>
@@ -147,16 +147,16 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0b143c2b-7704-494a-9a75-09d96481b442"/>
 				</reportElement>
 				<textElement>
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalPrice}]]></textFieldExpression>
 			</textField>
 			<textField >
-				<reportElement x="368" y="0" width="92" height="20" uuid="a39d2deb-6f38-47cc-98a2-6a83863ed572">
+				<reportElement x="358" y="0" width="92" height="20" uuid="a39d2deb-6f38-47cc-98a2-6a83863ed572">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eb11153e-7363-4a4c-a4ce-6bbc9382fe94"/>
 				</reportElement>
 				<textElement>
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{usnm}]]></textFieldExpression>
 			</textField>
@@ -165,7 +165,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="62c1add6-3e63-4c07-8940-906370e26a4b"/>
 				</reportElement>
 				<textElement>
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{kindername}]]></textFieldExpression>
 			</textField>
