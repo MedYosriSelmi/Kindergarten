@@ -9,10 +9,10 @@ import tn.kindergarten.entities.Status;
 import tn.kindergarten.entities.User;
 
 public interface IReclamationService { 
-	public void addReclamation(int idUser,int idKinder,  String description, String date, String type, Status status, MultipartFile file) throws IllegalStateException, IOException; 
+	public void addReclamation(int idUser,int idKinder,  String description, String type, Status status, MultipartFile file) throws IllegalStateException, IOException; 
 	public void updateReclamation(int idUser, int reclamationId,String description, MultipartFile file) throws IllegalStateException, IOException; 
+	public void deleteReclamation(int idUser, int idRec);
 	public List<Reclamation> listReclamations(); 
-	public void deleteReclamation(int idUser, int idRec); 
     public User getUserById(int userId);  
     public long getTotalReclamation();
     public long getNbNewReclamation();

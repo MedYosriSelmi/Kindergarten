@@ -2,8 +2,6 @@ package tn.kindergarten.services;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,21 +41,19 @@ public class ReclamationService implements IReclamationService {
     private String FROM_NUMBER;
     
 	@Override
-	public void addReclamation(int idUser, int idKinder,  String description, String date, String type, Status status, MultipartFile file) throws IllegalStateException, IOException {
+	public void addReclamation(int idUser, int idKinder,  String description, String type, Status status, MultipartFile file) throws IllegalStateException, IOException {
 		Reclamation reclamation = new Reclamation();
 		String filename = file.getOriginalFilename();
 	    file.transferTo(new File("C:\\Users\\MONDHER\\Documents\\STS\\Kindergarten\\Kindergarten\\Images\\"+file.getOriginalFilename()));
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	    try {
-			reclamation.setDateOfReclam(formatter.parse(date));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		LocalDate d = LocalDate.now();
+		Date dateDuJour = java.sql.Date.valueOf(d);
+		reclamation.setDateOfReclam(dateDuJour);
 	    User user = userRep.findById(idUser).get();
 		List<Child> liste = user.getList_child();
 		for(Child child : liste){
 			if(child.getKindergarten().getId()==idKinder){
 				Kindergarten K = child.getKindergarten();
+				reclamation.setDateOfReclam(dateDuJour);
 				reclamation.setDescription(description);
 				reclamation.setType(type);
 				reclamation.setStatus(status);
@@ -72,7 +68,7 @@ public class ReclamationService implements IReclamationService {
 	}
 	
 	@Override
-	public void updateReclamation(int idUser, int reclamationId,String description, MultipartFile file) throws IllegalStateException, IOException {
+	public void updateReclamation(int idUser, int reclamationId, String description, MultipartFile file) throws IllegalStateException, IOException {
 		User user = userRep.findById(idUser).get();
 		List<Reclamation> list = user.getList_reclams();
 		for(Reclamation rec : list){
