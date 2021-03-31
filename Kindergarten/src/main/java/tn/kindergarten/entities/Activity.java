@@ -80,14 +80,6 @@ public class Activity implements Serializable {
 		Photo = photo;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public Kindergarten getKindergarten() {
 		return kindergarten;
 	}
