@@ -24,39 +24,39 @@ public class Subject implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private String Name;
-	
+
 	private String Description;
-	
+
 	private String Photo;
-	
+
 	private boolean isApproved;
 
 	@Column(updatable = false, nullable = false)
-    private Date creationDate;
+	private Date creationDate;
 
-    @Column(nullable = false)
-    private Date lastUpdateDate;
-	
-    @JsonManagedReference
-	@OneToMany(mappedBy="sub")
-	private  List<LikesSub> likes_sub;
-	
-    @JsonBackReference
-	@ManyToOne 
+	@Column(nullable = false)
+	private Date lastUpdateDate;
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "sub")
+	private List<LikesSub> likes_sub;
+
+	@JsonBackReference
+	@ManyToOne
 	private User user;
-	
-    @JsonManagedReference
-	@OneToMany(mappedBy="sub")
-	private  List<Comment> comments;
-	
-	
-	public Subject () {}
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "sub")
+	private List<Comment> comments;
+
+	public Subject() {
+	}
 
 	public int getId() {
 		return id;
@@ -90,17 +90,16 @@ public class Subject implements Serializable {
 		Photo = photo;
 	}
 
+	@PrePersist
+	protected void onCreate() {
+		this.creationDate = new Date();
+		this.lastUpdateDate = new Date();
+	}
 
-    @PrePersist
-    protected void onCreate() {
-        this.creationDate = new Date();
-        this.lastUpdateDate = new Date();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.lastUpdateDate = new Date();
-    }
+	@PreUpdate
+	protected void onUpdate() {
+		this.lastUpdateDate = new Date();
+	}
 
 	public List<LikesSub> getLikes_sub() {
 		return likes_sub;
@@ -172,5 +171,4 @@ public class Subject implements Serializable {
 		Photo = photo;
 	}
 
-	
 }

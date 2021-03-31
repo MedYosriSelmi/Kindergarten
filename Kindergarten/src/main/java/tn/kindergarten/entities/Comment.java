@@ -22,43 +22,44 @@ public class Comment implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private String Description;
-	
+
 	@Column(updatable = false, nullable = false)
-    private Date creationDate;
-	
-    @Column(nullable = false)
-    private Date lastUpdateDate;
-	
-    @JsonBackReference
-	@ManyToOne 
+	private Date creationDate;
+
+	@Column(nullable = false)
+	private Date lastUpdateDate;
+
+	@JsonBackReference
+	@ManyToOne
 	private Subject sub;
-	
-    @JsonBackReference
+
+	@JsonBackReference
 	@ManyToOne
 	private User user;
-	
+
 	@JsonBackReference
 	@OneToOne
 	private Comment comment;
-	
-	public Comment () {}
-	
-	@PrePersist
-    protected void onCreate() {
-        this.creationDate = new Date();
-        this.lastUpdateDate = new Date();
-    }
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.lastUpdateDate = new Date();
-    }
+	public Comment() {
+	}
+
+	@PrePersist
+	protected void onCreate() {
+		this.creationDate = new Date();
+		this.lastUpdateDate = new Date();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		this.lastUpdateDate = new Date();
+	}
 
 	public int getId() {
 		return id;
@@ -135,8 +136,5 @@ public class Comment implements Serializable {
 		this.user = user;
 		this.comment = comment;
 	}
-
-	
-	
 
 }

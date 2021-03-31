@@ -19,38 +19,38 @@ public class Message implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id; 
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
 	private String Description;
 
 	@Column(updatable = false, nullable = false)
-    private Date creationDate;
+	private Date creationDate;
 
-    @Column(nullable = false)
-    private Date lastUpdateDate;
-    
+	@Column(nullable = false)
+	private Date lastUpdateDate;
+
 	@ManyToOne
 	private User Sender;
-	
+
 	@ManyToOne
 	private User Reciever;
-	
-	public Message () {}
-	
+
+	public Message() {
+	}
+
 	@PrePersist
-    protected void onCreate() {
-        this.creationDate = new Date();
-        this.lastUpdateDate = new Date();
-    }
+	protected void onCreate() {
+		this.creationDate = new Date();
+		this.lastUpdateDate = new Date();
+	}
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.lastUpdateDate = new Date();
-    }
-
+	@PreUpdate
+	protected void onUpdate() {
+		this.lastUpdateDate = new Date();
+	}
 
 	public int getId() {
 		return id;
@@ -68,21 +68,17 @@ public class Message implements Serializable {
 		Description = description;
 	}
 
-
 	public User getSender() {
 		return Sender;
 	}
-
 
 	public void setSender(User sender) {
 		Sender = sender;
 	}
 
-
 	public User getReciever() {
 		return Reciever;
 	}
-
 
 	public void setReciever(User reciever) {
 		Reciever = reciever;
@@ -121,6 +117,4 @@ public class Message implements Serializable {
 		Reciever = reciever;
 	}
 
-
-	
 }

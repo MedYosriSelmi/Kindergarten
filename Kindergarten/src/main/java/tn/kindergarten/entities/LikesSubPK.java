@@ -11,10 +11,10 @@ public class LikesSubPK implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	 private int idUser;
-		
-     private int idSub;
+
+	private int idUser;
+
+	private int idSub;
 
 	public LikesSubPK() {
 		super();
@@ -71,8 +71,5 @@ public class LikesSubPK implements Serializable {
 	public String toString() {
 		return "LikesSubPK [idUser=" + idUser + ", idSub=" + idSub + "]";
 	}
-     
-     
- 
-	
+
 }

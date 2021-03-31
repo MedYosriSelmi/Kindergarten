@@ -28,24 +28,25 @@ public class RestControlSubject {
 	@Autowired
 	ISubjectService subjectService;
 
-
 	// http://localhost:8081/SpringMVC/servlet/addSubjectWithImage
-	
 
 	@PostMapping("/addSubjectWithImage")
 	@ResponseBody
-	public void addSubjectWithImage(@RequestParam("description") String description, @RequestParam("name") String name, @RequestParam("file") MultipartFile file, @RequestParam ("isApproved") boolean isApproved, @RequestParam("userId") int userId){
+	public void addSubjectWithImage(@RequestParam("description") String description, @RequestParam("name") String name,
+			@RequestParam("file") MultipartFile file, @RequestParam("isApproved") boolean isApproved,
+			@RequestParam("userId") int userId) {
 
 		Subject subject = new Subject();
-		String filename=subject.getId() + file.getOriginalFilename();
+		String filename = subject.getId() + file.getOriginalFilename();
 		try {
-			file.transferTo(new File("C:\\Users\\Yassine\\git\\Kindergarten\\Kindergarten\\Images\\"+file.getOriginalFilename()));
+			file.transferTo(new File(
+					"C:\\Users\\Yassine\\git\\Kindergarten\\Kindergarten\\Images\\" + file.getOriginalFilename()));
 		} catch (IllegalStateException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		subject.setPhoto(filename);
 		subject.setDescription(description);
 		subject.setName(name);
@@ -58,60 +59,57 @@ public class RestControlSubject {
 
 	@GetMapping(value = "getAllSubjects")
 	@ResponseBody
-	public List<Subject> getAllSubjects(){
+	public List<Subject> getAllSubjects() {
 
 		return subjectService.getAllSubjects();
 
 	}
 
-
-	//http://localhost:8081/SpringMVC/servlet/deleteSubjectById/3
-	@DeleteMapping("/deleteSubjectById/{idSub}") 
-	@ResponseBody 
-	public void deletSubjectById(@PathVariable("idSub") int subjectId){
+	// http://localhost:8081/SpringMVC/servlet/deleteSubjectById/3
+	@DeleteMapping("/deleteSubjectById/{idSub}")
+	@ResponseBody
+	public void deletSubjectById(@PathVariable("idSub") int subjectId) {
 
 		subjectService.deleteSubjectById(subjectId);
 
 	}
-	
+
 	// http://localhost:8081/SpringMVC/servlet/updateSubject/1
-	
+
 	@PutMapping("/updateSubject/{subjectId}")
-  	@ResponseBody
-  	public ResponseEntity<String> updateSubject(@RequestBody Subject subject,@PathVariable("subjectId")int subjectId) {
-		
-		subjectService.updateSubject(subject,subjectId);
-  	    return new ResponseEntity<String>("Subject updated successfully",HttpStatus.OK);
-  		
+	@ResponseBody
+	public ResponseEntity<String> updateSubject(@RequestBody Subject subject,
+			@PathVariable("subjectId") int subjectId) {
+
+		subjectService.updateSubject(subject, subjectId);
+		return new ResponseEntity<String>("Subject updated successfully", HttpStatus.OK);
+
 	}
-	
+
 	// http://localhost:8081/SpringMVC/servlet/getTop5
-	
+
 	@GetMapping("/getTop5")
 	@ResponseBody
-	public Set<Subject> findtop5ByOrderByCreationDateDesc(){
+	public Set<Subject> findtop5ByOrderByCreationDateDesc() {
 
 		return subjectService.findtop5ByOrderByCreationDateDesc();
 
 	}
-	
+
 	@PutMapping("/approveSubject/{subjectId}")
 	@ResponseBody
-	public void approveSubject(@PathVariable("subjectId") int subjectId){
-		
+	public void approveSubject(@PathVariable("subjectId") int subjectId) {
+
 		subjectService.approveSubject(subjectId);
-		
+
 	}
-	
-	
+
 	@GetMapping("/getSubjectsByUserId/{userId}")
 	@ResponseBody
-	public List<Subject> getSubjectsByUserId(@PathVariable("userId") int userId){
-		
-		return subjectService.getSubjectByUserId(userId);
-		
-	}
-	
+	public List<Subject> getSubjectsByUserId(@PathVariable("userId") int userId) {
 
+		return subjectService.getSubjectByUserId(userId);
+
+	}
 
 }

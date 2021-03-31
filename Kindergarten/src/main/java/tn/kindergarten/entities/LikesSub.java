@@ -10,33 +10,30 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-public class LikesSub  implements Serializable{
+public class LikesSub implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@JsonBackReference
 	@EmbeddedId
-    private LikesSubPK likessubPK;
-	
+	private LikesSubPK likessubPK;
+
 	@JsonBackReference
 	@ManyToOne
-    @JoinColumn(name = "idSub", referencedColumnName = "id", insertable=false, updatable=false)
+	@JoinColumn(name = "idSub", referencedColumnName = "id", insertable = false, updatable = false)
 	private Subject sub;
-	
+
 	@JsonBackReference
 	@ManyToOne
-    @JoinColumn(name = "idUser", referencedColumnName = "id", insertable=false, updatable=false)
+	@JoinColumn(name = "idUser", referencedColumnName = "id", insertable = false, updatable = false)
 	private User user;
-	
-	
+
 	@Column(updatable = false, nullable = false)
 	private Date DateLikeSub;
 
@@ -73,12 +70,8 @@ public class LikesSub  implements Serializable{
 	}
 
 	@PrePersist
-    protected void onCreate() {
-	        this.DateLikeSub = new Date();
+	protected void onCreate() {
+		this.DateLikeSub = new Date();
 	}
 
-	    
-	
-
-	
 }

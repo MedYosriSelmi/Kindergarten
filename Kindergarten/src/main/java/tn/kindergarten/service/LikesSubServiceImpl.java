@@ -14,19 +14,18 @@ import tn.kindergarten.repository.SubjectRepository;
 @Service
 public class LikesSubServiceImpl implements ILikesSubService {
 
-	
 	@Autowired
 	LikesSubRepository likesSubRepository;
 	@Autowired
 	SubjectRepository subjectRepository;
-	
+
 	@Override
 	public void addLikesSub(int idUser, int idSubject) {
-		
+
 		LikesSubPK likesSubPk = new LikesSubPK();
 		likesSubPk.setIdUser(idUser);
 		likesSubPk.setIdSub(idSubject);
-		
+
 		LikesSub likesSub = new LikesSub();
 		likesSub.setLikessubPK(likesSubPk);
 		likesSubRepository.save(likesSub);
@@ -34,28 +33,28 @@ public class LikesSubServiceImpl implements ILikesSubService {
 
 	@Override
 	public void deleteLikesSubById(int idUser, int idSubject) {
-		
+
 		List<LikesSub> l = (List<LikesSub>) likesSubRepository.findAll();
-		for (LikesSub object:l){
-			if ( object.getUser().getId()==idUser){
-				if (object.getSub().getId()==idSubject)
+		for (LikesSub object : l) {
+			if (object.getUser().getId() == idUser) {
+				if (object.getSub().getId() == idSubject)
 					likesSubRepository.delete(object);
 			}
-				
+
 		}
-		
+
 	}
 
 	@Override
 	public List<Integer> getAllUserIdsBySujectId(int subjectId) {
-		
+
 		return likesSubRepository.getAllUserIdsBySubjectId(subjectId);
-		
+
 	}
 
 	@Override
 	public List<Integer> getAllSubjectIdsByUserId(int userId) {
-		
+
 		return likesSubRepository.getAllSubjectIdsByUserId(userId);
 	}
 
@@ -71,11 +70,9 @@ public class LikesSubServiceImpl implements ILikesSubService {
 
 	@Override
 	public int getLikesPerUserByDate(Date date, int userId) {
-		
-		return likesSubRepository.getLikesSubPerUserByDate(date, userId);
-		
-	}
 
-	
+		return likesSubRepository.getLikesSubPerUserByDate(date, userId);
+
+	}
 
 }

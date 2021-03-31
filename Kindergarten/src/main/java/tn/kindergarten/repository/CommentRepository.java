@@ -9,20 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import tn.kindergarten.entities.Comment;
 
-
-
 @Repository
 public interface CommentRepository extends CrudRepository<Comment, Integer> {
-	
-	@Query("SELECT c.Description FROM Comment c " 
-			+ "where (c.sub.id=:subjectId) "
-			+ "ORDER BY creationDate")
-	public Set<String> getCommentBySubjectId(@Param("subjectId") int subjectId);
-	
-	@Query("SELECT c.Description FROM Comment c " 
-			+ "where (c.comment.id=:parentId) "
-			+ "ORDER BY creationDate")
-	public Set<String> getCommentByParentId(@Param("parentId") int parentId);
 
+	@Query("SELECT c.Description FROM Comment c " + "where (c.sub.id=:subjectId) " + "ORDER BY creationDate")
+	public Set<String> getCommentBySubjectId(@Param("subjectId") int subjectId);
+
+	@Query("SELECT c.Description FROM Comment c " + "where (c.comment.id=:parentId) " + "ORDER BY creationDate")
+	public Set<String> getCommentByParentId(@Param("parentId") int parentId);
 
 }
