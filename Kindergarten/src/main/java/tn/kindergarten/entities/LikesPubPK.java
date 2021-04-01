@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Embeddable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Embeddable
 public class LikesPubPK implements Serializable {
 
@@ -12,10 +14,13 @@ public class LikesPubPK implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
     private int idUser;
 		
+	@JsonIgnore
 	private int idPub;
 
+	@JsonIgnore
 	public LikesPubPK() {
 		super();
 	}

@@ -42,14 +42,33 @@ public class PlanningService implements IPlanningService {
     @Value("${FROM_NUMBER}")
     private String FROM_NUMBER;
 	
+    /*
 	@Override
 	public void AddPlanning(Planning plan, int idUser, int idKind) {
+		Kindergarten k = new Kindergarten();
 		User usr= userRep.findById(idUser).orElse(null);
 		List<User> listusr = kindergartenRep.findById(idKind).get().getUser();
 		for (User us:listusr )
 		{
 			if ((usr.getId() == us.getId() ) && (usr.getRole().equals(Role.Driver)) && (usr.isActif()==true))
 			{
+				plan.setDeparture(k.getLocation());
+				planRep.save(plan);
+		}}
+	}*/
+	
+	@Override
+	public void AddPlanning(String Departure, String Destination, Date Time, int idKind, int idUser) {
+		Planning plan = new Planning();
+		User usr= userRep.findById(idUser).orElse(null);
+		List<User> listusr = kindergartenRep.findById(idKind).get().getUser();
+		for (User us:listusr )
+		{
+			if ((usr.getId() == us.getId() ) && (usr.getRole().equals(Role.Driver)) && (usr.isActif()==true))
+			{
+				plan.setDeparture(Departure);
+				plan.setDestination(Destination);
+				plan.setTime(Time);
 				planRep.save(plan);
 		}}
 	}
@@ -66,9 +85,10 @@ public class PlanningService implements IPlanningService {
 	}
 	
 	@Override
-	public void UpdatePlanning(int planId, String destination) {
+	public void UpdatePlanning(int planId, String Departure, String Destination) {
 		Planning plan = planRep.findById(planId).orElse(null);
-		plan.setDestination(destination);
+		plan.setDeparture(Departure);
+		plan.setDestination(Destination);
 		planRep.save(plan);
 	}
 
@@ -98,17 +118,17 @@ public class PlanningService implements IPlanningService {
 	}
 	
 	@Override
-	public void sendSMSforUser(int idUser, String body) {
+	public void sendSMSforUser(int idUser) {
 		System.out.println("TESTng code");
 		User u = userRep.findById(idUser).orElse(null);
 		if(u.getRole().equals(Role.Driver)){
 			String number = u.getPhone();
 			System.out.println("TES numberr");
 		    Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
-		    Message message = Message.creator(new PhoneNumber(number), new PhoneNumber(FROM_NUMBER), body ).create();
+		    Message message = Message.creator(new PhoneNumber(number), new PhoneNumber(FROM_NUMBER), "This is a reminder for the work. Please be in time." ).create();
 		}
 		else
-			System.out.println("This is Admin Account .. Please Check It Again");
+			System.out.println("The owner of this phone number is not an employee.");
 	}
 	
 

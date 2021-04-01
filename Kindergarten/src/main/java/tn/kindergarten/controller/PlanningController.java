@@ -16,6 +16,7 @@ import tn.kindergarten.entities.Planning;
 import tn.kindergarten.entities.User;
 import tn.kindergarten.services.PlanningService;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -34,10 +35,10 @@ public class PlanningController {
 	    return plan.getId();
 	}
 	*/
-	@PostMapping("/addPlanning/{idUser}/{idKind}") //DONE
-	public int AddPlanning(@RequestBody Planning plan, @PathVariable int idUser, @PathVariable int idKind){
-		planSer.AddPlanning(plan, idUser, idKind);
-	    return plan.getId();
+	
+	@RequestMapping("/addPlanning/{idUser}/{idKind}") //DONE
+	public void AddPlanning(@RequestParam("Departure") String Departure,@RequestParam("Destination") String Destination,@RequestParam("Time") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ") Date Time ,@PathVariable int idUser, @PathVariable int idKind){
+		planSer.AddPlanning(Departure, Destination, Time, idKind, idUser);
 	}
 	
 	
@@ -51,9 +52,9 @@ public class PlanningController {
 		planSer.DeletePlanning(idplan);
 	}
 	 
-	@PutMapping("/updatePlanning/{planId}/{destination}") //DONE
-    public void UpdatePublication(@PathVariable int planId,@PathVariable String destination){
-		planSer.UpdatePlanning(planId, destination);
+	@RequestMapping("/updatePlanning/{planId}") //DONE
+    public void UpdatePublication(@PathVariable int planId, @RequestParam("Departure") String Departure, @RequestParam("Destination") String Destination){
+		planSer.UpdatePlanning(planId, Departure, Destination);
     }	
 	
 	@PostMapping("/addUser") //DONE
@@ -74,9 +75,9 @@ public class PlanningController {
     	return planSer.getTotalPlannings();
     }
 	
-	@GetMapping("/sendSMS/{idUser}/{body}") 
-	public void sendSMSforUser(@PathVariable int idUser, @PathVariable String body) {
-		planSer.sendSMSforUser(idUser, body);
+	@GetMapping("/sendSMS/{idUser}") 
+	public void sendSMSforUser(@PathVariable int idUser) {
+		planSer.sendSMSforUser(idUser);
 	}
 
 }

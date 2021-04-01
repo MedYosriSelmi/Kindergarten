@@ -13,10 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 @Entity
@@ -26,73 +26,100 @@ public class User implements Serializable {
 	/**
 	 * 
 	 */
+	@JsonIgnore
 	private static final long serialVersionUID = 1L;
-
+	
+	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@JsonIgnore
 	private String FirstName;
 	
+	@JsonIgnore
 	private String LastName;
+	
+	@JsonIgnore
 	@NotNull
 	private String Email;
 	
+	@JsonIgnore
 	private String Password;
 	
+	@JsonIgnore
 	private String Phone;
 	
+	@JsonIgnore
 	private boolean isActif;
 	
+	@JsonIgnore
 	@Temporal(TemporalType.DATE)
 	private Date DateOfBirth;
 	
+	@JsonIgnore
 	private String Photo;
 	
+	@JsonIgnore
 	private String Adress;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<ListParticipants> list_participants;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<LikesSub> likes_subs;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<LikesPub> likes_pubs;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Subject> list_subject;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Reclamation> list_reclams;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Publication> list_pub;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy="user",fetch=FetchType.EAGER )
 	private List<Kindergarten> kindergartens;
-		
+	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Event> list_events;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Comment> comments;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Child> list_child;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Bill> list_fact;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Appointment> list_appoint;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Activity> list_act;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Planning> list_plan;
 	
+	@JsonIgnore
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	

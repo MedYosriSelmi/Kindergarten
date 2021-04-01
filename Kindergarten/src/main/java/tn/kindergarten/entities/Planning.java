@@ -85,6 +85,14 @@ public class Planning implements Serializable {
 	public void setKidergarten(Kindergarten kidergarten) {
 		this.kidergarten = kidergarten;
 	}
+
+	public Date getTime() {
+		return time;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
+	}
 	
 	
 	

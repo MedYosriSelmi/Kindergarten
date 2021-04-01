@@ -39,8 +39,8 @@ public class PublicationController {
 		pubSer.DeletePublication(idpub);
 	}
 	 
-	@RequestMapping("/updatePublication/") //DONE
-    public void UpdatePublication(@RequestParam("id") int pubId, @RequestParam("description") String description, @RequestParam("photo") MultipartFile photo) throws IllegalStateException, IOException {
+	@RequestMapping("/updatePublication/{pubId}") //DONE
+    public void UpdatePublication(@PathVariable int pubId, @RequestParam("description") String description, @RequestParam("photo") MultipartFile photo) throws IllegalStateException, IOException {
 		pubSer.UpdatePublication(pubId, description, photo);
     }	
 	

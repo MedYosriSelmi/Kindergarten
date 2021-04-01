@@ -22,4 +22,12 @@ public interface KindergartenRepository extends CrudRepository<Kindergarten, Int
 		
 	@Query("SELECT k FROM Kindergarten k WHERE k.PricePerChild =:price") 
 	List<Kindergarten> SearchByPrice(@Param("price") Float price); 
+	
+	/*
+	@Query("SELECT k.Location FROM Kindergarten "
+			+"join k.user u"
+			+ "WHERE u.id=:id ")
+	public String getLocationKind(@Param("id") int id);
+	
+*/
 }

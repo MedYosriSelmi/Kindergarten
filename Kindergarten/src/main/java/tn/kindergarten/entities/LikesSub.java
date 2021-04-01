@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class LikesSub  implements Serializable{
 
@@ -18,17 +20,21 @@ public class LikesSub  implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
 	@EmbeddedId
     private LikesSubPK likessubPK;
 	
+	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "idSub", referencedColumnName = "id", insertable=false, updatable=false)
 	private Subject sub;
 	
+	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "idUser", referencedColumnName = "id", insertable=false, updatable=false)
 	private User user;
 	
+	@JsonIgnore
 	@Temporal(TemporalType.DATE)
 	private Date DateLikeSub;
 

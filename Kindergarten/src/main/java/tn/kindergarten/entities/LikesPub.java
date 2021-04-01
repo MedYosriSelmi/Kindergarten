@@ -12,6 +12,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class LikesPub  implements Serializable {
 
@@ -20,18 +22,21 @@ public class LikesPub  implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
 	@EmbeddedId
     private LikesPubPK likespubPK;
 	
-	
+	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "idPub", referencedColumnName = "id", insertable=false, updatable=false)
 	private Publication pub;
 	
+	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "idUser", referencedColumnName = "id", insertable=false, updatable=false)
 	private User user;
 
+	@JsonIgnore
 	@Column(updatable = false, nullable = false)
 	private Date DateLikePub;
 
