@@ -33,6 +33,47 @@ public class CommentPub implements Serializable {
 	protected void onCreate() {
 		this.DateDelivered = new Date();
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getDescription() {
+		return Description;
+	}
+
+	public void setDescription(String description) {
+		Description = description;
+	}
+
+	public Date getDateDelivered() {
+		return DateDelivered;
+	}
+
+	public void setDateDelivered(Date dateDelivered) {
+		DateDelivered = dateDelivered;
+	}
+
+	public Publication getPub() {
+		return pub;
+	}
+
+	public void setPub(Publication pub) {
+		this.pub = pub;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 	
 
 	
