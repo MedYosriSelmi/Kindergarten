@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 @Entity
@@ -33,9 +35,10 @@ public class Child implements Serializable {
 	
 	private String Photo;
 	
+	@JsonIgnore
 	@ManyToOne
 	private User user;
-	
+	@JsonIgnore
 	@ManyToOne
 	private Kindergarten kindergarten;
 	
