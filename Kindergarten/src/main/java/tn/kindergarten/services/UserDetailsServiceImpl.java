@@ -4,6 +4,7 @@ package tn.kindergarten.services;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -174,7 +175,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 	
 	@Transactional
-	public void affecterUserARole(long iduser, Integer idRole) {
+	public void affecterUserARole(int iduser, Integer idRole) {
 		User UserCon =userRepository.findById(iduser).get();
 		Role Role=roleRepository.findById(idRole).get();
 	if(UserCon.getRoles() == null){
@@ -192,6 +193,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		 
 	roleRepository.save(Role); 
 
+	}
+	
+	public List<User> getAllUsers() {
+		return (List<User>) userRepository.getAllUsers();
+	}
+	
+	public User getUserById (int userId)
+	{
+		return userRepository.getUserById(userId);
+	}
+	
+	public User findById(int User_id) {
+		return userRepository.findById(User_id).orElse(null);		
+		
 	}
 	
 }

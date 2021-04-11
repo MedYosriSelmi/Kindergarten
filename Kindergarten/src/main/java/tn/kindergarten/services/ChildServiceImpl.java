@@ -31,7 +31,7 @@ public class ChildServiceImpl implements IChildService {
 	KindergartenRepository kinderrepo;
 	
 	@Override
-	public int ajouterChild(long idUser,int idkinder ,String date,String name,MultipartFile file) {
+	public int ajouterChild(int idUser,int idkinder ,String date,String name,MultipartFile file) {
 		Child child = new Child();
 		String filename=file.getOriginalFilename();
 		try {
@@ -80,7 +80,7 @@ public class ChildServiceImpl implements IChildService {
 	
 
 	@Override
-	public List<Child> getAllChildByUserr(long userId) {
+	public List<Child> getAllChildByUserr(int userId) {
 		return childrepo.getAllChildByUser(userId);
 	}
 
@@ -96,7 +96,7 @@ public class ChildServiceImpl implements IChildService {
 
 	}
 	
-
+	
 	
 
 }

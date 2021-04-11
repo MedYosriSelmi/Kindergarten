@@ -51,12 +51,20 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
 	@NotBlank
 	@Size(max = 20)
 	private String username;
 
+	@NotBlank
+	@Size(max = 20)
+	private String FirstName;
+	
+	@NotBlank
+	@Size(max = 20)
+	private String LastName;
+	
 	@NotBlank
 	@Size(max = 50)
 	@Email
@@ -71,6 +79,7 @@ public class User implements Serializable {
 	
 	@Temporal(TemporalType.DATE)
 	private Date DateOfBirth;
+	
 	private String Photo;
 
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -148,11 +157,11 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<Planning> list_plan;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -327,6 +336,22 @@ public class User implements Serializable {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public String getFirstName() {
+		return FirstName;
+	}
+
+	public void setFirstName(String firstName) {
+		FirstName = firstName;
+	}
+
+	public String getLastName() {
+		return LastName;
+	}
+
+	public void setLastName(String lastName) {
+		LastName = lastName;
 	}
 	
 	

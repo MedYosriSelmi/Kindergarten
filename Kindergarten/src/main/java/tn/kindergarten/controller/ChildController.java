@@ -9,7 +9,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +26,7 @@ import tn.kindergarten.entities.Child;
 import tn.kindergarten.entities.Kindergarten;
 import tn.kindergarten.entities.User;
 import tn.kindergarten.services.IChildService;
+import tn.kindergarten.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -39,7 +39,7 @@ public class ChildController {
 	@PostMapping("/ajouterChild")//done
 	@ResponseBody
 	//@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-	public String ajouterChild(@RequestParam("idUser") long idUser,@RequestParam("idkinder") int idkinder ,@RequestParam("date") String date,@RequestParam("name") String name,@RequestParam("file") MultipartFile file )
+	public String ajouterChild(@RequestParam("idUser") int idUser,@RequestParam("idkinder") int idkinder ,@RequestParam("date") String date,@RequestParam("name") String name,@RequestParam("file") MultipartFile file )
 	{
 		childserv.ajouterChild(idUser, idkinder, date, name, file);
 		return "Child added sucessfully !! ";
@@ -71,7 +71,7 @@ public class ChildController {
 	
 	@GetMapping("/getAllChildByUser/{iduser}")//done
     @ResponseBody
-	public List<Child> getAllChildByUser(@PathVariable("iduser") long userId) {
+	public List<Child> getAllChildByUser(@PathVariable("iduser") int userId) {
 
 		return childserv.getAllChildByUserr(userId);
 	}
@@ -107,4 +107,14 @@ public class ChildController {
 		childserv.updateChild(child,childId);
 		return "Child updated succefully!!";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -16,8 +16,8 @@ public interface IChildService {
 	public void deleteChildById(int childId);
 	List<Child> getAllChild();
 	List<Child> getAllChildByKindergarten(int kinderId);
-	public List<Child> getAllChildByUserr(long userId);
+	public List<Child> getAllChildByUserr(int userId);
 	public void updateChild(Child c, int childId);
-	public int ajouterChild(long idUser,int idkinder ,String date,String name,MultipartFile file);
+	public int ajouterChild(int idUser,int idkinder ,String date,String name,MultipartFile file);
 	//public int modifyChild(long idUser,int idkinder ,String date,String name,MultipartFile file);
 }

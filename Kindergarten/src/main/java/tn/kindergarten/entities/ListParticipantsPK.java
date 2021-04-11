@@ -12,7 +12,7 @@ public class ListParticipantsPK   implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-    private Long idUser;
+    private int idUser;
 	
 	private int idEvent;
 
@@ -20,7 +20,7 @@ public class ListParticipantsPK   implements Serializable {
 		super();
 	}
 
-	public ListParticipantsPK(Long idUser, int idEvent) {
+	public ListParticipantsPK(int idUser, int idEvent) {
 		super();
 		this.idUser = idUser;
 		this.idEvent = idEvent;
@@ -28,11 +28,11 @@ public class ListParticipantsPK   implements Serializable {
 
 	
 
-	public Long getIdUser() {
+	public int getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(Long idUser) {
+	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
 

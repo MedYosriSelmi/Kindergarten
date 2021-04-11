@@ -16,7 +16,7 @@ public interface ChildRepository extends CrudRepository<Child, Integer> {
 	@Query("select DISTINCT c from Child c "
 			+ "join c.user u "
 			+ "where u.id=:userId")
-public List<Child> getAllChildByUser(@Param("userId")long userId);
+public List<Child> getAllChildByUser(@Param("userId")int userId);
 	
 	@Query("select DISTINCT c from Child c "
 			+ "join c.kindergarten k "
