@@ -1,3 +1,4 @@
+
 package tn.kindergarten.entities;
 
 import java.io.Serializable;
@@ -10,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
@@ -33,9 +36,10 @@ public class Child implements Serializable {
 	
 	private String Photo;
 	
+	@JsonIgnore
 	@ManyToOne
 	private User user;
-	
+	@JsonIgnore
 	@ManyToOne
 	private Kindergarten kindergarten;
 	
@@ -88,9 +92,6 @@ public class Child implements Serializable {
 		return user;
 	}
 
-
-
-
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -102,10 +103,6 @@ public class Child implements Serializable {
 	public void setKindergarten(Kindergarten kindergarten) {
 		this.kindergarten = kindergarten;
 	}
-
-	
-	
-	
-
 	
 }
+

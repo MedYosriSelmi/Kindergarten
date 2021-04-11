@@ -12,7 +12,7 @@ public class LikesPubPK implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-    private Long idUser;
+    private int idUser;
 		
 	private int idPub;
 
@@ -20,17 +20,17 @@ public class LikesPubPK implements Serializable {
 		super();
 	}
 
-	public LikesPubPK(Long idUser, int idPub) {
+	public LikesPubPK(int idUser, int idPub) {
 		super();
 		this.idUser = idUser;
 		this.idPub = idPub;
 	}
 
-	public Long getIdUser() {
+	public int getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(Long idUser) {
+	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
 
@@ -47,7 +47,7 @@ public class LikesPubPK implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + idPub;
-		result = prime * result + ((idUser == null) ? 0 : idUser.hashCode());
+		result = prime * result + idUser;
 		return result;
 	}
 
@@ -62,10 +62,7 @@ public class LikesPubPK implements Serializable {
 		LikesPubPK other = (LikesPubPK) obj;
 		if (idPub != other.idPub)
 			return false;
-		if (idUser == null) {
-			if (other.idUser != null)
-				return false;
-		} else if (!idUser.equals(other.idUser))
+		if (idUser != other.idUser)
 			return false;
 		return true;
 	}
@@ -74,6 +71,8 @@ public class LikesPubPK implements Serializable {
 	public String toString() {
 		return "LikesPubPK [idUser=" + idUser + ", idPub=" + idPub + "]";
 	}
+
+	
 
 	
 	

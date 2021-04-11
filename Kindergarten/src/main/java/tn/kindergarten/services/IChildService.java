@@ -4,22 +4,20 @@ package tn.kindergarten.services;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import tn.kindergarten.entities.Child;
 
 
 
 
 public interface IChildService {
-	public int ajouterChild(Child child);
+	//public int ajouterChild(Child child,long idUser,int idkinder);
 	public void deleteChildById(int childId);
-	public void updateChild(Child c, int idChild);
 	List<Child> getAllChild();
-	void affecterChildAUser(int userId, int ChildId);
-	void affecterChildAKindergarten(int userId, int kindergartenId);
-	List<Child> getAllChildByUser(int userId);
 	List<Child> getAllChildByKindergarten(int kinderId);
-	
-	
-	
-	
+	public List<Child> getAllChildByUserr(int userId);
+	public void updateChild(Child c, int childId);
+	public int ajouterChild(int idUser,int idkinder ,String date,String name,MultipartFile file);
+	//public int modifyChild(long idUser,int idkinder ,String date,String name,MultipartFile file);
 }

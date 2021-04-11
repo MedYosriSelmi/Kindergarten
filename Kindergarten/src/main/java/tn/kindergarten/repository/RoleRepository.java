@@ -11,7 +11,7 @@ import tn.kindergarten.entities.Role;
 
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long>  {
+public interface RoleRepository extends JpaRepository<Role, Integer>  {
 
 	Optional<Role> findByName(ERole name);
 }
