@@ -18,8 +18,10 @@ public class KindergartenApplication {
 		SpringApplication.run(KindergartenApplication.class, args);
 	}
 	
+
 	@Bean
 	public  BCryptPasswordEncoder  getBCPE(){
 		return new BCryptPasswordEncoder();
 	}
+
 }

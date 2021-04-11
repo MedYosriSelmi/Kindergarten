@@ -3,11 +3,13 @@ package tn.kindergarten.entities;
 import java.io.Serializable;
 import java.util.List;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
 import javax.persistence.OneToMany;
 
 
@@ -37,10 +39,18 @@ public class Kindergarten implements Serializable {
 	
 	private float PricePerChild;
 	
+
+	
+	
+	
+	
+
 	@ManyToMany
 	private List<User> user;
+
 	
 	
+
 	
 	@OneToMany(mappedBy="kindergarten")
 	private List<Event> list_events;
@@ -127,6 +137,7 @@ public class Kindergarten implements Serializable {
 		PricePerChild = pricePerChild;
 	}
 
+
 	public List<Event> getList_events() {
 		return list_events;
 	}
@@ -177,6 +188,7 @@ public class Kindergarten implements Serializable {
 	}
 
 
+
 	public List<User> getUser() {
 		return user;
 	}
@@ -197,7 +209,7 @@ public class Kindergarten implements Serializable {
 	}
 
 
-	
+
 
 	
 

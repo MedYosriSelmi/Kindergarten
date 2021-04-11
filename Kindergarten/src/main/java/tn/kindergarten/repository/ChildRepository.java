@@ -22,4 +22,5 @@ public List<Child> getAllChildByUser(@Param("userId")int userId);
 			+ "join c.kindergarten k "
 			+ "where k.id=:kinderId")
 public List<Child> getAllChildByKindergarten(@Param("kinderId")int kinderId);
+  
 }

@@ -352,14 +352,7 @@ public class User implements Serializable {
 
 	public void setLastName(String lastName) {
 		LastName = lastName;
-	}
-	
-	
-
-    
-
-	
-
+  }
 
 	
 }

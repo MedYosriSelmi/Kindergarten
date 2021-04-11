@@ -1,3 +1,4 @@
+
 package tn.kindergarten.entities;
 
 import java.io.Serializable;
@@ -102,10 +103,6 @@ public class Child implements Serializable {
 	public void setKindergarten(Kindergarten kindergarten) {
 		this.kindergarten = kindergarten;
 	}
-
-	
-	
-	
-
 	
 }
+
